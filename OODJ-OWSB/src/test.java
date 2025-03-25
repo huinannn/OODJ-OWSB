@@ -16,6 +16,8 @@ public class test {
         System.out.println("Hello World!");
         System.out.println("Hello by Angeline");
         System.out.println("Hello by Khoo lay Yang, Nice to meet you guys!!!");
+        System.out.println("YEOHHHHH!!!! OLIWOLIGIAOGIAO!");
+
     }
     
 }
