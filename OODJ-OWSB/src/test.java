@@ -15,6 +15,7 @@ public class test {
     public static void main(String[] args) {
         System.out.println("Hello World!");
         System.out.println("Hello by Angeline");
+        System.out.println("Hello by Khoo lay Yang, Nice to meet you guys!!!");
     }
     
 }
