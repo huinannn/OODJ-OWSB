@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.OWSB;
+package com.mycompany.OWSB.SALES;
 
 /**
  *
  * @author End User
  */
-public class PurchaseManager extends javax.swing.JFrame {
+public class SalesManager extends javax.swing.JFrame {
 
     /**
-     * Creates new form PurchaseManager
+     * Creates new form SalesManager
      */
-    public PurchaseManager() {
+    public SalesManager() {
         initComponents();
     }
 
@@ -59,20 +59,20 @@ public class PurchaseManager extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PurchaseManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PurchaseManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PurchaseManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PurchaseManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalesManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PurchaseManager().setVisible(true);
+                new SalesManager().setVisible(true);
             }
         });
     }
