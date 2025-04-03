@@ -1,0 +1,3 @@
+I00001,Apple,S00001,Fruit,230,RM25,100,Enough
+I00002,Orange,S00002,Fruit,2,RM30,100,Enough
+I00003,Yakut,S00003,Yogurt Drinks,100,RM13,50,Enough

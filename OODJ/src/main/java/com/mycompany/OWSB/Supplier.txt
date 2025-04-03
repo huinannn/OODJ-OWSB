@@ -1,0 +1,3 @@
+S00001,Apple's Factory,10,Jalan 10/3H,Shah Alam,40150,Selangor,Malaysia,0123456789
+S00002,Orange Factory,30,Persiaran Endah,Kampung Baru Damansara,46400,Petaling Jaya,Malaysia,0161234567
+S00003,Yakut Factory,276,Jalan Haruan 1,Oakland Industrial Park,70300,Negeri Sembilan,Malaysia,01933322211
