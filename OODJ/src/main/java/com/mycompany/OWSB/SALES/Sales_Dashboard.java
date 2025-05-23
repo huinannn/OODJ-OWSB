@@ -205,15 +205,28 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewPRActionPerformed
 
     private void ViewPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPOActionPerformed
-        // TODO add your handling code here:
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_ViewPOActionPerformed
 
     private void item_suppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_suppliersActionPerformed
-        // TODO add your handling code here:
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_item_suppliersActionPerformed
 
     private void daily_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daily_salesActionPerformed
-        // TODO add your handling code here:
+        
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_daily_salesActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
