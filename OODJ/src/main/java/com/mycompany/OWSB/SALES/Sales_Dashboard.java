@@ -4,7 +4,9 @@
  */
 package com.mycompany.OWSB.SALES;
 
+import com.mycompany.OWSB.FINANCE.Finance_ViewPR;
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 /**
  *
@@ -55,7 +57,7 @@ public class Sales_Dashboard extends javax.swing.JFrame {
         );
         ChangePanelLayout.setVerticalGroup(
             ChangePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
 
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
@@ -213,11 +215,14 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewPOActionPerformed
 
     private void item_suppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_suppliersActionPerformed
+        Sales_ItemSupplier item_supplier = new Sales_ItemSupplier(ChangePanel);
         
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(item_supplier, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
+        
     }//GEN-LAST:event_item_suppliersActionPerformed
 
     private void daily_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daily_salesActionPerformed
