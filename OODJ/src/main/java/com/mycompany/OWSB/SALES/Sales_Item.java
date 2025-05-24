@@ -4,17 +4,24 @@
  */
 package com.mycompany.OWSB.SALES;
 
+import java.awt.BorderLayout;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author xiaochingloh
  */
 public class Sales_Item extends javax.swing.JPanel {
-
+    private javax.swing.JPanel ChangePanel;
+    private DefaultTableModel model = new DefaultTableModel();
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE", "STOCK LEVEL", "CATEGORY", "DESCRIPTION"};
     /**
      * Creates new form Sales_Item
      */
-    public Sales_Item() {
+    public Sales_Item(javax.swing.JPanel ChangePanel) {
+        model.setColumnIdentifiers(columnName);
         initComponents();
+        this.ChangePanel = ChangePanel;
     }
 
     /**
@@ -26,21 +33,69 @@ public class Sales_Item extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        itemTable = new javax.swing.JTable();
+        title = new javax.swing.JLabel();
+        addNew = new javax.swing.JButton();
+
         setBackground(new java.awt.Color(255, 255, 255));
+
+        itemTable.setModel(model);
+        jScrollPane1.setViewportView(itemTable);
+
+        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setText("ITEMS");
+
+        addNew.setText("Add New");
+        addNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addNew)
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(addNew)
+                    .addComponent(title))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewActionPerformed
+        Sales_AddItem add_item = new Sales_AddItem(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(add_item, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_addNewActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addNew;
+    private javax.swing.JTable itemTable;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

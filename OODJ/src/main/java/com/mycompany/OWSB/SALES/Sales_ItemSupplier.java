@@ -68,7 +68,7 @@ public class Sales_ItemSupplier extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemsActionPerformed
-        Sales_Item item = new Sales_Item();
+        Sales_Item item = new Sales_Item(ChangePanel);
         
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
