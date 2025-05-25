@@ -4,6 +4,12 @@
  */
 package com.mycompany.OWSB.SALES;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  *
  * @author xiaochingloh
@@ -85,6 +91,44 @@ public class Items {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public static void saveItemToFile(Items item) {
+        try {
+            //Get Path
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile(); 
+
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            if (!dbDir.exists()) {
+                dbDir.mkdirs(); 
+            }
+
+            File file = new File(dbDir, "Item.txt");
+            boolean fileExists = file.exists();
+
+            try (
+                FileWriter fw = new FileWriter(file, true);
+                BufferedWriter bw = new BufferedWriter(fw)
+            ) {
+                if (!fileExists) {
+                    bw.write("ItemCode,ItemName,SupplierID,Price,StockLevel,Category,Description");
+                    bw.newLine();
+                }
+
+                bw.write(item.getItemCode() + "," +
+                         item.getItemName() + "," +
+                         item.getSupplierID() + "," +
+                         item.getPrice() + "," +
+                         item.getStockLevel() + "," +
+                         item.getCategory() + "," +
+                         item.getDescription());
+                bw.newLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     //Debug

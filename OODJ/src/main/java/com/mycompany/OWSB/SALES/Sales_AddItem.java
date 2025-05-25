@@ -29,6 +29,8 @@ public class Sales_AddItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        stockLevel_label1 = new javax.swing.JLabel();
+        stockLevel1 = new javax.swing.JTextField();
         itemID_label = new javax.swing.JLabel();
         itemName_label = new javax.swing.JLabel();
         supplier_label = new javax.swing.JLabel();
@@ -45,6 +47,16 @@ public class Sales_AddItem extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
+        price_label = new javax.swing.JLabel();
+        price = new javax.swing.JTextField();
+
+        stockLevel_label1.setText("STOCK LEVEL");
+
+        stockLevel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stockLevel1ActionPerformed(evt);
+            }
+        });
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -111,39 +123,51 @@ public class Sales_AddItem extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setText("NEW ITEMS");
 
+        price_label.setText("PRICE");
+
+        price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(itemID_label)
-                            .addComponent(itemName_label)
-                            .addComponent(supplier_label)
-                            .addComponent(stockLevel_label)
-                            .addComponent(category_label)
-                            .addComponent(description_label))
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(category)
-                            .addComponent(stockLevel)
-                            .addComponent(supplier)
-                            .addComponent(itemName)
-                            .addComponent(itemID)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(105, 105, 105))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(back)
-                        .addGap(36, 36, 36)
-                        .addComponent(add)
-                        .addGap(31, 31, 31))))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(title)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(stockLevel_label)
+                    .addComponent(category_label)
+                    .addComponent(description_label)
+                    .addComponent(itemID_label)
+                    .addComponent(itemName_label)
+                    .addComponent(supplier_label))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(itemID)
+                    .addComponent(itemName)
+                    .addComponent(supplier)
+                    .addComponent(price)
+                    .addComponent(stockLevel)
+                    .addComponent(category)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(105, 105, 105))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(price_label)
+                .addContainerGap(488, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(386, Short.MAX_VALUE)
+                .addComponent(back)
+                .addGap(36, 36, 36)
+                .addComponent(add)
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,6 +188,10 @@ public class Sales_AddItem extends javax.swing.JPanel {
                     .addComponent(supplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price_label)
+                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stockLevel_label)
                     .addComponent(stockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -178,7 +206,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,7 +221,26 @@ public class Sales_AddItem extends javax.swing.JPanel {
     }//GEN-LAST:event_backActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        String item_ID = itemID.getText();
         String item_name = itemName.getText();
+        double price_given = Double.parseDouble(price.getText());
+        int stock_level = Integer.parseInt(stockLevel.getText());
+        String supplier_ID = supplier.getText();
+        String category_selected = category.getText();
+        String description_given = description.getText();
+        
+        Items newItem = new Items(item_ID, item_name, supplier_ID, price_given, stock_level, category_selected, description_given);
+        
+        Items.saveItemToFile(newItem);
+        
+        //Back to Items table
+        Sales_Item item = new Sales_Item(ChangePanel);
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(item, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+        
     }//GEN-LAST:event_addActionPerformed
 
     private void itemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameActionPerformed
@@ -201,20 +248,28 @@ public class Sales_AddItem extends javax.swing.JPanel {
     }//GEN-LAST:event_itemNameActionPerformed
 
     private void stockLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevelActionPerformed
-        int stock_level = Integer.parseInt(stockLevel.getText());
+        
     }//GEN-LAST:event_stockLevelActionPerformed
 
     private void itemIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIDActionPerformed
-        String item_ID = itemID.getText();
+        
     }//GEN-LAST:event_itemIDActionPerformed
 
     private void supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierActionPerformed
-        int supplier_ID = Integer.parseInt(supplier.getText());
+       
     }//GEN-LAST:event_supplierActionPerformed
 
     private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
-        String category_selected = category.getText();
+        
     }//GEN-LAST:event_categoryActionPerformed
+
+    private void stockLevel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevel1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stockLevel1ActionPerformed
+
+    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -229,8 +284,12 @@ public class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JTextField itemName;
     private javax.swing.JLabel itemName_label;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField price;
+    private javax.swing.JLabel price_label;
     private javax.swing.JTextField stockLevel;
+    private javax.swing.JTextField stockLevel1;
     private javax.swing.JLabel stockLevel_label;
+    private javax.swing.JLabel stockLevel_label1;
     private javax.swing.JTextField supplier;
     private javax.swing.JLabel supplier_label;
     private javax.swing.JLabel title;
