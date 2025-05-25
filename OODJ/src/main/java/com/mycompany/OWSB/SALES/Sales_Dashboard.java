@@ -4,9 +4,9 @@
  */
 package com.mycompany.OWSB.SALES;
 
-import com.mycompany.OWSB.FINANCE.Finance_ViewPR;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
+
 
 /**
  *
