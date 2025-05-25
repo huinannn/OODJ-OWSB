@@ -193,27 +193,27 @@ public class Sales_AddItem extends javax.swing.JPanel {
     }//GEN-LAST:event_backActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        // TODO add your handling code here:
+        String item_name = itemName.getText();
     }//GEN-LAST:event_addActionPerformed
 
     private void itemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_itemNameActionPerformed
 
     private void stockLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevelActionPerformed
-        // TODO add your handling code here:
+        int stock_level = Integer.parseInt(stockLevel.getText());
     }//GEN-LAST:event_stockLevelActionPerformed
 
     private void itemIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIDActionPerformed
-        // TODO add your handling code here:
+        String item_ID = itemID.getText();
     }//GEN-LAST:event_itemIDActionPerformed
 
     private void supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierActionPerformed
-        // TODO add your handling code here:
+        int supplier_ID = Integer.parseInt(supplier.getText());
     }//GEN-LAST:event_supplierActionPerformed
 
     private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
-        // TODO add your handling code here:
+        String category_selected = category.getText();
     }//GEN-LAST:event_categoryActionPerformed
 
 

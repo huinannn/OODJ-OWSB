@@ -11,7 +11,7 @@ package com.mycompany.OWSB.SALES;
 public class Items {
     private String itemCode;
     private String itemName;
-    private String supplierId;
+    private String supplierID;
     private double price;
     private int stockLevel;
     private String category;
@@ -21,10 +21,10 @@ public class Items {
     public Items(){}
     
     //Constructor
-    public Items(String itemCode, String itemName, String supplierId, double price, int stockLevel, String category, String description) {
+    public Items(String itemCode, String itemName, String supplierID, double price, int stockLevel, String category, String description) {
         this.itemCode = itemCode;
         this.itemName = itemName;
-        this.supplierId = supplierId;
+        this.supplierID = supplierID;
         this.price = price;
         this.stockLevel = stockLevel;
         this.category = category;
@@ -47,12 +47,12 @@ public class Items {
         this.itemName = itemName;
     }
 
-    public String getSupplierId() {
-        return supplierId;
+    public String getSupplierID() {
+        return supplierID;
     }
 
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplierID(String supplierId) {
+        this.supplierID = supplierId;
     }
 
     public double getPrice() {
@@ -92,7 +92,7 @@ public class Items {
     public String toString(){
         return "Item Code: " + itemCode +
                 "\nItem Name: " + itemName +
-                "\nSupplier ID: " + supplierId +
+                "\nSupplier ID: " + supplierID +
                 "\nPrice: " + price + 
                 "\nStock Level: " + stockLevel +
                 "\nCategory: " + category +
