@@ -4,11 +4,16 @@
  */
 package com.mycompany.OWSB.SALES;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -93,6 +98,7 @@ public class Items {
         this.description = description;
     }
     
+    
     public static void saveItemToFile(Items item) {
         try {
             //Get Path
@@ -106,7 +112,8 @@ public class Items {
 
             File file = new File(dbDir, "Item.txt");
             boolean fileExists = file.exists();
-
+            
+            //Write File (Append)
             try (
                 FileWriter fw = new FileWriter(file, true);
                 BufferedWriter bw = new BufferedWriter(fw)
@@ -115,11 +122,13 @@ public class Items {
                     bw.write("ItemCode,ItemName,SupplierID,Price,StockLevel,Category,Description");
                     bw.newLine();
                 }
+                
+                String formattedPrice = String.format("%.2f", item.getPrice());
 
                 bw.write(item.getItemCode() + "," +
                          item.getItemName() + "," +
                          item.getSupplierID() + "," +
-                         item.getPrice() + "," +
+                         formattedPrice + "," +
                          item.getStockLevel() + "," +
                          item.getCategory() + "," +
                          item.getDescription());
@@ -130,6 +139,120 @@ public class Items {
             e.printStackTrace();
         }
     }
+    
+    public static List<String[]> viewItemsInFile() {
+        List<String[]> itemList = new ArrayList<>();
+        
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Item.txt");
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                return itemList;
+            }
+
+            try (
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr)
+            ) {
+               String line;
+               boolean isFirstLine = true;
+               
+                while((line = br.readLine()) != null){
+                   if (isFirstLine){
+                       isFirstLine = false;
+                       continue;
+                   }
+                   
+                   if (!line.trim().isEmpty()){
+                        String[] row = line.split(",");
+                        itemList.add(row);
+                   }
+               }
+            }
+            
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return itemList;
+    }
+    
+    public String generateNextItemID(){
+        List<String[]>itemList = Items.viewItemsInFile();
+        int maxID = 0;
+        
+        for(String[] item : itemList){
+            String id = item[0];
+            if(id.startsWith("ITM")){
+                try{
+                    int numericPart = Integer.parseInt(id.substring(3));
+                    if(numericPart > maxID){
+                        maxID = numericPart;
+                    }
+                } catch(NumberFormatException e){
+                    
+                }
+            }
+        }
+        
+        int nextID = maxID +1;
+        return String.format("ITM%03d", nextID);
+    }
+    
+    public static void editItemsInFile(String itemCode){
+        
+    }
+    
+    public static void deleteItemsInFile(String itemCode){
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Item.txt");
+            
+            if(!file.exists()){
+                 JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        lines.add(line);
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    //Match itemCode
+                    String[] parts = line.split(",");
+                    if (!parts[0].equals(itemCode)) {
+                        lines.add(line);
+                    }
+                    
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                        for (String l : lines) {
+                            bw.write(l);
+                            bw.newLine();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error deleting item: " + e.getMessage());
+        }
+    }
+
+
     
     //Debug
     @Override

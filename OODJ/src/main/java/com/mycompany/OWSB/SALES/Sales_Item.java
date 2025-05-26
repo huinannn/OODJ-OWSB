@@ -5,6 +5,17 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,7 +25,9 @@ import javax.swing.table.DefaultTableModel;
 public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE", "STOCK LEVEL", "CATEGORY", "DESCRIPTION"};
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE", "STOCK LEVEL", "CATEGORY", "DESCRIPTION", "ACTION"};
+    private List<String[]> data = Items.viewItemsInFile();
+    
     /**
      * Creates new form Sales_Item
      */
@@ -22,6 +35,79 @@ public class Sales_Item extends javax.swing.JPanel {
         model.setColumnIdentifiers(columnName);
         initComponents();
         this.ChangePanel = ChangePanel;
+        for (int i = 0; i < itemTable.getColumnCount() - 1; i++) {
+            itemTable.getColumnModel().getColumn(i).setPreferredWidth(110);
+            itemTable.setRowHeight(30);
+        }
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(200);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
+        List<String[]> data = Items.viewItemsInFile();
+        for(String[] row : data){
+            String[] newRow = Arrays.copyOf(row, row.length + 1);
+            newRow[newRow.length - 1] = "Edit/Delete";
+            model.addRow(row);
+        }
+        
+        if (data.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "There are no items currently!");
+        }
+        
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                           boolean hasFocus, int row, int column) {
+                JButton button = new JButton(value != null ? value.toString() : "Edit/Delete");
+                return button;
+            }
+        });
+        
+        itemTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = itemTable.rowAtPoint(e.getPoint());
+                int col = itemTable.columnAtPoint(e.getPoint());
+                if (col == itemTable.getColumnCount() - 1) {
+                    JPopupMenu popup = new JPopupMenu();
+                    JMenuItem edit = new JMenuItem("Edit");
+                    JMenuItem delete = new JMenuItem("Delete");
+
+                    edit.addActionListener(ae -> {
+                        int selectedRow = itemTable.getSelectedRow();
+                        if (selectedRow >= 0){
+                            String itemCode = itemTable.getValueAt(selectedRow, 0).toString();
+                            Items.editItemsInFile(itemCode);
+                        }
+
+                    });
+                    
+                    delete.addActionListener(ae ->{
+                        int selectedRow = itemTable.getSelectedRow();
+                        if (selectedRow >= 0) {
+                            String itemCode = itemTable.getValueAt(selectedRow, 0).toString();
+                            String itemName = itemTable.getValueAt(selectedRow, 1).toString();
+                            
+                            int confirm = JOptionPane.showConfirmDialog(
+                                null,
+                                "Are you sure you want to delete item: " + itemName + "?",
+                                "Confirm Deletition",
+                                JOptionPane.YES_NO_OPTION
+                            );
+                            
+                            if(confirm == JOptionPane.YES_OPTION){
+                                Items.deleteItemsInFile(itemCode);
+                                ((DefaultTableModel) itemTable.getModel()).removeRow(selectedRow);
+                                JOptionPane.showMessageDialog(null, "ItemID: " + itemCode + ", Item Name: " + itemName + "\nDeleted!");
+                            }
+                        }
+                    });
+
+                    popup.add(edit);
+                    popup.add(delete);
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+
     }
 
     /**
@@ -41,6 +127,7 @@ public class Sales_Item extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         itemTable.setModel(model);
+        itemTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(itemTable);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N

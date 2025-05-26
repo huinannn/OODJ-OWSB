@@ -5,6 +5,11 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +23,14 @@ public class Sales_AddItem extends javax.swing.JPanel {
     public Sales_AddItem(javax.swing.JPanel ChangePanel) {
         initComponents();
         this.ChangePanel = ChangePanel;
+        
+        //Generate new itemID
+        Items newItem = new Items();
+        String newID = newItem.generateNextItemID();
+        itemID.setText(newID);
+        itemID.setEditable(false);
+        itemID.setBackground(getBackground());
+        itemID.setBorder(null);
     }
 
     /**
@@ -41,14 +54,14 @@ public class Sales_AddItem extends javax.swing.JPanel {
         add = new javax.swing.JButton();
         itemID = new javax.swing.JTextField();
         itemName = new javax.swing.JTextField();
-        supplier = new javax.swing.JTextField();
         stockLevel = new javax.swing.JTextField();
-        category = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
         price_label = new javax.swing.JLabel();
         price = new javax.swing.JTextField();
+        supplier = new javax.swing.JComboBox<>();
+        category = new javax.swing.JComboBox<>();
 
         stockLevel_label1.setText("STOCK LEVEL");
 
@@ -98,21 +111,9 @@ public class Sales_AddItem extends javax.swing.JPanel {
             }
         });
 
-        supplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supplierActionPerformed(evt);
-            }
-        });
-
         stockLevel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stockLevelActionPerformed(evt);
-            }
-        });
-
-        category.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryActionPerformed(evt);
             }
         });
 
@@ -123,11 +124,25 @@ public class Sales_AddItem extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setText("NEW ITEMS");
 
-        price_label.setText("PRICE");
+        price_label.setText("PRICE (RM)");
 
         price.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 priceActionPerformed(evt);
+            }
+        });
+
+        supplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        supplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supplierActionPerformed(evt);
+            }
+        });
+
+        category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        category.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryActionPerformed(evt);
             }
         });
 
@@ -140,7 +155,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addComponent(title)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
+                .addGap(86, 86, 86)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(stockLevel_label)
                     .addComponent(category_label)
@@ -152,16 +167,16 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(itemID)
                     .addComponent(itemName)
-                    .addComponent(supplier)
                     .addComponent(price)
                     .addComponent(stockLevel)
-                    .addComponent(category)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(supplier, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(price_label)
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addContainerGap(460, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .addComponent(back)
@@ -183,7 +198,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                     .addComponent(itemName_label)
                     .addComponent(itemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(supplier_label)
                     .addComponent(supplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -225,8 +240,8 @@ public class Sales_AddItem extends javax.swing.JPanel {
         String item_name = itemName.getText();
         double price_given = Double.parseDouble(price.getText());
         int stock_level = Integer.parseInt(stockLevel.getText());
-        String supplier_ID = supplier.getText();
-        String category_selected = category.getText();
+        String supplier_ID = supplier.getSelectedItem().toString();
+        String category_selected = category.getSelectedItem().toString();
         String description_given = description.getText();
         
         Items newItem = new Items(item_ID, item_name, supplier_ID, price_given, stock_level, category_selected, description_given);
@@ -255,27 +270,49 @@ public class Sales_AddItem extends javax.swing.JPanel {
         
     }//GEN-LAST:event_itemIDActionPerformed
 
-    private void supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierActionPerformed
-       
-    }//GEN-LAST:event_supplierActionPerformed
-
-    private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
-        
-    }//GEN-LAST:event_categoryActionPerformed
-
     private void stockLevel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevel1ActionPerformed
-        // TODO add your handling code here:
+        //Validation, only integers allowed
+        stockLevel.addKeyListener(new KeyAdapter() {
+            public void key(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+        });
     }//GEN-LAST:event_stockLevel1ActionPerformed
 
     private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
-        // TODO add your handling code here:
+        //Validation, only numbers with 2 decimal points allowed
+        price.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                String text = price.getText();
+                if ((c == '.' && text.contains(".")) || (!Character.isDigit(c) && c != '.')) {
+                    e.consume();
+                } else if (text.contains(".")) {
+                    int index = text.indexOf(".");
+                    if (text.substring(index).length() > 2) {
+                        e.consume();
+                    }
+                }
+            }
+        });
     }//GEN-LAST:event_priceActionPerformed
+
+    private void supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_supplierActionPerformed
+
+    private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
     private javax.swing.JButton back;
-    private javax.swing.JTextField category;
+    private javax.swing.JComboBox<String> category;
     private javax.swing.JLabel category_label;
     private javax.swing.JTextArea description;
     private javax.swing.JLabel description_label;
@@ -290,7 +327,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JTextField stockLevel1;
     private javax.swing.JLabel stockLevel_label;
     private javax.swing.JLabel stockLevel_label1;
-    private javax.swing.JTextField supplier;
+    private javax.swing.JComboBox<String> supplier;
     private javax.swing.JLabel supplier_label;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables

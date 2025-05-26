@@ -39,7 +39,7 @@
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="86" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="stockLevel_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="category_label" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -52,18 +52,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="itemID" alignment="0" max="32767" attributes="0"/>
                   <Component id="itemName" alignment="0" max="32767" attributes="0"/>
-                  <Component id="supplier" alignment="0" max="32767" attributes="0"/>
                   <Component id="price" alignment="0" max="32767" attributes="0"/>
                   <Component id="stockLevel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="category" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="270" max="32767" attributes="0"/>
+                  <Component id="supplier" max="32767" attributes="0"/>
+                  <Component id="category" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="86" pref="86" max="-2" attributes="0"/>
               <Component id="price_label" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="488" max="32767" attributes="0"/>
+              <EmptySpace pref="460" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="386" max="32767" attributes="0"/>
@@ -90,9 +90,9 @@
                   <Component id="itemName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="supplier_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="supplier" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="supplier_label" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="supplier" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -181,19 +181,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNameActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="supplier">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JTextField" name="stockLevel">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stockLevelActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="category">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -221,13 +211,39 @@
     </Component>
     <Component class="javax.swing.JLabel" name="price_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PRICE"/>
+        <Property name="text" type="java.lang.String" value="PRICE (RM)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="price">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="priceActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="supplier">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; })" type="code"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="category">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; })" type="code"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
