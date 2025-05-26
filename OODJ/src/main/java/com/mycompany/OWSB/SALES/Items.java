@@ -20,19 +20,49 @@ import javax.swing.JOptionPane;
  * @author xiaochingloh
  */
 public class Items {
+    //Fixed selection for category
+    public enum Category{
+        DRY_GOODS("Dry Goods"),
+        BEVERAGES("Beverages"),
+        FRESH_PRODUCE("Fresh Produce"),
+        DIARY("Dairy"),
+        FROZEN_FOODS("Frozen Foods"),
+        CLEANING_SUPPLIES("Cleaning Supplies"),
+        PERSONAL_CARE("Personal Care");
+        
+        private final String displayName;
+        
+        Category(String displayName){
+            this.displayName = displayName;
+        }
+        
+        @Override
+        public String toString(){
+            return displayName;
+        }
+        
+        public static Category fromString(String text){
+            for(Category cat : Category.values()){
+                if(cat.displayName.equalsIgnoreCase(text)){
+                    return cat;
+                }
+            }
+            return null;
+        }
+    }
     private String itemCode;
     private String itemName;
     private String supplierID;
     private double price;
     private int stockLevel;
-    private String category;
+    private Category category;
     private String description;
     
     //Empty Constructor
     public Items(){}
     
     //Constructor
-    public Items(String itemCode, String itemName, String supplierID, double price, int stockLevel, String category, String description) {
+    public Items(String itemCode, String itemName, String supplierID, double price, int stockLevel, Category category, String description) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.supplierID = supplierID;
@@ -82,11 +112,11 @@ public class Items {
         this.stockLevel = stockLevel;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -237,13 +267,12 @@ public class Items {
                     if (!parts[0].equals(itemCode)) {
                         lines.add(line);
                     }
-                    
-                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-                        for (String l : lines) {
-                            bw.write(l);
-                            bw.newLine();
-                        }
-                    }
+                }
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (String l : lines) {
+                    bw.write(l);
+                    bw.newLine();
                 }
             }
         } catch (Exception e) {

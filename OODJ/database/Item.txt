@@ -1,1 +1,2 @@
 ItemCode,ItemName,SupplierID,Price,StockLevel,Category,Description
+ITM001,Test,SUP001,34.00,12,Beverages,

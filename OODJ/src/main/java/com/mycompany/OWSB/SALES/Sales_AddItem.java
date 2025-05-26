@@ -29,8 +29,12 @@ public class Sales_AddItem extends javax.swing.JPanel {
         String newID = newItem.generateNextItemID();
         itemID.setText(newID);
         itemID.setEditable(false);
-        itemID.setBackground(getBackground());
         itemID.setBorder(null);
+        
+        //Generate list of categories
+        for(Items.Category cat: Items.Category.values()){
+            category.addItem(cat.toString());
+        }
     }
 
     /**
@@ -75,13 +79,13 @@ public class Sales_AddItem extends javax.swing.JPanel {
 
         itemID_label.setText("ITEM ID");
 
-        itemName_label.setText("ITEM NAME");
+        itemName_label.setText("ITEM NAME*");
 
-        supplier_label.setText("SUPPLIER");
+        supplier_label.setText("SUPPLIER*");
 
-        stockLevel_label.setText("STOCK LEVEL");
+        stockLevel_label.setText("STOCK LEVEL*");
 
-        category_label.setText("CATEGORY");
+        category_label.setText("CATEGORY*");
 
         description_label.setText("DESCRIPTION");
 
@@ -124,7 +128,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setText("NEW ITEMS");
 
-        price_label.setText("PRICE (RM)");
+        price_label.setText("PRICE (RM)*");
 
         price.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,14 +136,14 @@ public class Sales_AddItem extends javax.swing.JPanel {
             }
         });
 
-        supplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        supplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select a Supplier!","SUP001", "SUP002", "SUP003", "SUP004" }));
         supplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supplierActionPerformed(evt);
             }
         });
 
-        category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select an Item Category!"}));
         category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryActionPerformed(evt);
@@ -169,14 +173,14 @@ public class Sales_AddItem extends javax.swing.JPanel {
                     .addComponent(itemName)
                     .addComponent(price)
                     .addComponent(stockLevel)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(supplier, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(price_label)
-                .addContainerGap(460, Short.MAX_VALUE))
+                .addContainerGap(455, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .addComponent(back)
@@ -189,7 +193,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemID_label)
                     .addComponent(itemID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -221,7 +225,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -236,15 +240,36 @@ public class Sales_AddItem extends javax.swing.JPanel {
     }//GEN-LAST:event_backActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        //Empty Fields, not allowed to submit
+        if(itemName.getText().trim().isEmpty()|| price.getText().trim().isEmpty()|| stockLevel.getText().trim().isEmpty()|| supplier.getSelectedIndex() == 0 || category.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String priceInput = price.getText().trim();
+        String stockInput = stockLevel.getText().trim();
+        //Validate price
+        if(!priceInput.matches("\\d+(\\.\\d+)?")){
+            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //Validate stock level
+        if(!stockInput.matches("[1-9]\\d*")){
+            JOptionPane.showMessageDialog(this, "Please enter a valid stock level!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
         String item_ID = itemID.getText();
         String item_name = itemName.getText();
-        double price_given = Double.parseDouble(price.getText());
-        int stock_level = Integer.parseInt(stockLevel.getText());
+        double price_given = Double.parseDouble(priceInput);
+        int stock_level = Integer.parseInt(stockInput);
         String supplier_ID = supplier.getSelectedItem().toString();
         String category_selected = category.getSelectedItem().toString();
+        Items.Category selectedCategory = Items.Category.fromString(category_selected);
         String description_given = description.getText();
         
-        Items newItem = new Items(item_ID, item_name, supplier_ID, price_given, stock_level, category_selected, description_given);
+        Items newItem = new Items(item_ID, item_name, supplier_ID, price_given, stock_level, selectedCategory, description_given);
         
         Items.saveItemToFile(newItem);
         
@@ -271,33 +296,11 @@ public class Sales_AddItem extends javax.swing.JPanel {
     }//GEN-LAST:event_itemIDActionPerformed
 
     private void stockLevel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevel1ActionPerformed
-        //Validation, only integers allowed
-        stockLevel.addKeyListener(new KeyAdapter() {
-            public void key(KeyEvent e) {
-                if (!Character.isDigit(e.getKeyChar())) {
-                    e.consume();
-                }
-            }
-        });
+        
     }//GEN-LAST:event_stockLevel1ActionPerformed
 
     private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
-        //Validation, only numbers with 2 decimal points allowed
-        price.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                String text = price.getText();
-                if ((c == '.' && text.contains(".")) || (!Character.isDigit(c) && c != '.')) {
-                    e.consume();
-                } else if (text.contains(".")) {
-                    int index = text.indexOf(".");
-                    if (text.substring(index).length() > 2) {
-                        e.consume();
-                    }
-                }
-            }
-        });
+        
     }//GEN-LAST:event_priceActionPerformed
 
     private void supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierActionPerformed

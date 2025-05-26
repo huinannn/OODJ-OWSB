@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE", "STOCK LEVEL", "CATEGORY", "DESCRIPTION", "ACTION"};
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE(RM)", "STOCK LEVEL", "CATEGORY", "DESCRIPTION", "ACTION"};
     private List<String[]> data = Items.viewItemsInFile();
     
     /**

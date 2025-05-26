@@ -54,7 +54,7 @@
                   <Component id="itemName" alignment="0" max="32767" attributes="0"/>
                   <Component id="price" alignment="0" max="32767" attributes="0"/>
                   <Component id="stockLevel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="270" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="supplier" max="32767" attributes="0"/>
                   <Component id="category" max="32767" attributes="0"/>
               </Group>
@@ -63,7 +63,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="86" pref="86" max="-2" attributes="0"/>
               <Component id="price_label" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="460" max="32767" attributes="0"/>
+              <EmptySpace pref="455" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="386" max="32767" attributes="0"/>
@@ -79,7 +79,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               <Component id="title" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="itemID_label" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="itemID" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -119,7 +119,7 @@
                   <Component id="back" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="add" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="130" max="32767" attributes="0"/>
+              <EmptySpace pref="92" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -132,22 +132,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="itemName_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ITEM NAME"/>
+        <Property name="text" type="java.lang.String" value="ITEM NAME*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="supplier_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="SUPPLIER"/>
+        <Property name="text" type="java.lang.String" value="SUPPLIER*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="stockLevel_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="STOCK LEVEL"/>
+        <Property name="text" type="java.lang.String" value="STOCK LEVEL*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="category_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="CATEGORY"/>
+        <Property name="text" type="java.lang.String" value="CATEGORY*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="description_label">
@@ -211,7 +211,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="price_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PRICE (RM)"/>
+        <Property name="text" type="java.lang.String" value="PRICE (RM)*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="price">
@@ -222,7 +222,7 @@
     <Component class="javax.swing.JComboBox" name="supplier">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; })" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Please Select a Supplier!&quot;,&quot;SUP001&quot;, &quot;SUP002&quot;, &quot;SUP003&quot;, &quot;SUP004&quot; })" type="code"/>
         </Property>
       </Properties>
       <Events>
@@ -235,7 +235,7 @@
     <Component class="javax.swing.JComboBox" name="category">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; })" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Please Select an Item Category!&quot;})" type="code"/>
         </Property>
       </Properties>
       <Events>
