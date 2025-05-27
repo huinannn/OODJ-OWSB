@@ -75,7 +75,15 @@ public class Sales_Item extends javax.swing.JPanel {
                         int selectedRow = itemTable.getSelectedRow();
                         if (selectedRow >= 0){
                             String itemCode = itemTable.getValueAt(selectedRow, 0).toString();
-                            Items.editItemsInFile(itemCode);
+                            System.out.println("Sales Item: " + itemCode);
+                            Sales_EditItem edit_item = new Sales_EditItem(itemCode, ChangePanel);
+                            ChangePanel.removeAll();
+                            ChangePanel.setLayout(new BorderLayout());
+                            ChangePanel.add(edit_item, BorderLayout.CENTER);
+                            ChangePanel.revalidate();
+                            ChangePanel.repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Please select an item to edit!");
                         }
 
                     });

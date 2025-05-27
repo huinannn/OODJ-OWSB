@@ -235,8 +235,105 @@ public class Items {
         return String.format("ITM%03d", nextID);
     }
     
-    public static void editItemsInFile(String itemCode){
-        
+    public static Items getItemByCode(String itemCode) {
+        System.out.println("Item: " + itemCode);
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Item.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                return null;
+            }
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                    String[] parts = line.split(",");
+                    if (parts.length >= 6 && parts[0].equals(itemCode)) {
+                        String itemName = parts[1];
+                        String supplierID = parts[2];
+                        double price = Double.parseDouble(parts[3]);
+                        int stockLevel = Integer.parseInt(parts[4]);
+                        Category category = Category.fromString(parts[5]);
+                        String description = (parts.length >= 7) ? parts[6] : "";
+                        
+                        return new Items(itemCode, itemName, supplierID, price, stockLevel, category, description);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading item: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    
+    public static void editItemsInFile(String itemCode, Items updatedItem){
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Item.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                return;
+            }
+
+            List<String> lines = new ArrayList<>();
+            boolean isFirstLine = true;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while((line = br.readLine())!= null){
+                    if (isFirstLine) {
+                        lines.add(line); 
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                String[] parts = line.split(",");
+                    if (parts[0].equals(itemCode)) {
+                        String formattedPrice = String.format("%.2f", updatedItem.getPrice());
+                        String updatedLine = updatedItem.getItemCode() + "," +
+                                updatedItem.getItemName() + "," +
+                                updatedItem.getSupplierID() + "," +
+                                formattedPrice + "," +
+                                updatedItem.getStockLevel() + "," +
+                                updatedItem.getCategory() + "," +
+                                updatedItem.getDescription();
+                        lines.add(updatedLine);
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+            
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+                for (String l : lines){
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+            
+            JOptionPane.showMessageDialog(null, "Item updated successfully!");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error editing item: " + e.getMessage());
+        }
     }
     
     public static void deleteItemsInFile(String itemCode){
