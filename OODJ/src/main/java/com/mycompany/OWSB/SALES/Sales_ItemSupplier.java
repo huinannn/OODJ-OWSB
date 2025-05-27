@@ -44,6 +44,11 @@ public class Sales_ItemSupplier extends javax.swing.JPanel {
 
         suppliers.setBackground(new java.awt.Color(235, 235, 235));
         suppliers.setText("SUPPLIERS");
+        suppliers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                suppliersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,6 +81,16 @@ public class Sales_ItemSupplier extends javax.swing.JPanel {
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_itemsActionPerformed
+
+    private void suppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppliersActionPerformed
+        Sales_Supplier supplier = new Sales_Supplier(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(supplier, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_suppliersActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

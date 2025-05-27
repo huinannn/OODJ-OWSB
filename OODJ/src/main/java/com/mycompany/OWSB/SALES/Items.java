@@ -128,6 +128,27 @@ public class Items {
         this.description = description;
     }
     
+     public String generateNextItemID(){
+        List<String[]>itemList = Items.viewItemsInFile();
+        int maxID = 0;
+        
+        for(String[] item : itemList){
+            String id = item[0];
+            if(id.startsWith("ITM")){
+                try{
+                    int numericPart = Integer.parseInt(id.substring(3));
+                    if(numericPart > maxID){
+                        maxID = numericPart;
+                    }
+                } catch(NumberFormatException e){
+                    
+                }
+            }
+        }
+        
+        int nextID = maxID +1;
+        return String.format("ITM%03d", nextID);
+    }
     
     public static void saveItemToFile(Items item) {
         try {
@@ -211,28 +232,6 @@ public class Items {
         }
         
         return itemList;
-    }
-    
-    public String generateNextItemID(){
-        List<String[]>itemList = Items.viewItemsInFile();
-        int maxID = 0;
-        
-        for(String[] item : itemList){
-            String id = item[0];
-            if(id.startsWith("ITM")){
-                try{
-                    int numericPart = Integer.parseInt(id.substring(3));
-                    if(numericPart > maxID){
-                        maxID = numericPart;
-                    }
-                } catch(NumberFormatException e){
-                    
-                }
-            }
-        }
-        
-        int nextID = maxID +1;
-        return String.format("ITM%03d", nextID);
     }
     
     public static Items getItemByCode(String itemCode) {
