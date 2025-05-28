@@ -1,0 +1,2 @@
+ItemCode;ItemName;SupplierID;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus
+ITM001;Test;SUP002;Beverages;0;10;1.30;Test Test Test;LOW STOCK

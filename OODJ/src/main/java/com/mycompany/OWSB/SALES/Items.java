@@ -9,8 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -50,26 +48,63 @@ public class Items {
             return null;
         }
     }
+    //Fix selection for reorder alert status
+    public enum ReorderAlertStatus{
+        LOW_STOCK("LOW STOCK"),
+        STOCK_READY("STOCK READY");
+        
+        private final String displayName;
+        
+        ReorderAlertStatus(String displayName){
+            this.displayName = displayName;
+        }
+        
+        @Override
+        public String toString(){
+            return displayName;
+        }
+        
+        public static ReorderAlertStatus fromString(String text){
+            for(ReorderAlertStatus r : ReorderAlertStatus.values()){
+                if(r.displayName.equalsIgnoreCase(text)){
+                    return r;
+                }
+            }
+            return null;
+        }
+    }
     private String itemCode;
     private String itemName;
     private String supplierID;
-    private double price;
-    private int stockLevel;
     private Category category;
+    private int stockCurrentQuantities;
+    private int reorderLevel;
+    private double unitPrice;
     private String description;
+    private ReorderAlertStatus reorderStatus;
     
     //Empty Constructor
     public Items(){}
     
     //Constructor
-    public Items(String itemCode, String itemName, String supplierID, double price, int stockLevel, Category category, String description) {
+    public Items(String itemCode, String itemName, String supplierID, Category category, int stockCurrentQuantities, int reorderLevel, double unitPrice, String description, ReorderAlertStatus reorderStatus) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.supplierID = supplierID;
-        this.price = price;
-        this.stockLevel = stockLevel;
         this.category = category;
+        this.stockCurrentQuantities = stockCurrentQuantities;
+        this.reorderLevel = reorderLevel;
+        this.unitPrice = unitPrice;
         this.description = description;
+        this.reorderStatus = reorderStatus;
+    }
+
+    public ReorderAlertStatus getReorderStatus() {
+        return reorderStatus;
+    }
+
+    public void setReorderStatus(ReorderAlertStatus reorderStatus) {
+        this.reorderStatus = reorderStatus;
     }
 
     public String getItemCode() {
@@ -96,20 +131,20 @@ public class Items {
         this.supplierID = supplierId;
     }
 
-    public double getPrice() {
-        return price;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
-    public int getStockLevel() {
-        return stockLevel;
+    public int getStockCurrentQuantities() {
+        return stockCurrentQuantities;
     }
 
-    public void setStockLevel(int stockLevel) {
-        this.stockLevel = stockLevel;
+    public void setStockCurrentQuantities(int stockCurrentQuantities) {
+        this.stockCurrentQuantities = stockCurrentQuantities;
     }
 
     public Category getCategory() {
@@ -126,6 +161,14 @@ public class Items {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getReorderLevel() {
+        return reorderLevel;
+    }
+
+    public void setReorderLevel(int reorderLevel) {
+        this.reorderLevel = reorderLevel;
     }
     
      public String generateNextItemID(){
@@ -161,7 +204,7 @@ public class Items {
                 dbDir.mkdirs(); 
             }
 
-            File file = new File(dbDir, "Item.txt");
+            File file = new File(dbDir, "Inventory.txt");
             boolean fileExists = file.exists();
             
             //Write File (Append)
@@ -170,19 +213,21 @@ public class Items {
                 BufferedWriter bw = new BufferedWriter(fw)
             ) {
                 if (!fileExists) {
-                    bw.write("ItemCode,ItemName,SupplierID,Price,StockLevel,Category,Description");
+                    bw.write("ItemCode;ItemName;SupplierID;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
                     bw.newLine();
                 }
                 
-                String formattedPrice = String.format("%.2f", item.getPrice());
+                String formattedPrice = String.format("%.2f", item.getUnitPrice());
 
-                bw.write(item.getItemCode() + "," +
-                         item.getItemName() + "," +
-                         item.getSupplierID() + "," +
-                         formattedPrice + "," +
-                         item.getStockLevel() + "," +
-                         item.getCategory() + "," +
-                         item.getDescription());
+                bw.write(item.getItemCode() + ";" +
+                         item.getItemName() + ";" +
+                         item.getSupplierID() + ";" +
+                         item.getCategory() + ";" +
+                         item.getStockCurrentQuantities() + ";" +
+                         item.getReorderLevel() + ";" +
+                         formattedPrice + ";" +
+                         item.getDescription() + ";" +
+                         item.getReorderStatus());
                 bw.newLine();
             }
 
@@ -198,9 +243,9 @@ public class Items {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
             File dbDir = new File(baseDir.getParentFile(), "database");
-            File file = new File(dbDir, "Item.txt");
+            File file = new File(dbDir, "Inventory.txt");
             if (!file.exists()) {
-                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
                 return itemList;
             }
 
@@ -218,7 +263,7 @@ public class Items {
                    }
                    
                    if (!line.trim().isEmpty()){
-                        String[] row = line.split(",");
+                        String[] row = line.split(";");
                         itemList.add(row);
                    }
                }
@@ -240,10 +285,10 @@ public class Items {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
             File dbDir = new File(baseDir.getParentFile(), "database");
-            File file = new File(dbDir, "Item.txt");
+            File file = new File(dbDir, "Inventory.txt");
 
             if (!file.exists()) {
-                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
                 return null;
             }
 
@@ -257,16 +302,18 @@ public class Items {
                         continue;
                     }
 
-                    String[] parts = line.split(",");
-                    if (parts.length >= 6 && parts[0].equals(itemCode)) {
+                    String[] parts = line.split(";");
+                    if (parts.length >= 9 && parts[0].equals(itemCode)) {
                         String itemName = parts[1];
                         String supplierID = parts[2];
-                        double price = Double.parseDouble(parts[3]);
-                        int stockLevel = Integer.parseInt(parts[4]);
-                        Category category = Category.fromString(parts[5]);
-                        String description = (parts.length >= 7) ? parts[6] : "";
+                        Category category = Category.fromString(parts[3]);
+                        int stockCurrentQuantities = Integer.parseInt(parts[4]);
+                        int reorderLevel = Integer.parseInt(parts[5]);
+                        double unitPrice = Double.parseDouble(parts[6]);
+                        String description = !parts[7].equals("") ? parts[7] : "";
+                        ReorderAlertStatus reorderStatus = ReorderAlertStatus.fromString(parts[8]);
                         
-                        return new Items(itemCode, itemName, supplierID, price, stockLevel, category, description);
+                        return new Items(itemCode, itemName, supplierID, category, stockCurrentQuantities, reorderLevel, unitPrice, description, reorderStatus);
                     }
                 }
             }
@@ -284,10 +331,10 @@ public class Items {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
             File dbDir = new File(baseDir.getParentFile(), "database");
-            File file = new File(dbDir, "Item.txt");
+            File file = new File(dbDir, "Inventory.txt");
 
             if (!file.exists()) {
-                JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
                 return;
             }
 
@@ -303,16 +350,18 @@ public class Items {
                         continue;
                     }
 
-                String[] parts = line.split(",");
+                String[] parts = line.split(";");
                     if (parts[0].equals(itemCode)) {
-                        String formattedPrice = String.format("%.2f", updatedItem.getPrice());
-                        String updatedLine = updatedItem.getItemCode() + "," +
-                                updatedItem.getItemName() + "," +
-                                updatedItem.getSupplierID() + "," +
-                                formattedPrice + "," +
-                                updatedItem.getStockLevel() + "," +
-                                updatedItem.getCategory() + "," +
-                                updatedItem.getDescription();
+                        String formattedPrice = String.format("%.2f", updatedItem.getUnitPrice());
+                        String updatedLine = updatedItem.getItemCode() + ";" +
+                                updatedItem.getItemName() + ";" +
+                                updatedItem.getSupplierID() + ";" +
+                                updatedItem.getCategory() + ";" +
+                                updatedItem.getStockCurrentQuantities() + ";" +
+                                updatedItem.getReorderLevel() + ";" +
+                                formattedPrice + ";" +
+                                updatedItem.getDescription() + ";" +
+                                updatedItem.getReorderStatus();
                         lines.add(updatedLine);
                     } else {
                         lines.add(line);
@@ -340,10 +389,10 @@ public class Items {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
             File dbDir = new File(baseDir.getParentFile(), "database");
-            File file = new File(dbDir, "Item.txt");
+            File file = new File(dbDir, "Inventory.txt");
             
             if(!file.exists()){
-                 JOptionPane.showMessageDialog(null, "Item.txt file does not exist.");
+                 JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
                 return;
             }
             
@@ -359,7 +408,7 @@ public class Items {
                     }
                     
                     //Match itemCode
-                    String[] parts = line.split(",");
+                    String[] parts = line.split(";");
                     if (!parts[0].equals(itemCode)) {
                         lines.add(line);
                     }
@@ -385,10 +434,12 @@ public class Items {
         return "Item Code: " + itemCode +
                 "\nItem Name: " + itemName +
                 "\nSupplier ID: " + supplierID +
-                "\nPrice: " + price + 
-                "\nStock Level: " + stockLevel +
+                "\nUnit Price: " + unitPrice + 
+                "\nStock Current Quantities: " + stockCurrentQuantities +
+                "\nReorder Level: " + reorderLevel +
                 "\nCategory: " + category +
-                "\nDescription: " + description;
+                "\nDescription: " + description +
+                "\nReorder Alert Status" + reorderStatus;
     }
 }   
 

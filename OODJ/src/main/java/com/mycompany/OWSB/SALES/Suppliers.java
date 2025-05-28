@@ -138,16 +138,16 @@ public class Suppliers {
                 BufferedWriter bw = new BufferedWriter(fw);
             ) {
                 if (!fileExists){
-                    bw.write("SupplierID,SupplierName,ContactPerson,Phone,Email,Address,ItemSupplied");
+                    bw.write("SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemSupplied");
                     bw.newLine();
                 }
                 
-                bw.write(supplier.getSupplierID() + "," +
-                         supplier.getSupplierName() + "," +
-                         supplier.getContactPerson() + "," +
-                         supplier.getPhone() + "," + 
-                         supplier.getEmail() + "," +
-                         supplier.getAddress() + "," +
+                bw.write(supplier.getSupplierID() + ";" +
+                         supplier.getSupplierName() + ";" +
+                         supplier.getContactPerson() + ";" +
+                         supplier.getPhone() + ";" + 
+                         supplier.getEmail() + ";" +
+                         supplier.getAddress() + ";" +
                          supplier.getItemSupplied());
             }
         } catch (Exception e){
@@ -182,7 +182,7 @@ public class Suppliers {
                     }
                     
                     if (!line.trim().isEmpty()){
-                        String[] row = line.split(",");
+                        String[] row = line.split(";");
                         supplierList.add(row);
                     }
                 }

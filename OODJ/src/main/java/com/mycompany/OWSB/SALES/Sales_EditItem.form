@@ -41,19 +41,17 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="stockLevel_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="category_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="description_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="itemID_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="itemName_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="supplier_label" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="itemID" alignment="0" max="32767" attributes="0"/>
                   <Component id="itemName" alignment="0" max="32767" attributes="0"/>
                   <Component id="price" alignment="0" max="32767" attributes="0"/>
-                  <Component id="stockLevel" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" pref="268" max="32767" attributes="0"/>
                   <Component id="supplier" max="32767" attributes="0"/>
                   <Component id="category" max="32767" attributes="0"/>
@@ -63,10 +61,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="86" pref="86" max="-2" attributes="0"/>
               <Component id="price_label" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="455" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="386" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="back" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Component id="add" min="-2" max="-2" attributes="0"/>
@@ -101,11 +99,6 @@
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="stockLevel_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="stockLevel" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="category_label" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="category" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -119,7 +112,7 @@
                   <Component id="back" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="add" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <EmptySpace pref="132" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -138,11 +131,6 @@
     <Component class="javax.swing.JLabel" name="supplier_label">
       <Properties>
         <Property name="text" type="java.lang.String" value="SUPPLIER*"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="stockLevel_label">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="STOCK LEVEL*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="category_label">
@@ -181,11 +169,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNameActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="stockLevel">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stockLevelActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -211,7 +194,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="price_label">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PRICE (RM)*"/>
+        <Property name="text" type="java.lang.String" value="UNIT PRICE (RM)*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="price">

@@ -5,6 +5,7 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -25,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "SUPPLIER", "PRICE(RM)", "STOCK LEVEL", "CATEGORY", "DESCRIPTION", "ACTION"};
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "UNIT PRICE(RM)", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
     private List<String[]> data = Items.viewItemsInFile();
     
     /**
@@ -34,18 +36,56 @@ public class Sales_Item extends javax.swing.JPanel {
     public Sales_Item(javax.swing.JPanel ChangePanel) {
         model.setColumnIdentifiers(columnName);
         initComponents();
+        //If low stock, show cell in red
+        itemTable = new JTable(model) {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                // Find the index of the "REORDER ALERT STATUS" column, or hardcode it if known
+                int alertCol = 6;  // Your 7th column: REORDER ALERT STATUS
+
+                // Reset default colors first
+                if (!isRowSelected(row)) {
+                    c.setBackground(Color.WHITE);
+                    c.setForeground(Color.BLACK);
+                }
+
+                // Color only the "REORDER ALERT STATUS" cell red if it contains "Low Stock"
+                if (column == alertCol) {
+                    Object value = getValueAt(row, column);
+                    if (value != null && value.toString().equalsIgnoreCase("Low Stock")) {
+                        c.setBackground(Color.RED);
+                        c.setForeground(Color.WHITE);
+                    }
+                }
+
+                return c;
+            }
+        };
+        itemTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(itemTable);
         this.ChangePanel = ChangePanel;
         for (int i = 0; i < itemTable.getColumnCount() - 1; i++) {
             itemTable.getColumnModel().getColumn(i).setPreferredWidth(110);
             itemTable.setRowHeight(30);
         }
-        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(200);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 3).setPreferredWidth(200);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(130);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
         List<String[]> data = Items.viewItemsInFile();
         for(String[] row : data){
-            String[] newRow = Arrays.copyOf(row, row.length + 1);
+            String[] newRow = new String[row.length - 2 + 1];
+            int j = 0;
+            for (int i = 0; i < row.length; i++) {
+                if (i == 4 || i == 5) continue;
+                if (j < newRow.length - 1) {
+                    newRow[j++] = row[i];
+                }
+            }
             newRow[newRow.length - 1] = "Edit/Delete";
-            model.addRow(row);
+            model.addRow(newRow);
+            
         }
         
         if (data.isEmpty()) {

@@ -1,2 +1,2 @@
-SupplierID,SupplierName,ContactPerson,Phone,Email,Address,ItemSupplied
-SUP001,Test,TestA,016-5982312,testA@gmail.com,"1, Jalan Satu, Taman Satu, 31650 Ipoh, Perak",[]
+SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemSupplied
+SUP001;Test;Test A;016-5982312;testA@gmail.com;1, Jalan Satu, Taman Satu, 31650 Ipoh, Perak;[]

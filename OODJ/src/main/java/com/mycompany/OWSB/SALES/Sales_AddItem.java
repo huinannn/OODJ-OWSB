@@ -5,10 +5,6 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,14 +47,12 @@ public class Sales_AddItem extends javax.swing.JPanel {
         itemID_label = new javax.swing.JLabel();
         itemName_label = new javax.swing.JLabel();
         supplier_label = new javax.swing.JLabel();
-        stockLevel_label = new javax.swing.JLabel();
         category_label = new javax.swing.JLabel();
         description_label = new javax.swing.JLabel();
         back = new javax.swing.JButton();
         add = new javax.swing.JButton();
         itemID = new javax.swing.JTextField();
         itemName = new javax.swing.JTextField();
-        stockLevel = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
@@ -82,8 +76,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
         itemName_label.setText("ITEM NAME*");
 
         supplier_label.setText("SUPPLIER*");
-
-        stockLevel_label.setText("STOCK LEVEL*");
 
         category_label.setText("CATEGORY*");
 
@@ -115,12 +107,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
             }
         });
 
-        stockLevel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stockLevelActionPerformed(evt);
-            }
-        });
-
         description.setColumns(20);
         description.setRows(5);
         jScrollPane1.setViewportView(description);
@@ -128,7 +114,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setText("NEW ITEM");
 
-        price_label.setText("PRICE (RM)*");
+        price_label.setText("UNIT PRICE (RM)*");
 
         price.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,18 +147,16 @@ public class Sales_AddItem extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(stockLevel_label)
                     .addComponent(category_label)
                     .addComponent(description_label)
                     .addComponent(itemID_label)
                     .addComponent(itemName_label)
                     .addComponent(supplier_label))
-                .addGap(71, 71, 71)
+                .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(itemID)
                     .addComponent(itemName)
                     .addComponent(price)
-                    .addComponent(stockLevel)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(supplier, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -180,7 +164,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(price_label)
-                .addContainerGap(455, Short.MAX_VALUE))
+                .addContainerGap(426, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .addComponent(back)
@@ -209,11 +193,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(price_label)
                     .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stockLevel_label)
-                    .addComponent(stockLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(category_label)
                     .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -225,7 +205,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -241,21 +221,15 @@ public class Sales_AddItem extends javax.swing.JPanel {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //Empty Fields, not allowed to submit
-        if(itemName.getText().trim().isEmpty()|| price.getText().trim().isEmpty()|| stockLevel.getText().trim().isEmpty()|| supplier.getSelectedIndex() == 0 || category.getSelectedIndex() == 0){
+        if(itemName.getText().trim().isEmpty()|| price.getText().trim().isEmpty()|| supplier.getSelectedIndex() == 0 || category.getSelectedIndex() == 0){
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         String priceInput = price.getText().trim();
-        String stockInput = stockLevel.getText().trim();
         //Validate price
         if(!priceInput.matches("\\d+(\\.\\d+)?")){
             JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        //Validate stock level
-        if(!stockInput.matches("[1-9]\\d*")){
-            JOptionPane.showMessageDialog(this, "Please enter a valid stock level!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -263,13 +237,16 @@ public class Sales_AddItem extends javax.swing.JPanel {
         String item_ID = itemID.getText();
         String item_name = itemName.getText();
         double price_given = Double.parseDouble(priceInput);
-        int stock_level = Integer.parseInt(stockInput);
+        int stock_level = 0;
+        int reorder_level = 10;
         String supplier_ID = supplier.getSelectedItem().toString();
         String category_selected = category.getSelectedItem().toString();
         Items.Category selectedCategory = Items.Category.fromString(category_selected);
         String description_given = description.getText();
+        String reorder_status = "LOW STOCK";
+        Items.ReorderAlertStatus reorderStatus = Items.ReorderAlertStatus.fromString(reorder_status);
         
-        Items newItem = new Items(item_ID, item_name, supplier_ID, price_given, stock_level, selectedCategory, description_given);
+        Items newItem = new Items(item_ID, item_name, supplier_ID, selectedCategory, stock_level, reorder_level, price_given, description_given, reorderStatus);
         
         Items.saveItemToFile(newItem);
         
@@ -286,10 +263,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
     private void itemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNameActionPerformed
         
     }//GEN-LAST:event_itemNameActionPerformed
-
-    private void stockLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockLevelActionPerformed
-        
-    }//GEN-LAST:event_stockLevelActionPerformed
 
     private void itemIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIDActionPerformed
         
@@ -326,9 +299,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField price;
     private javax.swing.JLabel price_label;
-    private javax.swing.JTextField stockLevel;
     private javax.swing.JTextField stockLevel1;
-    private javax.swing.JLabel stockLevel_label;
     private javax.swing.JLabel stockLevel_label1;
     private javax.swing.JComboBox<String> supplier;
     private javax.swing.JLabel supplier_label;
