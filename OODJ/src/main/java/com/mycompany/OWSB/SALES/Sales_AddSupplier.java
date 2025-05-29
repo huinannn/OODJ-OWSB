@@ -37,17 +37,17 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         itemSupplied.removeAllItems();
         itemSupplied.addItem("Please Select Item Supplied!");
         
-        List<String[]> allItems = Items.viewItemsInFile();
-        if (allItems != null && !allItems.isEmpty()){
-            for (String[] item : allItems){
-                if (item.length > 1){
-                    String itemCode = item[0];
-                    String itemName = item[1];
+        List<Items> allItems = Items.viewItemsInFile();
+        if (allItems != null && !allItems.isEmpty()) {
+            for (Items item : allItems) {
+                if (item != null) {
+                    String itemCode = item.getItemCode();
+                    String itemName = item.getItemName();
                     itemSupplied.addItem(itemCode + ": " + itemName);
-                } else {
-                    JOptionPane.showMessageDialog(this, "No items found in inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "No items found in inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

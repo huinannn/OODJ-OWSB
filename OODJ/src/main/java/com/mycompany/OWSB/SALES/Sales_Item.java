@@ -9,8 +9,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -28,7 +30,6 @@ public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
     private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "UNIT PRICE(RM)", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
-    private List<String[]> data = Items.viewItemsInFile();
     
     /**
      * Creates new form Sales_Item
@@ -57,7 +58,7 @@ public class Sales_Item extends javax.swing.JPanel {
                         c.setForeground(Color.WHITE);
                     }
                 }
-
+                
                 return c;
             }
         };
@@ -71,21 +72,33 @@ public class Sales_Item extends javax.swing.JPanel {
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 3).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(130);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
-        List<String[]> data = Items.viewItemsInFile();
-        for(String[] row : data){
-            String[] newRow = new String[8];  
-            newRow[0] = row[0];               //Item Code
-            newRow[1] = row[1];               //Item Name
-            newRow[2] = "N/A";                //Supplier ID & Name
-            newRow[3] = row[2];               //Category
-            newRow[4] = row[5];               //Unit Price
-            newRow[5] = row[6];               //Description
-            newRow[6] = row[7];               //Reorder Status
-            newRow[7] = "Edit/Delete";        //Actions
-            
-            model.addRow(newRow);
+        List<Items> data = Items.viewItemsInFile();
+        System.out.println(data);
+        //Map supplier.txt(FK) itemCode with inventory.txt itemCode(PK)
+        Map<String, List<String>> itemCodeToSuppliersMap = new HashMap<>();
+        List<Suppliers> suppliers = Suppliers.viewSuppliersInFile();
+        for (Suppliers supplier : suppliers){
+            String suppliedItemCode = supplier.getItemSupplied().split(":")[0].trim();
+            String supplierInfo = supplier.getSupplierID() + "-" + supplier.getSupplierName();
+            itemCodeToSuppliersMap.computeIfAbsent(suppliedItemCode, k -> new ArrayList<>()).add(supplierInfo);
+        }
+        for(Items item : data){
+            List<String> suppliersList = itemCodeToSuppliersMap.getOrDefault(item.getItemCode(), new ArrayList<>());
+            String supplierInfo = suppliersList.isEmpty() ? "N/A" : "<html>" + String.join("<br>", suppliersList) + "</html>";
+            model.addRow(new Object[]{
+                item.getItemCode(),
+                item.getItemName(),
+                supplierInfo,
+                item.getCategory(),
+                item.getUnitPrice(),
+                item.getDescription(),
+                item.getReorderStatus(),
+                "Edit/Delete"
+            });
         }
         
+        adjustRowHeights();
+
         if (data.isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no items currently!");
         }
@@ -155,6 +168,21 @@ public class Sales_Item extends javax.swing.JPanel {
         });
 
     }
+    
+    private void adjustRowHeights() {
+        int supplierColumn = 2; 
+
+        for (int row = 0; row < itemTable.getRowCount(); row++) {
+            TableCellRenderer renderer = itemTable.getCellRenderer(row, supplierColumn);
+            Component comp = itemTable.prepareRenderer(renderer, row, supplierColumn);
+            int height = comp.getPreferredSize().height + 10;
+
+            if (height > itemTable.getRowHeight()) {
+                itemTable.setRowHeight(row, height);
+            }
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -175,6 +203,7 @@ public class Sales_Item extends javax.swing.JPanel {
 
         itemTable.setModel(model);
         itemTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        itemTable.setRowSelectionAllowed(false);
         jScrollPane1.setViewportView(itemTable);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N

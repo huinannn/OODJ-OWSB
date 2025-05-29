@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -97,11 +98,11 @@ public class Suppliers {
     }
     
     public String generateNextSupplierID(){
-        List<String[]>supplierList = Suppliers.viewSuppliersInFile();
+        List<Suppliers>supplierList = Suppliers.viewSuppliersInFile();
         int maxID = 0;
         
-        for(String[] supplier : supplierList){
-            String id = supplier[0];
+        for(Suppliers supplier : supplierList){
+            String id = supplier.getSupplierID();
             if(id.startsWith("SUP")){
                 try{
                     int numericPart = Integer.parseInt(id.substring(3));
@@ -149,14 +150,15 @@ public class Suppliers {
                          supplier.getEmail() + ";" +
                          supplier.getAddress() + ";" +
                          supplier.getItemSupplied());
+                bw.newLine();
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
     
-    public static List<String[]> viewSuppliersInFile(){
-        List<String[]> supplierList = new ArrayList<>();
+    public static List<Suppliers> viewSuppliersInFile(){
+        List<Suppliers> supplierList = new ArrayList<>();
         
         try{
             String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -183,7 +185,20 @@ public class Suppliers {
                     
                     if (!line.trim().isEmpty()){
                         String[] row = line.split(";");
-                        supplierList.add(row);
+                        if (row.length >= 7) {
+                            Suppliers supplier = new Suppliers(
+                                row[0], 
+                                row[1], 
+                                row[2], 
+                                row[3], 
+                                row[4], 
+                                row[5], 
+                                row[6]
+                            );
+                            supplierList.add(supplier);
+                        } else {
+                            System.err.println("Invalid row: " + Arrays.toString(row));
+                        }
                     }
                 }
             }
@@ -193,5 +208,18 @@ public class Suppliers {
         }
         
         return supplierList;
+    }
+    
+    public List<Suppliers> findByItemCode(String itemCode){
+        List<Suppliers> matchingSuppliers = new ArrayList<>();
+        List<Suppliers> allSuppliers = viewSuppliersInFile();
+        for (Suppliers supplier : allSuppliers){
+            String suppliedItemCode = supplier.getItemSupplied().split(":")[0].trim();
+            if (suppliedItemCode.equals(itemCode)){
+                matchingSuppliers.add(supplier);
+            }
+        }
+        
+        return matchingSuppliers;
     }
 }

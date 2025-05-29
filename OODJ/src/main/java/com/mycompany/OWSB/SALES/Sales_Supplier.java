@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -26,7 +25,6 @@ public class Sales_Supplier extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
     private String[] columnName = {"ID", "NAME", "CONTACT PERSON", "PHONE", "EMAIL", "ADDRESS", "ITEM SUPPLIED", "ACTION"};
-    private List<String[]> data = Suppliers.viewSuppliersInFile();
     
     /**
      * Creates new form Sales_Supplier
@@ -43,11 +41,18 @@ public class Sales_Supplier extends javax.swing.JPanel {
         supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 2).setPreferredWidth(180);
         supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 1).setPreferredWidth(120);
         supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 6).setPreferredWidth(150);
-        List<String[]> data = Suppliers.viewSuppliersInFile();
-        for(String[] row : data){
-            String[] newRow = Arrays.copyOf(row, row.length + 1);
-            newRow[newRow.length - 1] = "Edit/Delete";
-            model.addRow(row);
+        List<Suppliers> data = Suppliers.viewSuppliersInFile();
+        for (Suppliers supplier : data) {
+            model.addRow(new Object[]{
+                supplier.getSupplierID(),
+                supplier.getSupplierName(),
+                supplier.getContactPerson(),
+                supplier.getPhone(),
+                supplier.getEmail(),
+                supplier.getAddress(),
+                supplier.getItemSupplied(),
+                "Edit/Delete"
+            });
         }
         
         if (data.isEmpty()) {

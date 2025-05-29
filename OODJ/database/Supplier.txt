@@ -1,2 +1,7 @@
 SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemCode
 SUP001;TestA;Loh Test;016-5982312;testa@gmail.com;1, Jalan Satu, Taman Satu, 31650 Ipoh, Perak;ITM001: Test
+SUP002;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test
+SUP003;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test
+SUP004;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test
+SUP005;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test
+SUP006;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test

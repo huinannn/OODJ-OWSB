@@ -161,12 +161,12 @@ public class Items {
         this.reorderLevel = reorderLevel;
     }
     
-     public String generateNextItemID(){
-        List<String[]>itemList = Items.viewItemsInFile();
+    public String generateNextItemID(){
+        List<Items>itemList = Items.viewItemsInFile();
         int maxID = 0;
         
-        for(String[] item : itemList){
-            String id = item[0];
+        for(Items item : itemList){
+             String id = item.getItemCode();
             if(id.startsWith("ITM")){
                 try{
                     int numericPart = Integer.parseInt(id.substring(3));
@@ -225,8 +225,8 @@ public class Items {
         }
     }
     
-    public static List<String[]> viewItemsInFile() {
-        List<String[]> itemList = new ArrayList<>();
+    public static List<Items> viewItemsInFile() {
+        List<Items> itemList = new ArrayList<>();
         
         try {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -251,10 +251,27 @@ public class Items {
                        continue;
                    }
                    
-                   if (!line.trim().isEmpty()){
+                    if (!line.trim().isEmpty()) {
                         String[] row = line.split(";");
-                        itemList.add(row);
-                   }
+                        if (row.length >= 8) {
+                            Category category = Category.fromString(row[2]);
+                            ReorderAlertStatus status = ReorderAlertStatus.fromString(row[7]);
+                            int quantity = Integer.parseInt(row[3]);
+                            int reorder_level = Integer.parseInt(row[4]);
+                            double price = Double.parseDouble(row[5]); 
+                            Items item = new Items(
+                                row[0], 
+                                row[1], 
+                                category, 
+                                quantity,
+                                reorder_level,
+                                price, 
+                                row[6], 
+                                status
+                            );
+                            itemList.add(item);
+                        }
+                    }
                }
             }
             
