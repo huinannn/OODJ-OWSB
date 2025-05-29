@@ -1,2 +1,11 @@
 ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus
-ITM001;Test;Dry Goods;0;10;3.40;Test Test Test;LOW STOCK
+ITM001;Jasmine Rice 5kg;Dry Goods;0;10;28.50;Premium long grain rice;LOW STOCK
+ITM002;Milo 2kg;Beverages;0;10;34.90;Popular chocolate malt drink;LOW STOCK
+ITM003;Fresh Spinach 200g;Fresh Produce;0;10;3.50;Locally grown spinach;LOW STOCK
+ITM004;Dutch Lady Milk 1L;Dairy;0;10;6.20;;LOW STOCK
+ITM005;Ayamas Chicken Nuggets;Frozen Foods;0;10;12.90;Halal frozen chicken nuggets;LOW STOCK
+ITM006;Mr Muscle Floor Cleaner;Cleaning Supplies;0;10;9.90;;LOW STOCK
+ITM007;Colgate Toothpaste 120g;Personal Care;0;10;6.80;;LOW STOCK
+ITM008;Nescafe Classic 200g;Beverages;0;10;17.50;;LOW STOCK
+ITM009;Cabbage (Local) 1kg;Fresh Produce;0;10;3.20;Fresh Cameron Highland cabbage;LOW STOCK
+ITM010;Anlene Gold 1kg;Dairy;0;10;28.00;;LOW STOCK

@@ -214,7 +214,7 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         
         // Validate phone number
         String phoneInput = phone.getText().trim();
-        if (!phoneInput.matches("^\\d{3,4}-?\\d{3,4}-?\\d{3,4}$")) {
+        if (!phoneInput.matches("^\\d{2,3}-?\\d{3,4}-?\\d{3,4}$")) {
             JOptionPane.showMessageDialog(this, "Invalid phone number! Only digits allowed (7–15 digits, optional '-').", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }

@@ -1,3 +1,26 @@
 SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemCode
-SUP001;TestA;Loh Test;016-5982312;testA@gmail.com;1, Jalan Satu, Taman Satu, 31650 Ipoh, Perak;ITM001: Test
-SUP002;TestB;Chee Test;016-5982312;testb@gmail.com;2, Jalan 2, Taman 2, 57000 Kuala Lumpur;ITM001: Test
+SUP001;Beras Jati Distributors;Ahmad Zulkifli;03-77234567;az@berasjati.my;No. 10, Jalan Klang Lama, KL;ITM001: Jasmine Rice 5kg
+SUP002;RiceHub Malaysia;Lim Chee Weng;017-2233445;limcw@ricehub.my;Jalan Pasar, Pudu, KL;ITM001: Jasmine Rice 5kg
+SUP003;Kedah Paddy Suppliers;Noraini Hashim;016-9988776;noraini@kedahrice.my;Alor Setar, Kedah;ITM001: Jasmine Rice 5kg
+SUP004;Nestlé Malaysia;Joanne Tan;03-79692000;joanne@nestle.com.my;Menara Surian, Mutiara Damansara;ITM002: Milo 2kg
+SUP005;ChocoMart Distributor;Farhan Aziz;018-7776655; farhan@chocomart.my;SS15 Subang Jaya;ITM002: Milo 2kg
+SUP006;Cameron Fresh Greens;Lim Boon Huat;012-3456789;lim@camveggie.com.my;Cameron Highlands;ITM003: Fresh Spinach 200g
+SUP007;AgroFresh Wholesales;Siti Aisyah;019-4433221;aisyah@agrofresh.my;Taman Pertanian, Serdang;ITM009: Cabbage (Local) 1kg
+SUP008;Dutch Lady Milk Ind.;Nurul Ain;03-55123456;nurul@dutchlady.com;Shah Alam;ITM004: Dutch Lady Milk 1L
+SUP009;DailyDairy Distributors;Kelvin Lau;012-6677889;kelvin@dailydairy.my;Kuching, Sarawak;ITM004: Dutch Lady Milk 1L
+SUP010;MilkyWay Sdn Bhd;Hafiza Zaini;017-1144223;hafiza@milkyway.my;Bukit Mertajam, Penang;ITM004: Dutch Lady Milk 1L
+SUP011;Ayamas Food Corp;Faizal Rahman;017-2345678;faizal@ayamas.com.my;Jalan Tandang, PJ;ITM005: Ayamas Chicken Nuggets
+SUP012;FrozenFood Express;Teh Hui Ling;018-7654321;teh@frozenexpress.my;Bandar Baru Bangi;ITM005: Ayamas Chicken Nuggets
+SUP013;Reckitt Malaysia;Cindy Lee;03-78888999;cindy@reckitt.my;Kelana Jaya;ITM006: Mr Muscle Floor Cleaner
+SUP014;CleanCo Solutions;Goh Mei Ling;016-2233445;goh@cleanco.my;Johor Bahru;ITM006: Mr Muscle Floor Cleaner
+SUP015;Colgate-Palmolive MY;Azhar Idris;03-67891234;azhar@colgate.my;Mid Valley City, KL;ITM007: Colgate Toothpaste 120g
+SUP016;SmilePlus Supplies;Rajesh Kumar;013-4455667;rajesh@smileplus.my;Taiping, Perak;ITM007: Colgate Toothpaste 120g
+SUP017;Nescafe Malaysia Sdn Bhd;Shalini Krishnan;03-23455678;shalini@nescafe.my;Nestlé Tower, KL;ITM008: Nescafe Classic 200g
+SUP018;BeveragePro Trading;Tan Hui Ming;014-9988776;tan@beveragepro.my;Bandar Sri Damansara;ITM002: Milo 2kg
+SUP019;OrganicFarm Supplies;Wong Mei Yee;019-8765432; wong@organicfarm.my;Bentong, Pahang;ITM009: Cabbage (Local) 1kg
+SUP020;Freshie Veggies Sdn Bhd;Muhamad Faiz;010-8899776;faiz@freshieveg.my;Kota Bharu, Kelantan;ITM003: Fresh Spinach 200g
+SUP021;Cameron Leaf Supply;Chong Siew Lan;011-1234433;chong@cameronleaf.my;Cameron Highlands;ITM009: Cabbage (Local) 1kg
+SUP022;Anlene Nutrition Centre;Hafizah Roslan;03-44556677;hafizah@anlene.com.my;Cyberjaya;ITM010: Anlene Gold 1kg
+SUP023;MilkCare Plus Sdn Bhd;Tan Sze Wei;012-7744882;szewei@milkcare.my;Seremban;ITM004: Dutch Lady Milk 1L
+SUP024;HealthyBone Distributors;Zainab Muda;017-2233112;zainab@bonehealth.my;Kuala Terengganu;ITM010: Anlene Gold 1kg
+SUP025; VitaMilk Trading;Darren Goh;018-3366445;darren@vitamilk.my;Butterworth, Penang;ITM010: Anlene Gold 1kg
