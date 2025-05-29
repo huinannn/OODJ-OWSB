@@ -45,7 +45,6 @@
                   <Component id="description_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="itemID_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="itemName_label" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="supplier_label" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -53,7 +52,6 @@
                   <Component id="itemName" alignment="0" max="32767" attributes="0"/>
                   <Component id="price" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" pref="268" max="32767" attributes="0"/>
-                  <Component id="supplier" max="32767" attributes="0"/>
                   <Component id="category" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
@@ -88,11 +86,6 @@
                   <Component id="itemName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="supplier_label" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="supplier" alignment="2" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="price_label" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="price" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -112,7 +105,7 @@
                   <Component id="back" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="add" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="132" max="32767" attributes="0"/>
+              <EmptySpace pref="172" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -126,11 +119,6 @@
     <Component class="javax.swing.JLabel" name="itemName_label">
       <Properties>
         <Property name="text" type="java.lang.String" value="ITEM NAME*"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="supplier_label">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="SUPPLIER*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="category_label">
@@ -201,19 +189,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="priceActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="supplier">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Please Select a Supplier!&quot;,&quot;SUP001&quot;, &quot;SUP002&quot;, &quot;SUP003&quot;, &quot;SUP004&quot; })" type="code"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supplierActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JComboBox" name="category">
       <Properties>

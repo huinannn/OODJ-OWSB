@@ -180,7 +180,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         String phone_no = phone.getText();
         String email_given = email.getText();
         String address_given = address.getText();
-        List<String> itemSupplied = new ArrayList<>();
+        //Link with Item class
+        String itemSupplied = "";
         
         Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, itemSupplied);
         

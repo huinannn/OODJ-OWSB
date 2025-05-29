@@ -75,7 +75,6 @@ public class Items {
     }
     private String itemCode;
     private String itemName;
-    private String supplierID;
     private Category category;
     private int stockCurrentQuantities;
     private int reorderLevel;
@@ -87,10 +86,9 @@ public class Items {
     public Items(){}
     
     //Constructor
-    public Items(String itemCode, String itemName, String supplierID, Category category, int stockCurrentQuantities, int reorderLevel, double unitPrice, String description, ReorderAlertStatus reorderStatus) {
+    public Items(String itemCode, String itemName, Category category, int stockCurrentQuantities, int reorderLevel, double unitPrice, String description, ReorderAlertStatus reorderStatus) {
         this.itemCode = itemCode;
         this.itemName = itemName;
-        this.supplierID = supplierID;
         this.category = category;
         this.stockCurrentQuantities = stockCurrentQuantities;
         this.reorderLevel = reorderLevel;
@@ -121,14 +119,6 @@ public class Items {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-    }
-
-    public String getSupplierID() {
-        return supplierID;
-    }
-
-    public void setSupplierID(String supplierId) {
-        this.supplierID = supplierId;
     }
 
     public double getUnitPrice() {
@@ -213,7 +203,7 @@ public class Items {
                 BufferedWriter bw = new BufferedWriter(fw)
             ) {
                 if (!fileExists) {
-                    bw.write("ItemCode;ItemName;SupplierID;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
+                    bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
                     bw.newLine();
                 }
                 
@@ -221,7 +211,6 @@ public class Items {
 
                 bw.write(item.getItemCode() + ";" +
                          item.getItemName() + ";" +
-                         item.getSupplierID() + ";" +
                          item.getCategory() + ";" +
                          item.getStockCurrentQuantities() + ";" +
                          item.getReorderLevel() + ";" +
@@ -305,7 +294,6 @@ public class Items {
                     String[] parts = line.split(";");
                     if (parts.length >= 9 && parts[0].equals(itemCode)) {
                         String itemName = parts[1];
-                        String supplierID = parts[2];
                         Category category = Category.fromString(parts[3]);
                         int stockCurrentQuantities = Integer.parseInt(parts[4]);
                         int reorderLevel = Integer.parseInt(parts[5]);
@@ -313,7 +301,7 @@ public class Items {
                         String description = !parts[7].equals("") ? parts[7] : "";
                         ReorderAlertStatus reorderStatus = ReorderAlertStatus.fromString(parts[8]);
                         
-                        return new Items(itemCode, itemName, supplierID, category, stockCurrentQuantities, reorderLevel, unitPrice, description, reorderStatus);
+                        return new Items(itemCode, itemName,category, stockCurrentQuantities, reorderLevel, unitPrice, description, reorderStatus);
                     }
                 }
             }
@@ -355,7 +343,6 @@ public class Items {
                         String formattedPrice = String.format("%.2f", updatedItem.getUnitPrice());
                         String updatedLine = updatedItem.getItemCode() + ";" +
                                 updatedItem.getItemName() + ";" +
-                                updatedItem.getSupplierID() + ";" +
                                 updatedItem.getCategory() + ";" +
                                 updatedItem.getStockCurrentQuantities() + ";" +
                                 updatedItem.getReorderLevel() + ";" +
@@ -433,7 +420,6 @@ public class Items {
     public String toString(){
         return "Item Code: " + itemCode +
                 "\nItem Name: " + itemName +
-                "\nSupplier ID: " + supplierID +
                 "\nUnit Price: " + unitPrice + 
                 "\nStock Current Quantities: " + stockCurrentQuantities +
                 "\nReorder Level: " + reorderLevel +

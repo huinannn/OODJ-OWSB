@@ -24,13 +24,13 @@ public class Suppliers {
     private String phone;
     private String email;
     private String address;
-    private List<String> itemSupplied;
+    private String itemSupplied;
     
     //Empty Constructor
     public Suppliers(){}
     
     //Constructor
-    public Suppliers(String supplierID, String supplierName, String contactPerson, String phone, String email, String address, List<String> itemSupplied){
+    public Suppliers(String supplierID, String supplierName, String contactPerson, String phone, String email, String address, String itemSupplied){
         this.supplierID = supplierID;
         this.supplierName = supplierName;
         this.contactPerson = contactPerson;
@@ -88,11 +88,11 @@ public class Suppliers {
         this.address = address;
     }
 
-    public List<String> getItemSupplied() {
+    public String getItemSupplied() {
         return itemSupplied;
     }
 
-    public void setItemSupplied(List<String> itemSupplied) {
+    public void setItemSupplied(String itemSupplied) {
         this.itemSupplied = itemSupplied;
     }
     
