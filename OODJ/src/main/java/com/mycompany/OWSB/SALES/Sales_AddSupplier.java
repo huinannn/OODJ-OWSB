@@ -28,6 +28,27 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         supplierID.setText(newID);
         supplierID.setEditable(false);
         supplierID.setBorder(null);
+        
+        showItemSuppliedComboBox();
+    }
+    
+    private void showItemSuppliedComboBox(){
+        //Clear all items in combo box
+        itemSupplied.removeAllItems();
+        itemSupplied.addItem("Please Select Item Supplied!");
+        
+        List<String[]> allItems = Items.viewItemsInFile();
+        if (allItems != null && !allItems.isEmpty()){
+            for (String[] item : allItems){
+                if (item.length > 1){
+                    String itemCode = item[0];
+                    String itemName = item[1];
+                    itemSupplied.addItem(itemCode + ": " + itemName);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No items found in inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
     }
 
     /**
@@ -54,6 +75,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         address = new javax.swing.JTextField();
         back = new javax.swing.JButton();
         add = new javax.swing.JButton();
+        item_label = new javax.swing.JLabel();
+        itemSupplied = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -86,6 +109,15 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
             }
         });
 
+        item_label.setText("ITEM SUPPLIED*");
+
+        itemSupplied.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select Item Supplied!" }));
+        itemSupplied.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSuppliedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,15 +135,17 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                             .addComponent(contact_person_label)
                             .addComponent(phone_label)
                             .addComponent(email_label)
-                            .addComponent(address_label))
+                            .addComponent(address_label)
+                            .addComponent(item_label))
                         .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(supplierID, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(supplierName, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(contactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(supplierID, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(supplierName, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(contactPerson, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -149,11 +183,15 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(address_label)
                     .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(item_label)
+                    .addComponent(itemSupplied, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -180,10 +218,9 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         String phone_no = phone.getText();
         String email_given = email.getText();
         String address_given = address.getText();
-        //Link with Item class
-        String itemSupplied = "";
+        String item_supplied = itemSupplied.getSelectedItem().toString();
         
-        Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, itemSupplied);
+        Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied);
         
         Suppliers.saveSupplierToFile(newSupplier);
         
@@ -199,6 +236,10 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
 
     }//GEN-LAST:event_addActionPerformed
 
+    private void itemSuppliedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSuppliedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemSuppliedActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
@@ -209,6 +250,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel contact_person_label;
     private javax.swing.JTextField email;
     private javax.swing.JLabel email_label;
+    private javax.swing.JComboBox<String> itemSupplied;
+    private javax.swing.JLabel item_label;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone_label;
     private javax.swing.JTextField supplierID;

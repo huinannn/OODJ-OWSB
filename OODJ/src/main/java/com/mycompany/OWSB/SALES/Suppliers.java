@@ -138,7 +138,7 @@ public class Suppliers {
                 BufferedWriter bw = new BufferedWriter(fw);
             ) {
                 if (!fileExists){
-                    bw.write("SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemSupplied");
+                    bw.write("SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemCode");
                     bw.newLine();
                 }
                 

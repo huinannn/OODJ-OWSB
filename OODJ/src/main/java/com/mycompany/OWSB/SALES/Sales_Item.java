@@ -41,17 +41,15 @@ public class Sales_Item extends javax.swing.JPanel {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component c = super.prepareRenderer(renderer, row, column);
+                
+                int alertCol = 6; 
 
-                // Find the index of the "REORDER ALERT STATUS" column, or hardcode it if known
-                int alertCol = 6;  // Your 7th column: REORDER ALERT STATUS
-
-                // Reset default colors first
                 if (!isRowSelected(row)) {
                     c.setBackground(Color.WHITE);
                     c.setForeground(Color.BLACK);
                 }
-
-                // Color only the "REORDER ALERT STATUS" cell red if it contains "Low Stock"
+                
+                //If Low Stock, color red
                 if (column == alertCol) {
                     Object value = getValueAt(row, column);
                     if (value != null && value.toString().equalsIgnoreCase("Low Stock")) {
@@ -75,17 +73,17 @@ public class Sales_Item extends javax.swing.JPanel {
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
         List<String[]> data = Items.viewItemsInFile();
         for(String[] row : data){
-            String[] newRow = new String[row.length - 2 + 1];
-            int j = 0;
-            for (int i = 0; i < row.length; i++) {
-                if (i == 4 || i == 5) continue;
-                if (j < newRow.length - 1) {
-                    newRow[j++] = row[i];
-                }
-            }
-            newRow[newRow.length - 1] = "Edit/Delete";
-            model.addRow(newRow);
+            String[] newRow = new String[8];  
+            newRow[0] = row[0];               //Item Code
+            newRow[1] = row[1];               //Item Name
+            newRow[2] = "N/A";                //Supplier ID & Name
+            newRow[3] = row[2];               //Category
+            newRow[4] = row[5];               //Unit Price
+            newRow[5] = row[6];               //Description
+            newRow[6] = row[7];               //Reorder Status
+            newRow[7] = "Edit/Delete";        //Actions
             
+            model.addRow(newRow);
         }
         
         if (data.isEmpty()) {
@@ -171,6 +169,7 @@ public class Sales_Item extends javax.swing.JPanel {
         itemTable = new javax.swing.JTable();
         title = new javax.swing.JLabel();
         addNew = new javax.swing.JButton();
+        back = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -188,6 +187,13 @@ public class Sales_Item extends javax.swing.JPanel {
             }
         });
 
+        back.setText("Back");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,6 +206,8 @@ public class Sales_Item extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addComponent(title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(back)
+                .addGap(18, 18, 18)
                 .addComponent(addNew)
                 .addGap(32, 32, 32))
         );
@@ -209,7 +217,8 @@ public class Sales_Item extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(addNew)
-                    .addComponent(title))
+                    .addComponent(title)
+                    .addComponent(back))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
@@ -226,9 +235,20 @@ public class Sales_Item extends javax.swing.JPanel {
         ChangePanel.repaint();
     }//GEN-LAST:event_addNewActionPerformed
 
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        Sales_ItemSupplier is = new Sales_ItemSupplier(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(is, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_backActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addNew;
+    private javax.swing.JButton back;
     private javax.swing.JTable itemTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;
