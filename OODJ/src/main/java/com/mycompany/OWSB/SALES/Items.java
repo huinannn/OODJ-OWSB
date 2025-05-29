@@ -286,7 +286,6 @@ public class Items {
     }
     
     public static Items getItemByCode(String itemCode) {
-        System.out.println("Item: " + itemCode);
         try {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
@@ -442,7 +441,7 @@ public class Items {
                 "\nReorder Level: " + reorderLevel +
                 "\nCategory: " + category +
                 "\nDescription: " + description +
-                "\nReorder Alert Status" + reorderStatus;
+                "\nReorder Alert Status: " + reorderStatus;
     }
 }   
 

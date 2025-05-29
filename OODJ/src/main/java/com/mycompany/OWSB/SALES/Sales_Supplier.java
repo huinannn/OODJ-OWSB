@@ -81,14 +81,14 @@ public class Sales_Supplier extends javax.swing.JPanel {
                     edit.addActionListener(ae -> {
                         int selectedRow = supplierTable.getSelectedRow();
                         if (selectedRow >= 0){
-                            String itemCode = supplierTable.getValueAt(selectedRow, 0).toString();
-                            System.out.println("Sales Item: " + itemCode);
-//                            Sales_EditItem edit_item = new Sales_EditItem(itemCode, ChangePanel);
-//                            ChangePanel.removeAll();
-//                            ChangePanel.setLayout(new BorderLayout());
-//                            ChangePanel.add(edit_item, BorderLayout.CENTER);
-//                            ChangePanel.revalidate();
-//                            ChangePanel.repaint();
+                            String supplierID = supplierTable.getValueAt(selectedRow, 0).toString();
+                            System.out.println("Sales Item: " + supplierID);
+                            Sales_EditSupplier edit_supplier = new Sales_EditSupplier(supplierID, ChangePanel);
+                            ChangePanel.removeAll();
+                            ChangePanel.setLayout(new BorderLayout());
+                            ChangePanel.add(edit_supplier, BorderLayout.CENTER);
+                            ChangePanel.revalidate();
+                            ChangePanel.repaint();
                         } else {
                             JOptionPane.showMessageDialog(null, "Please select an item to edit!");
                         }
@@ -98,21 +98,21 @@ public class Sales_Supplier extends javax.swing.JPanel {
                     delete.addActionListener(ae ->{
                         int selectedRow = supplierTable.getSelectedRow();
                         if (selectedRow >= 0) {
-                            String itemCode = supplierTable.getValueAt(selectedRow, 0).toString();
-                            String itemName = supplierTable.getValueAt(selectedRow, 1).toString();
+                            String supplierID = supplierTable.getValueAt(selectedRow, 0).toString();
+                            String supplierName = supplierTable.getValueAt(selectedRow, 1).toString();
                             
                             int confirm = JOptionPane.showConfirmDialog(
                                 null,
-                                "Are you sure you want to delete item: " + itemName + "?",
+                                "Are you sure you want to delete supplier: " + supplierName + "?",
                                 "Confirm Deletition",
                                 JOptionPane.YES_NO_OPTION
                             );
                             
-//                            if(confirm == JOptionPane.YES_OPTION){
-//                                Items.deleteItemsInFile(itemCode);
-//                                ((DefaultTableModel) supplierTable.getModel()).removeRow(selectedRow);
-//                                JOptionPane.showMessageDialog(null, "ItemID: " + itemCode + ", Item Name: " + itemName + "\nDeleted!");
-//                            }
+                            if(confirm == JOptionPane.YES_OPTION){
+                                Suppliers.deleteSuppliersInFile(supplierID);
+                                ((DefaultTableModel) supplierTable.getModel()).removeRow(selectedRow);
+                                JOptionPane.showMessageDialog(null, "Supplier ID: " + supplierID + ", Supplier Name: " + supplierName + "\nDeleted!");
+                            }
                         }
                     });
 

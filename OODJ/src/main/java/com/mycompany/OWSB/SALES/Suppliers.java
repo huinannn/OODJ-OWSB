@@ -210,6 +210,49 @@ public class Suppliers {
         return supplierList;
     }
     
+    public static Suppliers getSupplierByID(String SupplierID){
+        try{
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return null;
+            }
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                    String[] parts = line.split(";");
+                    if (parts.length >= 7 && parts[0].equals(SupplierID)) {
+                        String supplierName = parts[1];
+                        String contactPerson = parts[2];
+                        String phone = parts[3];
+                        String email = parts[4];
+                        String address = parts[5];
+                        String itemCode = parts[6];
+                        
+                        return new Suppliers(SupplierID, supplierName, contactPerson, phone, email, address, itemCode);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading supplier: " + e.getMessage());
+        }
+        
+        return null;
+    }
+    
     public List<Suppliers> findByItemCode(String itemCode){
         List<Suppliers> matchingSuppliers = new ArrayList<>();
         List<Suppliers> allSuppliers = viewSuppliersInFile();
@@ -221,5 +264,102 @@ public class Suppliers {
         }
         
         return matchingSuppliers;
+    }
+    
+    public static void editSuppliersInFile(String supplierID, Suppliers updatedSupplier){
+        try {
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return;
+            }
+
+            List<String> lines = new ArrayList<>();
+            boolean isFirstLine = true;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while((line = br.readLine())!= null){
+                    if (isFirstLine) {
+                        lines.add(line); 
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                String[] parts = line.split(";");
+                    if (parts[0].equals(supplierID)) {
+                        String updatedLine = updatedSupplier.getSupplierID() + ";" +
+                                updatedSupplier.getSupplierName() + ";" +
+                                updatedSupplier.getContactPerson() + ";" +
+                                updatedSupplier.getPhone() + ";" +
+                                updatedSupplier.getEmail() + ";" +
+                                updatedSupplier.getAddress() + ";" +
+                                updatedSupplier.getItemSupplied();
+                        lines.add(updatedLine);
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+            
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+                for (String l : lines){
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+            
+            JOptionPane.showMessageDialog(null, "Supplier updated successfully!");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error editing supplier: " + e.getMessage());
+        }
+    }
+    
+    public static void deleteSuppliersInFile(String supplierID){
+        try {
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+            
+            if(!file.exists()){
+                 JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        lines.add(line);
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    //Match supplierID
+                    String[] parts = line.split(";");
+                    if (!parts[0].equals(supplierID)) {
+                        lines.add(line);
+                    }
+                }
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (String l : lines) {
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error deleting supplier: " + e.getMessage());
+        }
     }
 }

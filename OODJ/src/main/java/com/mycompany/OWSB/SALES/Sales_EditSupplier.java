@@ -5,31 +5,44 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author TP070386
+ * @author xiaochingloh
  */
-public class Sales_AddSupplier extends javax.swing.JPanel {
+public class Sales_EditSupplier extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
+    private Suppliers supplier;
+
     /**
-     * Creates new form Sales_AddSupplier
+     * Creates new form Sales_EditSupplier
      */
-    public Sales_AddSupplier(javax.swing.JPanel ChangePanel) {
+    public Sales_EditSupplier(String SupplierID, javax.swing.JPanel ChangePanel) {
         initComponents();
         this.ChangePanel = ChangePanel;
-        
-        //Generate new supplierID
-        Suppliers newSupplier = new Suppliers();
-        String newID = newSupplier.generateNextSupplierID();
-        supplierID.setText(newID);
-        supplierID.setEditable(false);
-        supplierID.setBorder(null);
-        
+        //Generate Item Combo Box
         showItemSuppliedComboBox();
+        
+        //Load Supplier Details
+        this.supplier = Suppliers.getSupplierByID(SupplierID);
+        System.out.println("Edit Supplier: " + SupplierID);
+        if(supplier != null){
+            supplierID.setText(SupplierID);
+            supplierName.setText(supplier.getSupplierName());
+            contactPerson.setText(supplier.getContactPerson());
+            phone.setText(supplier.getPhone());
+            email.setText(supplier.getEmail());
+            address.setText(supplier.getAddress());
+            itemSupplied.setSelectedItem(supplier.getItemSupplied());
+            System.out.println(supplier.getSupplierName() + "," + supplier.getItemSupplied());
+        }else {
+            JOptionPane.showMessageDialog(null, "Supplier not found.");
+        }
+        
+        title.setText(supplier.getSupplierName());
+        
     }
     
     private void showItemSuppliedComboBox(){
@@ -60,40 +73,25 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        title = new javax.swing.JLabel();
-        supplierID_label = new javax.swing.JLabel();
         supplierID = new javax.swing.JTextField();
+        back = new javax.swing.JButton();
         supplier_name_label = new javax.swing.JLabel();
+        add = new javax.swing.JButton();
         supplierName = new javax.swing.JTextField();
+        item_label = new javax.swing.JLabel();
         contact_person_label = new javax.swing.JLabel();
+        itemSupplied = new javax.swing.JComboBox<>();
         contactPerson = new javax.swing.JTextField();
         phone = new javax.swing.JTextField();
         phone_label = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         email_label = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         address_label = new javax.swing.JLabel();
+        supplierID_label = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
-        back = new javax.swing.JButton();
-        add = new javax.swing.JButton();
-        item_label = new javax.swing.JLabel();
-        itemSupplied = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
-
-        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        title.setText("NEW SUPPLIER");
-
-        supplierID_label.setText("SUPPLIER ID");
-
-        supplier_name_label.setText("SUPPLIER NAME*");
-
-        contact_person_label.setText("CONTACT PERSON*");
-
-        phone_label.setText("PHONE*");
-
-        email_label.setText("EMAIL*");
-
-        address_label.setText("ADDRESS*");
 
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -101,6 +99,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                 backActionPerformed(evt);
             }
         });
+
+        supplier_name_label.setText("SUPPLIER NAME*");
 
         add.setText("Save");
         add.addActionListener(new java.awt.event.ActionListener() {
@@ -111,12 +111,25 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
 
         item_label.setText("ITEM SUPPLIED*");
 
+        contact_person_label.setText("CONTACT PERSON*");
+
         itemSupplied.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select Item Supplied!" }));
         itemSupplied.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemSuppliedActionPerformed(evt);
             }
         });
+
+        phone_label.setText("PHONE*");
+
+        email_label.setText("EMAIL*");
+
+        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setText("SUPPLIER");
+
+        address_label.setText("ADDRESS*");
+
+        supplierID_label.setText("SUPPLIER ID");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -146,7 +159,7 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                             .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(back)
@@ -191,16 +204,16 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        Sales_Supplier supplier = new Sales_Supplier(ChangePanel);
-        
+        Sales_Supplier s = new Sales_Supplier(ChangePanel);
+
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(supplier, BorderLayout.CENTER);
+        ChangePanel.add(s, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_backActionPerformed
@@ -225,7 +238,7 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Invalid email address!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         String supplier_ID = supplierID.getText();
         String supplier_name = supplierName.getText();
         String contact_person = contactPerson.getText();
@@ -233,20 +246,18 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         String email_given = email.getText();
         String address_given = address.getText();
         String item_supplied = itemSupplied.getSelectedItem().toString();
-        
-        Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied);
-        
-        Suppliers.saveSupplierToFile(newSupplier);
-        
+
+        Suppliers updatedSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied);
+
+        Suppliers.editSuppliersInFile(supplier_ID, updatedSupplier);
+
         //Back to Suppliers table
-        Sales_Supplier supplier = new Sales_Supplier(ChangePanel);
+        Sales_Supplier s = new Sales_Supplier(ChangePanel);
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(supplier, BorderLayout.CENTER);
+        ChangePanel.add(s, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
-            
-        
 
     }//GEN-LAST:event_addActionPerformed
 
