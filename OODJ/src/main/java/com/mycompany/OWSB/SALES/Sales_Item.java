@@ -31,7 +31,7 @@ import javax.swing.table.TableCellRenderer;
 public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "UNIT PRICE(RM)", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "QUANTITY", "UNIT PRICE(RM)", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
     
     /**
      * Creates new form Sales_Item
@@ -45,12 +45,17 @@ public class Sales_Item extends javax.swing.JPanel {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component c = super.prepareRenderer(renderer, row, column);
                 
-                int alertCol = 6; 
+                int alertCol = 7; 
 
                 if (!isRowSelected(row)) {
-                    c.setBackground(Color.WHITE);
+                    if (row % 2 == 0) {
+                        c.setBackground(Color.WHITE);
+                    } else {
+                        c.setBackground(new Color(240, 240, 240)); // light gray
+                    }
                     c.setForeground(Color.BLACK);
                 }
+
                 
                 //If Low Stock, color red
                 if (column == alertCol) {
@@ -71,8 +76,8 @@ public class Sales_Item extends javax.swing.JPanel {
             itemTable.getColumnModel().getColumn(i).setPreferredWidth(110);
             itemTable.setRowHeight(30);
         }
-        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 7).setPreferredWidth(150);
-        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 6).setPreferredWidth(200);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 8).setPreferredWidth(150);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 7).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 3).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(130);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
@@ -95,6 +100,7 @@ public class Sales_Item extends javax.swing.JPanel {
                 item.getItemName(),
                 supplierInfo,
                 item.getCategory(),
+                item.getStockCurrentQuantities(),
                 item.getUnitPrice(),
                 item.getDescription(),
                 item.getReorderStatus(),
