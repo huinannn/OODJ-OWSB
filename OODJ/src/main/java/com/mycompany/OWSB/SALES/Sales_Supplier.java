@@ -209,7 +209,7 @@ public class Sales_Supplier extends javax.swing.JPanel {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         Sales_ItemSupplier is = new Sales_ItemSupplier(ChangePanel);
-        
+
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
         ChangePanel.add(is, BorderLayout.CENTER);
