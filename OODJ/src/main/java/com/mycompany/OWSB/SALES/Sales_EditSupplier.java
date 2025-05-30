@@ -36,12 +36,13 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             email.setText(supplier.getEmail());
             address.setText(supplier.getAddress());
             itemSupplied.setSelectedItem(supplier.getItemSupplied());
+            title.setText(supplier.getSupplierName());
             System.out.println(supplier.getSupplierName() + "," + supplier.getItemSupplied());
         }else {
             JOptionPane.showMessageDialog(null, "Supplier not found.");
         }
         
-        title.setText(supplier.getSupplierName());
+        
         
     }
     

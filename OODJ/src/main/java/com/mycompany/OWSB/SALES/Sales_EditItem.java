@@ -30,17 +30,18 @@ public class Sales_EditItem extends javax.swing.JPanel {
         //Load Item details
         this.item = Items.getItemByCode(itemCode);
         System.out.println("Edit Item: " + itemCode);
+        System.out.println(item);
         if(item != null){
             itemID.setText(itemCode);
             itemName.setText(item.getItemName());
             category.setSelectedItem(item.getCategory().toString());
             price.setText(String.valueOf(item.getUnitPrice()));
-            
             description.setText(item.getDescription());
+            title.setText(item.getItemName());
         }else {
             JOptionPane.showMessageDialog(null, "Item not found.");
         }
-        title.setText(item.getItemName());
+        
     }
 
     /**

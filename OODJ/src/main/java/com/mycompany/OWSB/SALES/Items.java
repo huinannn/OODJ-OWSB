@@ -308,15 +308,14 @@ public class Items {
                     }
 
                     String[] parts = line.split(";");
-                    if (parts.length >= 9 && parts[0].equals(itemCode)) {
+                    if (parts.length >= 8 && parts[0].trim().equalsIgnoreCase(itemCode.trim())) {
                         String itemName = parts[1];
-                        Category category = Category.fromString(parts[3]);
-                        int stockCurrentQuantities = Integer.parseInt(parts[4]);
-                        int reorderLevel = Integer.parseInt(parts[5]);
-                        double unitPrice = Double.parseDouble(parts[6]);
-                        String description = !parts[7].equals("") ? parts[7] : "";
-                        ReorderAlertStatus reorderStatus = ReorderAlertStatus.fromString(parts[8]);
-                        
+                        Category category = Category.fromString(parts[2]);
+                        int stockCurrentQuantities = Integer.parseInt(parts[3]);
+                        int reorderLevel = Integer.parseInt(parts[4]);
+                        double unitPrice = Double.parseDouble(parts[5]);
+                        String description = !parts[7].equals("") ? parts[6] : "";
+                        ReorderAlertStatus reorderStatus = ReorderAlertStatus.fromString(parts[7]);
                         return new Items(itemCode, itemName,category, stockCurrentQuantities, reorderLevel, unitPrice, description, reorderStatus);
                     }
                 }
@@ -432,16 +431,16 @@ public class Items {
 
     
     //Debug
-    @Override
-    public String toString(){
-        return "Item Code: " + itemCode +
-                "\nItem Name: " + itemName +
-                "\nUnit Price: " + unitPrice + 
-                "\nStock Current Quantities: " + stockCurrentQuantities +
-                "\nReorder Level: " + reorderLevel +
-                "\nCategory: " + category +
-                "\nDescription: " + description +
-                "\nReorder Alert Status: " + reorderStatus;
-    }
+//    @Override
+//    public String toString(){
+//        return "Item Code: " + itemCode +
+//                "\nItem Name: " + itemName +
+//                "\nUnit Price: " + unitPrice + 
+//                "\nStock Current Quantities: " + stockCurrentQuantities +
+//                "\nReorder Level: " + reorderLevel +
+//                "\nCategory: " + category +
+//                "\nDescription: " + description +
+//                "\nReorder Alert Status: " + reorderStatus;
+//    }
 }   
 
