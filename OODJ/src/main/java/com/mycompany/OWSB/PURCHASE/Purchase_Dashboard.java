@@ -62,7 +62,7 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
 
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
-        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PM_optimized.png"))); // NOI18N
+        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Purchase_Manager.png"))); // NOI18N
 
         PMName.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
         PMName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
