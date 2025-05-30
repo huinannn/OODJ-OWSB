@@ -83,8 +83,7 @@ public class Sales_Item extends javax.swing.JPanel {
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
         itemTable.setFont(new java.awt.Font("Georgia", java.awt.Font.PLAIN, 12));
         List<Items> data = Items.viewItemsInFile();
-        System.out.println(data);
-        //Map supplier.txt(FK) itemCode with inventory.txt itemCode(PK)
+        //Map supplier.txt itemCode(FK) with inventory.txt itemCode(PK)
         Map<String, List<String>> itemCodeToSuppliersMap = new HashMap<>();
         List<Suppliers> suppliers = Suppliers.viewSuppliersInFile();
         for (Suppliers supplier : suppliers){
