@@ -46,12 +46,6 @@ public class Purchase_PO extends javax.swing.JPanel {
         
         SupplierID_TextField.setText(supplierName);
         
-//        String supplierID = getSupplierIDFromFile(supplierName);
-//        if (supplierID != null) {
-//            SupplierID_TextField.setText(supplierID + " - " + supplierName);
-//        } else {
-//            SupplierID_TextField.setText("Not Found");
-//        }
         
         String username = getUsernameFromEmpID(purchaseManagerID);
         if (username != null) {
@@ -250,7 +244,7 @@ public class Purchase_PO extends javax.swing.JPanel {
     }//GEN-LAST:event_DoneButtonActionPerformed
 
     private String getItemNameFromID(String itemID) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Items.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("database/Inventory.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -265,7 +259,7 @@ public class Purchase_PO extends javax.swing.JPanel {
     }
     
     private String getItemIDFromFile(String itemName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Items.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("database/Inventory.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -278,21 +272,6 @@ public class Purchase_PO extends javax.swing.JPanel {
         }
         return null;
     }
-
-//    private String getSupplierIDFromFile(String supplierName) {
-//        try (BufferedReader reader = new BufferedReader(new FileReader("Suppliers.txt"))) {
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String[] parts = line.split(";");
-//                if (parts.length >= 2 && parts[1].equalsIgnoreCase(supplierName.trim())) {
-//                    return parts[0];
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
     
     private String getUsernameFromEmpID(String empID) {
         try (BufferedReader reader = new BufferedReader(new FileReader("login.txt"))) {
