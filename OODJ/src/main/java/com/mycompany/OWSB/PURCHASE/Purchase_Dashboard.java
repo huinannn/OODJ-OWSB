@@ -4,7 +4,8 @@
  */
 package com.mycompany.OWSB.PURCHASE;
 
-import com.mycompany.OWSB.SALES.*;
+
+import com.mycompany.OWSB.ADMIN.Profile;
 import java.awt.BorderLayout;
 
 /**
@@ -39,8 +40,8 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
         ViewProfile = new javax.swing.JButton();
         ViewPR = new javax.swing.JButton();
         ViewPO = new javax.swing.JButton();
-        items = new javax.swing.JButton();
-        suppliers = new javax.swing.JButton();
+        Item_Lists = new javax.swing.JButton();
+        Supplier_Lists = new javax.swing.JButton();
         LogOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,7 +53,7 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
         ChangePanel.setLayout(ChangePanelLayout);
         ChangePanelLayout.setHorizontalGroup(
             ChangePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 630, Short.MAX_VALUE)
         );
         ChangePanelLayout.setVerticalGroup(
             ChangePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -61,7 +62,7 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
 
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
-        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Finance Manager Profile.png"))); // NOI18N
+        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PM_optimized.png"))); // NOI18N
 
         PMName.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
         PMName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -96,19 +97,19 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
             }
         });
 
-        items.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        items.setText("Items");
-        items.addActionListener(new java.awt.event.ActionListener() {
+        Item_Lists.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        Item_Lists.setText("Items");
+        Item_Lists.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemsActionPerformed(evt);
+                Item_ListsActionPerformed(evt);
             }
         });
 
-        suppliers.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        suppliers.setText("Suppliers");
-        suppliers.addActionListener(new java.awt.event.ActionListener() {
+        Supplier_Lists.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        Supplier_Lists.setText("Suppliers");
+        Supplier_Lists.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                suppliersActionPerformed(evt);
+                Supplier_ListsActionPerformed(evt);
             }
         });
 
@@ -135,27 +136,24 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
                                 .addGap(47, 47, 47))
                             .addComponent(ViewPR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ViewPO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(items, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(suppliers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Item_Lists, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Supplier_Lists, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(PMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                            .addComponent(PMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(ProfilePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(32, 32, 32)))
                 .addGap(32, 32, 32))
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SideBarLayout.setVerticalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addComponent(PMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
@@ -166,9 +164,9 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(ViewPO, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(items, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(Item_Lists, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(suppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(Supplier_Lists, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
                 .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
@@ -194,6 +192,13 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
 
     private void ViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewProfileActionPerformed
         // TODO add your handling code here:
+        Profile profile = new Profile(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(profile, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
@@ -207,15 +212,36 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
 
     private void ViewPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPOActionPerformed
         // TODO add your handling code here:
+        Purchase_POLists PM_POLists = new Purchase_POLists(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(PM_POLists, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_ViewPOActionPerformed
 
-    private void itemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemsActionPerformed
+    private void Item_ListsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_ListsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemsActionPerformed
+        Purchase_ItemLists PM_ItemLists = new Purchase_ItemLists(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(PM_ItemLists, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_Item_ListsActionPerformed
 
-    private void suppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppliersActionPerformed
+    private void Supplier_ListsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supplier_ListsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_suppliersActionPerformed
+        Purchase_SupplierLists PM_SupplierLists = new Purchase_SupplierLists(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(PM_SupplierLists, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_Supplier_ListsActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
         new com.mycompany.OWSB.ADMIN.Login().setVisible(true);
@@ -262,15 +288,15 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChangePanel;
+    private javax.swing.JButton Item_Lists;
     private javax.swing.JButton LogOut;
     private javax.swing.JLabel PMName;
     private javax.swing.JLabel PMRole;
     private javax.swing.JLabel ProfilePicture;
     private javax.swing.JPanel SideBar;
+    private javax.swing.JButton Supplier_Lists;
     private javax.swing.JButton ViewPO;
     private javax.swing.JButton ViewPR;
     private javax.swing.JButton ViewProfile;
-    private javax.swing.JButton items;
-    private javax.swing.JButton suppliers;
     // End of variables declaration//GEN-END:variables
 }

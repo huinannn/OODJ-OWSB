@@ -55,7 +55,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="595" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="630" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -87,8 +87,8 @@
                               </Group>
                               <Component id="ViewPR" alignment="0" max="32767" attributes="0"/>
                               <Component id="ViewPO" alignment="0" max="32767" attributes="0"/>
-                              <Component id="items" alignment="0" max="32767" attributes="0"/>
-                              <Component id="suppliers" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Item_Lists" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Supplier_Lists" alignment="0" max="32767" attributes="0"/>
                               <Component id="LogOut" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -97,25 +97,21 @@
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="PMName" alignment="1" max="32767" attributes="0"/>
                               <Component id="PMRole" alignment="1" pref="142" max="32767" attributes="0"/>
+                              <Component id="ProfilePicture" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                  <Component id="ProfilePicture" min="-2" pref="91" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   <Component id="ProfilePicture" min="-2" pref="129" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="PMName" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Component id="PMRole" pref="29" max="32767" attributes="0"/>
@@ -126,9 +122,9 @@
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="ViewPO" pref="33" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="items" pref="31" max="32767" attributes="0"/>
+                  <Component id="Item_Lists" pref="31" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="suppliers" pref="31" max="32767" attributes="0"/>
+                  <Component id="Supplier_Lists" pref="31" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="LogOut" pref="32" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -140,7 +136,7 @@
         <Component class="javax.swing.JLabel" name="ProfilePicture">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/IMAGES/Finance Manager Profile.png"/>
+              <Image iconType="3" name="/Images/PM_optimized.png"/>
             </Property>
           </Properties>
         </Component>
@@ -196,7 +192,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ViewPOActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="items">
+        <Component class="javax.swing.JButton" name="Item_Lists">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Georgia" size="12" style="0"/>
@@ -204,10 +200,10 @@
             <Property name="text" type="java.lang.String" value="Items"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemsActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Item_ListsActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="suppliers">
+        <Component class="javax.swing.JButton" name="Supplier_Lists">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Georgia" size="12" style="0"/>
@@ -215,7 +211,7 @@
             <Property name="text" type="java.lang.String" value="Suppliers"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="suppliersActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Supplier_ListsActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="LogOut">
