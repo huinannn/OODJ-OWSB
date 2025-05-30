@@ -198,13 +198,13 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
-        Sales_PR pr = new Sales_PR(ChangePanel);
-
-        ChangePanel.removeAll();
-        ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(pr, BorderLayout.CENTER);
-        ChangePanel.revalidate();
-        ChangePanel.repaint();
+//        Sales_PR pr = new Sales_PR(ChangePanel);
+//
+//        ChangePanel.removeAll();
+//        ChangePanel.setLayout(new BorderLayout());
+//        ChangePanel.add(pr, BorderLayout.CENTER);
+//        ChangePanel.revalidate();
+//        ChangePanel.repaint();
     }//GEN-LAST:event_ViewPRActionPerformed
 
     private void ViewPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPOActionPerformed
