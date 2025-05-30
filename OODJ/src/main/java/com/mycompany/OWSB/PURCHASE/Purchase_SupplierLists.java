@@ -83,10 +83,10 @@ public class Purchase_SupplierLists extends javax.swing.JPanel {
     private void loadSupplierListFromFile() {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[] {
-            "Supplier ID", "Supplier Name", "Contact Person", "Contact Number", "Email", "Address", "Item Supplied"
+            "Supplier ID", "Supplier Name", "Contact Person", "Phone", "Email", "Address", "Item Supplied"
         });
 
-        try (BufferedReader br = new BufferedReader(new FileReader("Suppliers.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();

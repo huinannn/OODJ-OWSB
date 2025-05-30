@@ -212,7 +212,7 @@ public class Purchase_CreatePO extends javax.swing.JPanel {
         String itemId = null;
 
         // 1. Validate item exists in Items.txt
-        try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Inventory.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -233,7 +233,7 @@ public class Purchase_CreatePO extends javax.swing.JPanel {
 
         // 2. Load suppliers for the item
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("Suppliers.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(";");

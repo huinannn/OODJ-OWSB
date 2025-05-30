@@ -115,7 +115,7 @@ public class Purchase_POLists extends javax.swing.JPanel {
         });
         
         Map<String, String> supplierMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("Suppliers.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
