@@ -35,6 +35,7 @@ public class Sales_ItemSupplier extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         items.setBackground(new java.awt.Color(235, 235, 235));
+        items.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         items.setText("ITEMS");
         items.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -43,6 +44,7 @@ public class Sales_ItemSupplier extends javax.swing.JPanel {
         });
 
         suppliers.setBackground(new java.awt.Color(235, 235, 235));
+        suppliers.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         suppliers.setText("SUPPLIERS");
         suppliers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

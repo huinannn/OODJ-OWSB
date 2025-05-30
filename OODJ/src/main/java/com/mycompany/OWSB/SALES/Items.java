@@ -354,7 +354,7 @@ public class Items {
                         continue;
                     }
 
-                String[] parts = line.split(";");
+                    String[] parts = line.split(";");
                     if (parts[0].equals(itemCode)) {
                         String formattedPrice = String.format("%.2f", updatedItem.getUnitPrice());
                         String updatedLine = updatedItem.getItemCode() + ";" +

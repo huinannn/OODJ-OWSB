@@ -51,7 +51,7 @@
                   <Component id="itemID" alignment="0" max="32767" attributes="0"/>
                   <Component id="itemName" alignment="0" max="32767" attributes="0"/>
                   <Component id="price" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="268" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="259" max="32767" attributes="0"/>
                   <Component id="category" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
@@ -59,7 +59,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="86" pref="86" max="-2" attributes="0"/>
               <Component id="price_label" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="426" max="32767" attributes="0"/>
+              <EmptySpace pref="411" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="386" max="32767" attributes="0"/>
@@ -105,7 +105,7 @@
                   <Component id="back" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="add" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="167" max="32767" attributes="0"/>
+              <EmptySpace pref="175" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -113,26 +113,41 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="itemID_label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="ITEM ID"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="itemName_label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="ITEM NAME*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="category_label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="CATEGORY*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="description_label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="DESCRIPTION"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="back">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Back"/>
       </Properties>
       <Events>
@@ -141,6 +156,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="add">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
       <Events>
@@ -148,11 +166,21 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="itemID">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemIDActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="itemName">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNameActionPerformed"/>
       </Events>
@@ -167,6 +195,9 @@
         <Component class="javax.swing.JTextArea" name="description">
           <Properties>
             <Property name="columns" type="int" value="20"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Georgia" size="12" style="0"/>
+            </Property>
             <Property name="rows" type="int" value="5"/>
           </Properties>
         </Component>
@@ -175,23 +206,34 @@
     <Component class="javax.swing.JLabel" name="title">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="24" style="1"/>
+          <Font name="Comic Sans MS" size="24" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="NEW ITEM"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="price_label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="UNIT PRICE (RM)*"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="price">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="priceActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="category">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="12" style="0"/>
+        </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Please Select an Item Category!&quot;})" type="code"/>
         </Property>

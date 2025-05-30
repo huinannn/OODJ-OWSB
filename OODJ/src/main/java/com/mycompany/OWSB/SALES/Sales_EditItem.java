@@ -79,14 +79,19 @@ public class Sales_EditItem extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        itemID_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemID_label.setText("ITEM ID");
 
+        itemName_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemName_label.setText("ITEM NAME*");
 
+        category_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         category_label.setText("CATEGORY*");
 
+        description_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         description_label.setText("DESCRIPTION");
 
+        back.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +99,7 @@ public class Sales_EditItem extends javax.swing.JPanel {
             }
         });
 
+        add.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         add.setText("Save");
         add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,12 +107,14 @@ public class Sales_EditItem extends javax.swing.JPanel {
             }
         });
 
+        itemID.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemIDActionPerformed(evt);
             }
         });
 
+        itemName.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemNameActionPerformed(evt);
@@ -114,20 +122,24 @@ public class Sales_EditItem extends javax.swing.JPanel {
         });
 
         description.setColumns(20);
+        description.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         description.setRows(5);
         jScrollPane1.setViewportView(description);
 
-        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        title.setText("NEW ITEMS");
+        title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        title.setText("ITEM");
 
+        price_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         price_label.setText("UNIT PRICE (RM)*");
 
+        price.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         price.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 priceActionPerformed(evt);
             }
         });
 
+        category.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select an Item Category!"}));
         category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +167,7 @@ public class Sales_EditItem extends javax.swing.JPanel {
                     .addComponent(itemID)
                     .addComponent(itemName)
                     .addComponent(price)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                     .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
@@ -198,7 +210,7 @@ public class Sales_EditItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

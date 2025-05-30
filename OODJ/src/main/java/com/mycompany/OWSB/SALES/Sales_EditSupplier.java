@@ -93,6 +93,9 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        supplierID.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        back.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,8 +103,10 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             }
         });
 
+        supplier_name_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         supplier_name_label.setText("SUPPLIER NAME*");
 
+        add.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         add.setText("Save");
         add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,10 +114,15 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             }
         });
 
+        supplierName.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        item_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         item_label.setText("ITEM SUPPLIED*");
 
+        contact_person_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         contact_person_label.setText("CONTACT PERSON*");
 
+        itemSupplied.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemSupplied.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select Item Supplied!" }));
         itemSupplied.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,16 +130,28 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             }
         });
 
+        contactPerson.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        phone.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        phone_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         phone_label.setText("PHONE*");
 
+        email.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        email_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         email_label.setText("EMAIL*");
 
-        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         title.setText("SUPPLIER");
 
+        address_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         address_label.setText("ADDRESS*");
 
+        supplierID_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         supplierID_label.setText("SUPPLIER ID");
+
+        address.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -159,7 +181,7 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                             .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(back)
@@ -204,7 +226,7 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
