@@ -71,9 +71,12 @@ public class Sales_Item extends javax.swing.JPanel {
             itemTable.getColumnModel().getColumn(i).setPreferredWidth(110);
             itemTable.setRowHeight(30);
         }
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 7).setPreferredWidth(150);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 6).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 3).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(130);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
+        itemTable.setFont(new java.awt.Font("Georgia", java.awt.Font.PLAIN, 12));
         List<Items> data = Items.viewItemsInFile();
         System.out.println(data);
         //Map supplier.txt(FK) itemCode with inventory.txt itemCode(PK)
@@ -203,14 +206,16 @@ public class Sales_Item extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
+        itemTable.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         itemTable.setModel(model);
         itemTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         itemTable.setRowSelectionAllowed(false);
         jScrollPane1.setViewportView(itemTable);
 
-        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         title.setText("ITEMS");
 
+        addNew.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         addNew.setText("Add New");
         addNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,6 +223,7 @@ public class Sales_Item extends javax.swing.JPanel {
             }
         });
 
+        back.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,7 +256,7 @@ public class Sales_Item extends javax.swing.JPanel {
                     .addComponent(addNew)
                     .addComponent(title)
                     .addComponent(back))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
         );
