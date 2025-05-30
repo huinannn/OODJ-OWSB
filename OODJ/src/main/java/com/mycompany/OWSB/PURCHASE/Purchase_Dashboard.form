@@ -136,7 +136,7 @@
         <Component class="javax.swing.JLabel" name="ProfilePicture">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Images/PM_optimized.png"/>
+              <Image iconType="3" name="/IMAGES/Purchase_Manager.png"/>
             </Property>
           </Properties>
         </Component>

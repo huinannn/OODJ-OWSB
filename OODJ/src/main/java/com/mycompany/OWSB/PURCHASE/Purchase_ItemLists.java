@@ -96,7 +96,7 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
         });
         
         Map<String, List<String>> itemSupplierMap = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("Suppliers.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -121,7 +121,7 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error reading Suppliers.txt: " + e.getMessage());
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader("Items.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("database/Inventory.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
