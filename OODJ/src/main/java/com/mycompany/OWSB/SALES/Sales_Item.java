@@ -54,7 +54,7 @@ public class Sales_Item extends javax.swing.JPanel {
                     if (row % 2 == 0) {
                         c.setBackground(Color.WHITE);
                     } else {
-                        c.setBackground(new Color(240, 240, 240)); // light gray
+                        c.setBackground(new Color(240, 240, 240)); 
                     }
                     c.setForeground(Color.BLACK);
                 }

@@ -5,12 +5,15 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,23 +22,35 @@ import javax.swing.JOptionPane;
  *
  * @author xiaochingloh
  */
-public final class Sales_AddPR extends javax.swing.JPanel {
+public class Sales_EditPR extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
+    private PR pr;
     /**
-     * Creates new form Sales_AddPR
+     * Creates new form Sales_EditPR
      */
-    public Sales_AddPR(javax.swing.JPanel ChangePanel) {
+    public Sales_EditPR(String prID, javax.swing.JPanel ChangePanel) {
         initComponents();
         this.ChangePanel = ChangePanel;
         
-        //Generate new PRID
-        String newID = generateNextPRID();
-        PRID.setText(newID);
-        PRID.setEditable(false);
-        PRID.setBorder(null);
-        
-        //Generate list of categories
+        //Generate list of items
         showItemComboBox();
+        
+        //Load PR details
+        this.pr = getPRByPRID(prID);
+        System.out.println("Edit PR: " + prID);
+        if(pr != null){
+            PRID.setText(prID);
+            PRID.setEditable(false);
+            PRID.setBorder(null);
+            item.setSelectedItem(pr.getItemCode());
+            quantity.setText(String.valueOf(pr.getQuantity()));
+            date.setText(String.valueOf(pr.getDate()));
+            raisedBy.setText(pr.getRaisedBy());
+            title.setText(pr.getPRID());
+        } else {
+            JOptionPane.showMessageDialog(null, "Purchase Requisition not found.");
+        }
+        
     }
     
     private void showItemComboBox(){
@@ -57,63 +72,100 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         }
     }
     
-    public String generateNextPRID(){
-        List<PR> prList = PR.viewPRsInFile();
-        int maxID = 0;
-        
-        for(PR pr : prList){
-            String id = pr.getPRID();
-            if(id.startsWith("PR")){
-                try{
-                    int numericPart = Integer.parseInt(id.substring(2));
-                    if(numericPart > maxID){
-                        maxID = numericPart;
-                    } 
-                } catch (NumberFormatException e){
-                    
-                }
-            }
-        }
-        
-        int nextID = maxID +1;
-        return String.format("PR%03d", nextID);
-    }
-    
-    public static void savePRToFile(PR pr){
-        try {
-            //Get Path
+    public static PR getPRByPRID(String PRID){
+        try{
             String classPath = PR.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
             File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParent(), "database");
+            File file = new File(dbDir, "PR.txt");
             
-            File dbDir = new File(baseDir.getParentFile(), "database");
-            if (!dbDir.exists()){
-                dbDir.mkdirs();
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "PR.txt file does not exist.");
+                return null;
             }
             
-            File file = new File(dbDir, "PR.txt");
-            boolean fileExists = file.exists();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                    String[] parts = line.split(";");
+                    if (parts.length >= 6 && parts[0].trim().equalsIgnoreCase(PRID.trim())) {
+                        String itemCode = parts[1];
+                        int quantity = Integer.parseInt(parts[2]);
+                        PR.PR_Status status = PR.PR_Status.fromString(parts[3]);
+                        String raisedBy = parts[4];
+                        LocalDate date = LocalDate.parse(parts[5]);
+                        return new PR(PRID, itemCode, quantity, status, raisedBy, date);
+                    }
+                }
+            }
             
-            //Write File (Append)
-            try (
-                FileWriter fw = new FileWriter(file, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-            ) {
-                if (!fileExists){
-                    bw.write("PRID;ItemCode;Quantity;Status;RaisedBy;RequiredDeliveryDate");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading item: " + e.getMessage());
+        }
+
+        return null;
+    }
+    
+    public static void editPRsInFile(String PRID, PR updatedPR){
+        try{
+            String classPath = PR.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "PR.txt");
+            
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "PR.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            boolean isFirstLine = true;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while((line = br.readLine())!= null){
+                    if (isFirstLine) {
+                        lines.add(line); 
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    String[] parts = line.split(";");
+                    if (parts[0].equals(PRID)) {
+                        
+                        String updatedLine = updatedPR.getPRID() + ";" +
+                                updatedPR.getItemCode() + ";" +
+                                updatedPR.getQuantity() + ";" +
+                                updatedPR.getStatus() + ";" +
+                                updatedPR.getRaisedBy() + ";" +
+                                updatedPR.getDate();
+                        lines.add(updatedLine);
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+            
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+                for (String l : lines){
+                    bw.write(l);
                     bw.newLine();
                 }
-                
-                bw.write(pr.getPRID() + ";" +
-                        pr.getItemCode() + ";" +
-                        pr.getQuantity() + ";" +
-                        pr.getStatus() + ";" +
-                        pr.getRaisedBy() + ";" +
-                        pr.getDate());
-                bw.newLine();
             }
             
-        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Purchase Requisition updated successfully!");
+            
+        } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error editing item: " + e.getMessage());
         }
     }
 
@@ -127,7 +179,9 @@ public final class Sales_AddPR extends javax.swing.JPanel {
     private void initComponents() {
 
         title = new javax.swing.JLabel();
+        date = new javax.swing.JTextField();
         PRID_label = new javax.swing.JLabel();
+        item = new javax.swing.JComboBox<>();
         PRID = new javax.swing.JTextField();
         item_label = new javax.swing.JLabel();
         raisedBy = new javax.swing.JTextField();
@@ -137,16 +191,21 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         add = new javax.swing.JButton();
         quantity = new javax.swing.JTextField();
         date_label = new javax.swing.JLabel();
-        date = new javax.swing.JTextField();
-        item = new javax.swing.JComboBox<>();
-
-        setBackground(new java.awt.Color(255, 255, 255));
 
         title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        title.setText("NEW PURCHASE REQUISITION");
+        title.setText("PURCHASE REQUISITION");
+
+        date.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateActionPerformed(evt);
+            }
+        });
 
         PRID_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         PRID_label.setText("PR ID");
+
+        item.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select an Item!"}));
 
         PRID.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         PRID.addActionListener(new java.awt.event.ActionListener() {
@@ -197,15 +256,6 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         date_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         date_label.setText("REQUIRED DELIVERY DATE*");
 
-        date.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateActionPerformed(evt);
-            }
-        });
-
-        item.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select an Item!"}));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,7 +263,7 @@ public final class Sales_AddPR extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(title)
-                .addGap(0, 179, Short.MAX_VALUE))
+                .addGap(0, 248, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(91, 386, Short.MAX_VALUE)
                 .addComponent(back)
@@ -270,6 +320,10 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateActionPerformed
+
     private void PRIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PRIDActionPerformed
 
     }//GEN-LAST:event_PRIDActionPerformed
@@ -294,14 +348,14 @@ public final class Sales_AddPR extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         //Validate Quantity
         String quantityInput = quantity.getText().trim();
         if(!quantityInput.matches("^\\d{1,4}$")){
             JOptionPane.showMessageDialog(this, "Please enter a valid quantity! (Max 4 digits)", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Validate Date
         String dateInput = date.getText().trim();
         if (!dateInput.matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -326,8 +380,6 @@ public final class Sales_AddPR extends javax.swing.JPanel {
             return;
         }
 
-
-        
         String prID = PRID.getText();
         String itemDetail = item.getSelectedItem().toString();
         String itemCode = itemDetail.split(":")[0].trim();
@@ -335,10 +387,10 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         PR.PR_Status status = PR.PR_Status.PENDING;
         String raisedBy_given = raisedBy.getText();
         LocalDate date_given = LocalDate.parse(dateInput);
-        
+
         PR newPR = new PR(prID, itemCode, quantity_given, status, raisedBy_given, date_given);
-        
-        savePRToFile(newPR);
+
+//        savePRToFile(newPR);
 
         //Back to PR table
         Sales_PR pr = new Sales_PR(ChangePanel);
@@ -348,16 +400,11 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         ChangePanel.add(pr, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
-
     }//GEN-LAST:event_addActionPerformed
 
     private void quantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_quantityActionPerformed
-
-    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

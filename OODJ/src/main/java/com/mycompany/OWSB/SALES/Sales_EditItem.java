@@ -36,7 +36,6 @@ public class Sales_EditItem extends javax.swing.JPanel {
         //Load Item details
         this.item = getItemByCode(itemCode);
         System.out.println("Edit Item: " + itemCode);
-        System.out.println(item);
         if(item != null){
             itemID.setText(itemCode);
             itemID.setEditable(false);
