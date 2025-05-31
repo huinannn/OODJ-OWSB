@@ -1,14 +1,2 @@
 PO001;ITM002;Milo 2kg;1;SUP004-Nestlé Malaysia;Pending;PM001;01-01-2026
 PO002;ITM002;Milo 2kg;1;SUP004-Nestlé Malaysia;Pending;PM001;01-01-2025
-
-PO002;ITM002;Milo 2kg;12;RM1200;SUP004-Nestlé Malaysia;Financial Approval;PM001;01-01-2025;
-PR002;ITM002;Milo 2kg;1;SUP004-Nestlé Malaysia;PO Approval;PM001;01-01-2025
-PF002;ITM002;Milo 2kg;1;SUP004-Nestlé Malaysia;PM001;01-01-2025;Stock Arrival;Inventory Approval
-
-ITem ID Update
-Stock ID Create; Payment Status
-Generate Receipt ID;
-
-Generate Daily Item Report(Monthly daily report)
-Generate Financial Report (進來的錢+出去錢）
-Generate Stock Report（monthly stock for all, per item)
