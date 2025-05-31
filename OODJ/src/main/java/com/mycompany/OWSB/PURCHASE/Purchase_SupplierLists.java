@@ -83,16 +83,17 @@ public class Purchase_SupplierLists extends javax.swing.JPanel {
     private void loadSupplierListFromFile() {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[] {
-            "Supplier ID", "Supplier Name", "Contact Person", "Phone", "Email", "Address", "Item Supplied"
+            "ID", "Name", "Contact Person", "Phone", "Email", "Address", "Item Supplied", "Unit Price(RM)"
         });
 
         try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (!line.isEmpty()) {
                     String[] data = line.split(";");
-                    if (data.length == 7) {
+                    if (data.length == 8) {
                         model.addRow(data);
                     } else {
                         System.out.println("Skipping malformed line: " + line);
@@ -116,6 +117,7 @@ public class Purchase_SupplierLists extends javax.swing.JPanel {
         PO_Table.getColumnModel().getColumn(4).setPreferredWidth(90);  // Email
         PO_Table.getColumnModel().getColumn(5).setPreferredWidth(80);  // Address
         PO_Table.getColumnModel().getColumn(6).setPreferredWidth(120);  // Item Supplied
+        PO_Table.getColumnModel().getColumn(7).setPreferredWidth(60);  // Price
 
         PO_Table.getTableHeader().setFont(new java.awt.Font("Georgia", java.awt.Font.BOLD, 12));
     }
