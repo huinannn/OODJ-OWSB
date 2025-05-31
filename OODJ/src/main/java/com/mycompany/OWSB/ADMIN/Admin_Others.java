@@ -4,7 +4,10 @@
  */
 package com.mycompany.OWSB.ADMIN;
 
+import com.mycompany.OWSB.FINANCE.Finance_Dashboard;
+import com.mycompany.OWSB.INVENTORY.Inventory_Dashboard;
 import com.mycompany.OWSB.PURCHASE.Purchase_Dashboard;
+import com.mycompany.OWSB.SALES.Sales_Dashboard;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -146,14 +149,68 @@ public class Admin_Others extends javax.swing.JPanel {
 
     private void SM_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SM_ButtonActionPerformed
         // TODO add your handling code here:
+        JFrame adminFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Sales_Dashboard pd = new Sales_Dashboard();
+        pd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        adminFrame.setVisible(false);
+        
+        pd.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+        });
+
+        pd.setVisible(true);
     }//GEN-LAST:event_SM_ButtonActionPerformed
 
     private void FM_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FM_ButtonActionPerformed
         // TODO add your handling code here:
+        JFrame adminFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Finance_Dashboard pd = new Finance_Dashboard();
+        pd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        adminFrame.setVisible(false);
+        
+        pd.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+        });
+
+        pd.setVisible(true);
     }//GEN-LAST:event_FM_ButtonActionPerformed
 
     private void IM_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IM_ButtonActionPerformed
         // TODO add your handling code here:
+        JFrame adminFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Inventory_Dashboard pd = new Inventory_Dashboard();
+        pd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        adminFrame.setVisible(false);
+        
+        pd.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                adminFrame.setVisible(true);
+            }
+        });
+
+        pd.setVisible(true);
     }//GEN-LAST:event_IM_ButtonActionPerformed
 
 
