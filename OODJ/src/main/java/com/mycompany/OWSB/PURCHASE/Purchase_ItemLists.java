@@ -164,8 +164,8 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
         Item_Table.getColumnModel().getColumn(2).setPreferredWidth(130); // Supplier
         Item_Table.getColumnModel().getColumn(3).setPreferredWidth(60);  // Category
         Item_Table.getColumnModel().getColumn(4).setPreferredWidth(60);  // Quantity
-        Item_Table.getColumnModel().getColumn(6).setPreferredWidth(110);  // Description
-        Item_Table.getColumnModel().getColumn(7).setPreferredWidth(90); // Reorder Alert
+        Item_Table.getColumnModel().getColumn(5).setPreferredWidth(110);  // Description
+        Item_Table.getColumnModel().getColumn(6).setPreferredWidth(90); // Reorder Alert
 
         Item_Table.getTableHeader().setFont(new java.awt.Font("Georgia", java.awt.Font.BOLD, 12));
         
