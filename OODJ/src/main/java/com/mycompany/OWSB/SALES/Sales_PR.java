@@ -38,6 +38,8 @@ public class Sales_PR extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         prTable = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         title.setText("PURCHASE REQUISITIONS");
 
