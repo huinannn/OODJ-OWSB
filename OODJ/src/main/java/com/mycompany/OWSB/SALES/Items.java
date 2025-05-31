@@ -84,7 +84,7 @@ public class Items {
     //Empty Constructor
     public Items(){}
     
-    //Constructor
+    //Sales Constructor
     public Items(String itemCode, String itemName, Category category, int stockCurrentQuantities, int reorderLevel, String description, ReorderAlertStatus reorderStatus) {
         this.itemCode = itemCode;
         this.itemName = itemName;
@@ -92,6 +92,16 @@ public class Items {
         this.stockCurrentQuantities = stockCurrentQuantities;
         this.reorderLevel = reorderLevel;
         this.description = description;
+        this.reorderStatus = reorderStatus;
+    }
+    
+    //Inventory Constructor
+    public Items(String itemCode, String itemName, Category category, int stockCurrentQuantities, int reorderLevel, ReorderAlertStatus reorderStatus) {
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.category = category;
+        this.stockCurrentQuantities = stockCurrentQuantities;
+        this.reorderLevel = reorderLevel;
         this.reorderStatus = reorderStatus;
     }
 
