@@ -1,10 +1,10 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.OWSB.ADMIN;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
  *
  * @author cindy
  */
-public class Admin_EditUsers extends javax.swing.JFrame {
+public class Admin_EditUsers extends javax.swing.JPanel {
+    private javax.swing.JPanel ChangePanel;
     private String employeeId;
     private List<String> User_Records = new ArrayList<>();
     private String file = "login.txt";
@@ -27,14 +28,11 @@ public class Admin_EditUsers extends javax.swing.JFrame {
     /**
      * Creates new form Admin_EditUsers
      */
-    public Admin_EditUsers(String employeeId) {
+    public Admin_EditUsers(javax.swing.JPanel ChangePanel, String employeeId) {
+        this.ChangePanel = ChangePanel;
         this.employeeId = employeeId;
         initComponents();
         Show_UserData();
-        Color bgColour = new Color(42,160,97);
-        getContentPane().setBackground(bgColour);
-        setTitle("Edit User - " + employeeId);
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -46,30 +44,27 @@ public class Admin_EditUsers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        EmpID_Label = new javax.swing.JLabel();
+        EditUser_Label = new javax.swing.JLabel();
+        empID_Label = new javax.swing.JLabel();
         Username_Label = new javax.swing.JLabel();
         Password_Label = new javax.swing.JLabel();
-        Att_Label = new javax.swing.JLabel();
+        Attempts_Label = new javax.swing.JLabel();
         Status_Label = new javax.swing.JLabel();
-        Save_Button = new javax.swing.JButton();
-        EmpID_TextField = new javax.swing.JTextField();
+        empID_TextField = new javax.swing.JTextField();
         Username_TextField = new javax.swing.JTextField();
         Password_TextField = new javax.swing.JTextField();
-        Att_TextField = new javax.swing.JTextField();
+        Attempts_TextField = new javax.swing.JTextField();
         Status_Dropdown = new javax.swing.JComboBox<>();
-        Back_Button = new javax.swing.JButton();
+        BackButton = new javax.swing.JButton();
+        SaveButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
+        EditUser_Label.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
+        EditUser_Label.setText("Edit User Details");
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
-        jLabel1.setText("Edit User Details");
-
-        EmpID_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        EmpID_Label.setText("Employee ID:");
+        empID_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        empID_Label.setText("Employee ID:");
 
         Username_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         Username_Label.setText("Username:");
@@ -77,135 +72,126 @@ public class Admin_EditUsers extends javax.swing.JFrame {
         Password_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         Password_Label.setText("Password:");
 
-        Att_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        Att_Label.setText("Attempts:");
+        Attempts_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        Attempts_Label.setText("Attempts");
 
         Status_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         Status_Label.setText("Status:");
 
-        Save_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        Save_Button.setText("SAVE");
-        Save_Button.addActionListener(new java.awt.event.ActionListener() {
+        empID_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+
+        Username_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        Username_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Save_ButtonActionPerformed(evt);
+                Username_TextFieldActionPerformed(evt);
             }
         });
 
-        EmpID_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        EmpID_TextField.setText("jTextField1");
-
-        Username_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        Username_TextField.setText("jTextField2");
-
         Password_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        Password_TextField.setText("jTextField3");
 
-        Att_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        Att_TextField.setText("jTextField4");
+        Attempts_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
 
         Status_Dropdown.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         Status_Dropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lock", "unlock" }));
 
-        Back_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        Back_Button.setText("BACK");
-        Back_Button.addActionListener(new java.awt.event.ActionListener() {
+        BackButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        BackButton.setText("Back");
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Back_ButtonActionPerformed(evt);
+                BackButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Status_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Password_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(EmpID_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Att_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Username_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(Back_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Status_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(EmpID_TextField)
-                                .addComponent(Username_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                                .addComponent(Password_TextField)
-                                .addComponent(Att_TextField)))
-                        .addGap(118, 118, 118))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(142, 142, 142)
-                        .addComponent(Save_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(139, 139, 139))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EmpID_Label)
-                    .addComponent(EmpID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Username_Label)
-                    .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Password_Label)
-                    .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Att_Label)
-                    .addComponent(Att_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Status_Label)
-                    .addComponent(Status_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Back_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Save_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
+        SaveButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        SaveButton.setText("Save");
+        SaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveButtonActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(98, 98, 98)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Username_Label)
+                            .addComponent(empID_Label)
+                            .addComponent(Password_Label)
+                            .addComponent(Attempts_Label)
+                            .addComponent(Status_Label)
+                            .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Attempts_TextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Password_TextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Username_TextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(empID_TextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Status_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(EditUser_Label)))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(EditUser_Label)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(empID_Label)
+                    .addComponent(empID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Username_Label))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Password_Label)
+                    .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Attempts_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Attempts_Label))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Status_Label)
+                    .addComponent(Status_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(126, 126, 126))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Save_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_ButtonActionPerformed
+    private void Username_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Username_TextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Username_TextFieldActionPerformed
+
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        // TODO add your handling code here:
+        Admin_DisplayUsers ADdisplay = new Admin_DisplayUsers(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(ADdisplay, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
         // TODO add your handling code here:
         String username = Username_TextField.getText().trim();
         String password = Password_TextField.getText().trim();
-        String attemptsStr = Att_TextField.getText().trim();
+        String attemptsStr = Attempts_TextField.getText().trim();
         String status = Objects.requireNonNull(Status_Dropdown.getSelectedItem()).toString();
 
         if (username.isEmpty() || password.isEmpty() || attemptsStr.isEmpty()) {
@@ -221,14 +207,16 @@ public class Admin_EditUsers extends javax.swing.JFrame {
         int attempts = Integer.parseInt(attemptsStr);
         Update_User(username, password, attempts, status);
         
-    }//GEN-LAST:event_Save_ButtonActionPerformed
+        Admin_DisplayUsers ADdisplay = new Admin_DisplayUsers(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(ADdisplay, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
+    }//GEN-LAST:event_SaveButtonActionPerformed
 
-    private void Back_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_ButtonActionPerformed
-        // TODO add your handling code here:
-        new Admin_DisplayUsers().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_Back_ButtonActionPerformed
-
+    
     private void Load_UserData() {
     User_Records.clear(); // Clear before loading
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -248,15 +236,15 @@ public class Admin_EditUsers extends javax.swing.JFrame {
         for (String record : User_Records) {
             String[] sec = record.split(",");
             if (sec.length == 5 && sec[0].equals(employeeId)) {
-                EmpID_TextField.setText(sec[0]);
+                empID_TextField.setText(sec[0]);
                 Username_TextField.setText(sec[1]);
                 Password_TextField.setText(sec[2]);
-                Att_TextField.setText(sec[3]);
+                Attempts_TextField.setText(sec[3]);
                 Status_Dropdown.setSelectedItem(sec[4]);
                 break;
             }
         }
-        EmpID_TextField.setEditable(false);
+        empID_TextField.setEditable(false);
     }
     
     private void Update_User(String username, String password, int attempts, String status) {
@@ -285,117 +273,20 @@ public class Admin_EditUsers extends javax.swing.JFrame {
         Load_UserData();
     }
     
-    
-    
-    //DEBUGGGGGG
-//    private void Update_User(String username, String password, int attempts, String status) {
-//    List<String> Updated_Records = new ArrayList<>();
-//    
-//    // Debugging: Print current records before update
-//    System.out.println("Before Update: " + User_Records);
-//    
-//    // Update only the matching record
-//    boolean found = false;
-//    for (String record : User_Records) {
-//        String[] parts = record.split(",");
-//        
-//        // Debugging: Print each record being checked
-//        System.out.println("Checking record: " + record);
-//        
-//        if (parts[0].equals(employeeId)) {
-//            Updated_Records.add(employeeId + "," + username + "," + password + "," + attempts + "," + status);
-//            found = true;
-//        } else {
-//            Updated_Records.add(record);
-//        }
-//    }
-//
-//    if (!found) {
-//        JOptionPane.showMessageDialog(this, "User not found!", "Error", JOptionPane.ERROR_MESSAGE);
-//        return; // Stop execution if user is not found
-//    }
-//
-//    // Debugging: Print updated records
-//    System.out.println("Updated Records: " + Updated_Records);
-//
-//    // Write all updated records back to file
-//    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-//        for (String updatedRecord : Updated_Records) {
-//            writer.write(updatedRecord);
-//            writer.newLine();
-//        }
-//        JOptionPane.showMessageDialog(this, "User details updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//    } catch (IOException e) {
-//        JOptionPane.showMessageDialog(this, "Error updating file", "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-//
-//    // Reload User_Records to ensure data consistency
-//    User_Records.clear();
-//    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-//        String line;
-//        while ((line = br.readLine()) != null) {
-//            User_Records.add(line);
-//        }
-//    } catch (IOException e) {
-//        JOptionPane.showMessageDialog(this, "Error reading file after update", "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-//
-//    // Debugging: Print User_Records after reloading
-//    System.out.println("After Update: " + User_Records);
-//}
-    
-    
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin_EditUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin_EditUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin_EditUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin_EditUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Admin_EditUsers("001").setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Att_Label;
-    private javax.swing.JTextField Att_TextField;
-    private javax.swing.JButton Back_Button;
-    private javax.swing.JLabel EmpID_Label;
-    private javax.swing.JTextField EmpID_TextField;
+    private javax.swing.JLabel Attempts_Label;
+    private javax.swing.JTextField Attempts_TextField;
+    private javax.swing.JButton BackButton;
+    private javax.swing.JLabel EditUser_Label;
     private javax.swing.JLabel Password_Label;
     private javax.swing.JTextField Password_TextField;
-    private javax.swing.JButton Save_Button;
+    private javax.swing.JButton SaveButton;
     private javax.swing.JComboBox<String> Status_Dropdown;
     private javax.swing.JLabel Status_Label;
     private javax.swing.JLabel Username_Label;
     private javax.swing.JTextField Username_TextField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel empID_Label;
+    private javax.swing.JTextField empID_TextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,20 +1,23 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.OWSB.ADMIN;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Window;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -25,18 +28,16 @@ import javax.swing.table.TableColumnModel;
  *
  * @author cindy
  */
-public class Admin_DisplayUsers extends javax.swing.JFrame {
+public class Admin_DisplayUsers extends javax.swing.JPanel {
+    private javax.swing.JPanel ChangePanel;
     private DefaultTableModel Table_Model;
-
+    
     /**
      * Creates new form Admin_DisplayUsers
      */
-    public Admin_DisplayUsers() {
-        setTitle("Users List");
+    public Admin_DisplayUsers(javax.swing.JPanel ChangePanel) {
+        this.ChangePanel = ChangePanel;
         initComponents();
-        Color bgColour = new Color(42,160,97);
-        getContentPane().setBackground(bgColour);
-        setLocationRelativeTo(null); 
         
         Setup_Table();
         Show_Users();
@@ -51,15 +52,14 @@ public class Admin_DisplayUsers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        UserList_Label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         AllUsers_Table = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
+        UserList_Label.setFont(new java.awt.Font("Comic Sans MS", 1, 30)); // NOI18N
+        UserList_Label.setText("User List");
 
         AllUsers_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,107 +71,65 @@ public class Admin_DisplayUsers extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(AllUsers_Table);
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
-        jLabel1.setText("Users List");
-
-        jButton2.setFont(new java.awt.Font("Georgia", 0, 10)); // NOI18N
-        jButton2.setText("HOME");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(318, 318, 318)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-
-        jButton2.getAccessibleContext().setAccessibleDescription("");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(UserList_Label)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(UserList_Label)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new Admin_Dashboard().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    
     private void Setup_Table() {
-        Table_Model = new DefaultTableModel(new String[]{"Employee ID", "Username", "Password", "Attempts", "Status", "Edit"}, 0) {
+        Table_Model = new DefaultTableModel(new String[]{"Employee ID", "Username", "Password", "Attempts", "Status", "Edit", "Delete"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 5; // Only the Edit column is editable (for buttons)
+                return column == 5 || column == 6; // Edit and Delete columns only
             }
         };
         
         // Set row height
-        AllUsers_Table.setRowHeight(30);
+        AllUsers_Table.setRowHeight(25);
         
         // Set table design
-        AllUsers_Table.setFont(new Font("Geogia", Font.PLAIN, 16)); // Change table font
-        AllUsers_Table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 18)); // Change header font
-        AllUsers_Table.setFont(new Font("Georgia", Font.PLAIN, 16));
+        AllUsers_Table.setFont(new Font("Georgia", Font.PLAIN, 14)); // Change table font
+        AllUsers_Table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 12)); // Change header font
+//        AllUsers_Table.setFont(new Font("Georgia", Font.PLAIN, 16));
         
         AllUsers_Table.setModel(Table_Model);
         
         TableColumnModel Column_Width = AllUsers_Table.getColumnModel();
     
-        Column_Width.getColumn(0).setPreferredWidth(150); // Employee ID
-        Column_Width.getColumn(1).setPreferredWidth(180); // Username
-        Column_Width.getColumn(2).setPreferredWidth(180); // Password
-        Column_Width.getColumn(3).setPreferredWidth(120);  // Attempts
+        Column_Width.getColumn(0).setPreferredWidth(170); // Employee ID
+        Column_Width.getColumn(1).setPreferredWidth(170); // Username
+        Column_Width.getColumn(2).setPreferredWidth(170); // Password
+        Column_Width.getColumn(3).setPreferredWidth(110);  // Attempts
         Column_Width.getColumn(4).setPreferredWidth(100); // Status
         Column_Width.getColumn(5).setPreferredWidth(80);  // Edit
+        Column_Width.getColumn(6).setPreferredWidth(90);  // Delete
 
         
         
-        AllUsers_Table.getColumn("Edit").setCellRenderer(new ButtonRenderer());
+        AllUsers_Table.getColumn("Edit").setCellRenderer(new ButtonRenderer("Edit"));
         AllUsers_Table.getColumn("Edit").setCellEditor(new ButtonEditor(new JCheckBox()));
+        
+        AllUsers_Table.getColumn("Delete").setCellRenderer(new ButtonRenderer("Delete"));
+        AllUsers_Table.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
     
     private void Show_Users() {
@@ -180,7 +138,7 @@ public class Admin_DisplayUsers extends javax.swing.JFrame {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length >= 5) {
-                    Table_Model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], "Edit"});
+                    Table_Model.addRow(new Object[]{data[0], data[1], data[2], data[3], data[4], "Edit", "Delete"});
                 }
             }
         } catch (IOException e) {
@@ -188,102 +146,103 @@ public class Admin_DisplayUsers extends javax.swing.JFrame {
         }
     }
     
-//    private void Open_EditWindow(String employeeId) {
-//    // Close the current "Admin_DisplayUsers" window
-//    Window window = SwingUtilities.getWindowAncestor(button);
-//    if (window instanceof JFrame) {
-//        ((JFrame) window).dispose(); // Close Admin_DisplayUsers JFrame
-//    }
-//
-//    // Open "Admin_EditUsers" JFrame
-//    Admin_EditUsers editWindow = new Admin_EditUsers(employeeId);
-//    editWindow.setVisible(true);
-//}
-    
     class ButtonRenderer extends JButton implements TableCellRenderer {
-        public ButtonRenderer() {
-            setText("Edit");
-            setFont(new Font("Georgia", Font.PLAIN, 14));
+        public ButtonRenderer(String label) {
+            setText(label);
+            setFont(new Font("Georgia", Font.PLAIN, 12));
         }
+
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
             return this;
         }
     }
 
     class ButtonEditor extends DefaultCellEditor {
         private final JButton button;
-        private String employeeId;
+        private String label;
         private boolean isClicked;
         private JTable table;
 
         public ButtonEditor(JCheckBox checkBox) {
             super(checkBox);
-            button = new JButton("Edit");
+            button = new JButton();
             button.addActionListener(e -> fireEditingStopped());
         }
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             this.table = table;
-            employeeId = table.getValueAt(row, 0).toString();
+            this.label = (value == null) ? "" : value.toString();
+            button.setText(label);
             isClicked = true;
             return button;
         }
 
         @Override
         public Object getCellEditorValue() {
-            if (isClicked) {
-                Window window = SwingUtilities.getWindowAncestor(table);
-                if (window instanceof JFrame) {
-                    ((JFrame) window).dispose(); // Close Admin_DisplayUsers
+            if (isClicked && table != null) {
+                int selectedRow = table.getSelectedRow();
+                String employeeId = table.getValueAt(selectedRow, 0).toString();
+
+                if ("Edit".equals(label)) {
+                    int rowIndex = table.getEditingRow();
+                    String selectedEmployeeId = table.getValueAt(rowIndex, 0).toString();
+                    Admin_EditUsers ADeditUser = new Admin_EditUsers(ChangePanel, selectedEmployeeId);
+        
+                    ChangePanel.removeAll();
+                    ChangePanel.setLayout(new BorderLayout());
+                    ChangePanel.add(ADeditUser, BorderLayout.CENTER);
+                    ChangePanel.revalidate();
+                    ChangePanel.repaint();
+                } else if ("Delete".equals(label)) {
+                    deleteUserFromFile(employeeId);
+
+                    SwingUtilities.invokeLater(() -> {
+                        ((DefaultTableModel) table.getModel()).removeRow(selectedRow);
+                        JOptionPane.showMessageDialog(button, "User deleted successfully.");
+                    });
+                    
                 }
-                
-                new Admin_EditUsers(employeeId).setVisible(true);
             }
             isClicked = false;
-            return "Edit";
+            return label;
         }
-    }
+        
+        @Override
+        public boolean stopCellEditing() {
+            isClicked = false;
+            return super.stopCellEditing();
+        }
+        
+        private void deleteUserFromFile(String employeeId) {
+            File inputFile = new File("login.txt");
+
+            try {
+                // Read all lines into a list
+                List<String> lines = Files.readAllLines(inputFile.toPath());
+
+                // Filter out the line with the employeeId
+                List<String> updatedLines = lines.stream()
+                    .filter(line -> !line.startsWith(employeeId + ","))
+                    .collect(Collectors.toList());
+
+                // Overwrite the original file with filtered lines
+                Files.write(inputFile.toPath(), updatedLines);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }    
     
     
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin_DisplayUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin_DisplayUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin_DisplayUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin_DisplayUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Admin_DisplayUsers().setVisible(true);
-            }
-        });
-    }
-
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable AllUsers_Table;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel UserList_Label;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

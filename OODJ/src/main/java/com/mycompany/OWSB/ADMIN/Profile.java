@@ -4,15 +4,6 @@
  */
 package com.mycompany.OWSB.ADMIN;
 
-import com.mycompany.OWSB.ADMIN.User;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -55,7 +46,6 @@ public class Profile extends javax.swing.JPanel {
         EmpID_TextField = new javax.swing.JTextField();
         Username_TextField = new javax.swing.JTextField();
         Password_TextField = new javax.swing.JTextField();
-        Pfp_img = new javax.swing.JLabel();
         EditButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -88,8 +78,6 @@ public class Profile extends javax.swing.JPanel {
             }
         });
 
-        Pfp_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/woman.png"))); // NOI18N
-
         EditButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         EditButton.setText("Edit");
         EditButton.addActionListener(new java.awt.event.ActionListener() {
@@ -105,49 +93,44 @@ public class Profile extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(Pfp_img)
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EmpID_Label)
-                            .addComponent(Username_Label, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Password_Label, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Username_TextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EmpID_TextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
                         .addComponent(Profile_Label))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(264, 264, 264)
-                        .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addGap(97, 97, 97)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Username_Label)
+                            .addComponent(EmpID_Label)
+                            .addComponent(Password_Label))
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(EmpID_TextField)
+                            .addComponent(Username_TextField)
+                            .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(Profile_Label)
-                .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(EmpID_Label)
-                            .addComponent(EmpID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Username_Label)
-                            .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Password_Label)
-                            .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(Pfp_img))
-                .addGap(77, 77, 77)
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EmpID_Label)
+                    .addComponent(EmpID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Username_Label)
+                    .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Password_Label)
+                    .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
                 .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -169,26 +152,7 @@ public class Profile extends javax.swing.JPanel {
         }
     
         
-        
-        
-//        String employeeID = EmpID_TextField.getText();
-//        String newUsername = Username_TextField.getText().trim();
-//        String newPassword = Password_TextField.getText().trim();
-//        
-//        if (newUsername.isEmpty() || newPassword.isEmpty()){
-//            JOptionPane.showMessageDialog(this, "Username and Password cannot be empty!");
-//            return;
-//        }
-//        
-//        boolean success = updateCredentials(employeeID, newUsername, newPassword);
-//        
-//        if (success){
-//            Session.setSession(employeeID, newUsername, newPassword);
-//            JOptionPane.showMessageDialog(this, "Profile updated successfully!");  
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(this, "Failed to update profile.");
-//        }
+
         
     }//GEN-LAST:event_EditButtonActionPerformed
 
@@ -200,44 +164,6 @@ public class Profile extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_Password_TextFieldActionPerformed
 
-//    private boolean updateCredentials(String employeeID, String newUsername, String newPassword) {
-//        File file = new File("login.txt");
-//        List<String> updatedLines = new ArrayList<>();
-//        boolean updated = false;
-//
-//        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                String[] parts = line.split(",");
-//                if (parts.length == 5 && parts[0].trim().equals(employeeID)) {
-//                    // Update username and password, keep attempts and status as is
-//                    String attempts = parts[3].trim();
-//                    String status = parts[4].trim();
-//                    String newLine = employeeID + "," + newUsername + "," + newPassword + "," + attempts + "," + status;
-//                    updatedLines.add(newLine);
-//                    updated = true;
-//                } else {
-//                    updatedLines.add(line);
-//                }
-//            }
-//        } catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "Error reading login file during update!");
-//            return false;
-//        }
-//
-//        // Write back updated lines
-//        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-//            for (String updatedLine : updatedLines) {
-//                bw.write(updatedLine);
-//                bw.newLine();
-//            }
-//        } catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "Error writing to login file during update!");
-//            return false;
-//        }
-//
-//        return updated;
-//    }
     
     
 
@@ -247,7 +173,6 @@ public class Profile extends javax.swing.JPanel {
     private javax.swing.JTextField EmpID_TextField;
     private javax.swing.JLabel Password_Label;
     private javax.swing.JTextField Password_TextField;
-    private javax.swing.JLabel Pfp_img;
     private javax.swing.JLabel Profile_Label;
     private javax.swing.JLabel Username_Label;
     private javax.swing.JTextField Username_TextField;
