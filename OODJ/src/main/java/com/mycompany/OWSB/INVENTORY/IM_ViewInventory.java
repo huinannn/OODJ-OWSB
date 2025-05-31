@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -201,24 +203,31 @@ private void filterAndDisplayInventory() {
             reorderAlert
         });
     }
+        // Sort fullInventoryData by numeric part of Item ID (e.g., ITM001 -> 1)
+    List<String[]> sortedList = new ArrayList<>(fullInventoryData.values());
+    sortedList.sort((a, b) -> {
+        int idA = Integer.parseInt(a[0].replaceAll("\\D+", "")); // Remove non-digits
+        int idB = Integer.parseInt(b[0].replaceAll("\\D+", ""));
+        return Integer.compare(idA, idB);
+    });
 
     // Now save the fullInventoryData to file
     try (BufferedWriter bw = new BufferedWriter(new FileWriter("../OODJ_My_Code/database/Inventory.txt"))) {
-        // Write header
+    // Write header
         bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus");
         bw.newLine();
 
-        // Write all inventory data (not just visible rows)
-        for (String[] rowData : fullInventoryData.values()) {
+        // Write all sorted inventory data
+        for (String[] rowData : sortedList) {
             String line = String.join(";", rowData);
             bw.write(line);
             bw.newLine();
         }
+
         bw.flush();
         javax.swing.JOptionPane.showMessageDialog(this, "Inventory saved successfully.");
     } catch (IOException e) {
         javax.swing.JOptionPane.showMessageDialog(this, "Error saving inventory: " + e.getMessage());
-        return;
     }
 
     // Reload full data from file
