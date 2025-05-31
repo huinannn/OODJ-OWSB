@@ -7,10 +7,13 @@ package com.mycompany.OWSB.SALES;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +34,7 @@ import javax.swing.table.TableCellRenderer;
 public class Sales_Item extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "QUANTITY", "UNIT PRICE(RM)", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
+    private String[] columnName = {"ID", "NAME", "SUPPLIER", "CATEGORY", "QUANTITY", "DESCRIPTION", "REORDER ALERT STATUS", "ACTION"};
     
     /**
      * Creates new form Sales_Item
@@ -45,7 +48,7 @@ public class Sales_Item extends javax.swing.JPanel {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component c = super.prepareRenderer(renderer, row, column);
                 
-                int alertCol = 7; 
+                int alertCol = 6; 
 
                 if (!isRowSelected(row)) {
                     if (row % 2 == 0) {
@@ -68,6 +71,10 @@ public class Sales_Item extends javax.swing.JPanel {
                 
                 return c;
             }
+            
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
         };
         itemTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(itemTable);
@@ -76,16 +83,16 @@ public class Sales_Item extends javax.swing.JPanel {
             itemTable.getColumnModel().getColumn(i).setPreferredWidth(110);
             itemTable.setRowHeight(30);
         }
-        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 8).setPreferredWidth(150);
-        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 7).setPreferredWidth(200);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 7).setPreferredWidth(150);
+        itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 6).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 3).setPreferredWidth(200);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 2).setPreferredWidth(130);
         itemTable.getColumnModel().getColumn(itemTable.getColumnCount() - 1).setPreferredWidth(120);
         itemTable.setFont(new java.awt.Font("Georgia", java.awt.Font.PLAIN, 12));
-        List<Items> data = Items.viewItemsInFile();
+        List<Items> data = Sales_AddItem.viewItemsInFile();
         //Map supplier.txt itemCode(FK) with inventory.txt itemCode(PK)
         Map<String, List<String>> itemCodeToSuppliersMap = new HashMap<>();
-        List<Suppliers> suppliers = Suppliers.viewSuppliersInFile();
+        List<Suppliers> suppliers = Sales_Supplier.viewSuppliersInFile();
         for (Suppliers supplier : suppliers){
             String suppliedItemCode = supplier.getItemSupplied().split(":")[0].trim();
             String supplierInfo = supplier.getSupplierID() + "-" + supplier.getSupplierName();
@@ -100,7 +107,6 @@ public class Sales_Item extends javax.swing.JPanel {
                 supplierInfo,
                 item.getCategory(),
                 item.getStockCurrentQuantities(),
-                item.getUnitPrice(),
                 item.getDescription(),
                 item.getReorderStatus(),
                 "Edit/Delete"
@@ -163,7 +169,7 @@ public class Sales_Item extends javax.swing.JPanel {
                             );
                             
                             if(confirm == JOptionPane.YES_OPTION){
-                                Items.deleteItemsInFile(itemCode);
+                                deleteItemsInFile(itemCode);
                                 ((DefaultTableModel) itemTable.getModel()).removeRow(selectedRow);
                                 JOptionPane.showMessageDialog(null, "ItemID: " + itemCode + ", Item Name: " + itemName + "\nDeleted!");
                             }
@@ -190,6 +196,48 @@ public class Sales_Item extends javax.swing.JPanel {
             if (height > itemTable.getRowHeight()) {
                 itemTable.setRowHeight(row, height);
             }
+        }
+    }
+    
+    public static void deleteItemsInFile(String itemCode){
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Inventory.txt");
+            
+            if(!file.exists()){
+                 JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        lines.add(line);
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    //Match itemCode
+                    String[] parts = line.split(";");
+                    if (!parts[0].equals(itemCode)) {
+                        lines.add(line);
+                    }
+                }
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (String l : lines) {
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error deleting item: " + e.getMessage());
         }
     }
 

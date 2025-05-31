@@ -5,6 +5,12 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -12,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author xiaochingloh
  */
-public class Sales_AddItem extends javax.swing.JPanel {
+public final class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     /**
      * Creates new form Sales_AddItem
@@ -22,8 +28,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
         this.ChangePanel = ChangePanel;
         
         //Generate new itemID
-        Items newItem = new Items();
-        String newID = newItem.generateNextItemID();
+        String newID = generateNextItemID();
         itemID.setText(newID);
         itemID.setEditable(false);
         itemID.setBorder(null);
@@ -32,6 +37,127 @@ public class Sales_AddItem extends javax.swing.JPanel {
         for(Items.Category cat: Items.Category.values()){
             category.addItem(cat.toString());
         }
+    }
+    
+    public String generateNextItemID(){
+        List<Items>itemList = viewItemsInFile();
+        int maxID = 0;
+        
+        for(Items item : itemList){
+             String id = item.getItemCode();
+            if(id.startsWith("ITM")){
+                try{
+                    int numericPart = Integer.parseInt(id.substring(3));
+                    if(numericPart > maxID){
+                        maxID = numericPart;
+                    }
+                } catch(NumberFormatException e){
+                    
+                }
+            }
+        }
+        
+        int nextID = maxID +1;
+        return String.format("ITM%03d", nextID);
+    }
+    
+    public static void saveItemToFile(Items item) {
+        try {
+            //Get Path
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile(); 
+
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            if (!dbDir.exists()) {
+                dbDir.mkdirs(); 
+            }
+
+            File file = new File(dbDir, "Inventory.txt");
+            boolean fileExists = file.exists();
+            
+            //Write File (Append)
+            try (
+                FileWriter fw = new FileWriter(file, true);
+                BufferedWriter bw = new BufferedWriter(fw)
+            ) {
+                if (!fileExists) {
+                    bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus");
+                    bw.newLine();
+                }
+                
+                
+
+                bw.write(item.getItemCode() + ";" +
+                         item.getItemName() + ";" +
+                         item.getCategory() + ";" +
+                         item.getStockCurrentQuantities() + ";" +
+                         item.getReorderLevel() + ";" +
+                         item.getDescription() + ";" +
+                         item.getReorderStatus());
+                bw.newLine();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static List<Items> viewItemsInFile() {
+        List<Items> itemList = new ArrayList<>();
+        
+        try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Inventory.txt");
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Inventory.txt file does not exist.");
+                return itemList;
+            }
+
+            try (
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr)
+            ) {
+               String line;
+               boolean isFirstLine = true;
+               
+                while((line = br.readLine()) != null){
+                   if (isFirstLine){
+                       isFirstLine = false;
+                       continue;
+                   }
+                   
+                    if (!line.trim().isEmpty()) {
+                        String[] row = line.split(";");
+                        if (row.length >= 7) {
+                            Items.Category category = Items.Category.fromString(row[2]);
+                            Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(row[6]);
+                            int quantity = Integer.parseInt(row[3]);
+                            int reorder_level = Integer.parseInt(row[4]); 
+                            Items item = new Items(
+                                row[0], 
+                                row[1], 
+                                category, 
+                                quantity,
+                                reorder_level,
+                                row[5], 
+                                status
+                            );
+                            itemList.add(item);
+                        }
+                    }
+               }
+            }
+            
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return itemList;
     }
 
     /**
@@ -56,8 +182,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         description = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
-        price_label = new javax.swing.JLabel();
-        price = new javax.swing.JTextField();
         category = new javax.swing.JComboBox<>();
 
         stockLevel_label1.setText("STOCK LEVEL");
@@ -120,16 +244,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         title.setText("NEW ITEM");
 
-        price_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        price_label.setText("UNIT PRICE (RM)*");
-
-        price.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        price.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                priceActionPerformed(evt);
-            }
-        });
-
         category.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select an Item Category!"}));
         category.addActionListener(new java.awt.event.ActionListener() {
@@ -157,14 +271,9 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(itemID)
                     .addComponent(itemName)
-                    .addComponent(price)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                     .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(105, 105, 105))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(price_label)
-                .addContainerGap(411, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .addComponent(back)
@@ -185,11 +294,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemName_label)
                     .addComponent(itemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(price_label)
-                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(category_label)
                     .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,7 +306,7 @@ public class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -217,22 +322,16 @@ public class Sales_AddItem extends javax.swing.JPanel {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //Empty Fields, not allowed to submit
-        if(itemName.getText().trim().isEmpty()|| price.getText().trim().isEmpty()|| category.getSelectedIndex() == 0){
+        if(itemName.getText().trim().isEmpty()||  category.getSelectedIndex() == 0){
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        String priceInput = price.getText().trim();
-        //Validate price
-        if(!priceInput.matches("\\d+(\\.\\d+)?")){
-            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        
         
         
         String item_ID = itemID.getText();
         String item_name = itemName.getText();
-        double price_given = Double.parseDouble(priceInput);
         int stock_level = 0;
         int reorder_level = 10;
         String category_selected = category.getSelectedItem().toString();
@@ -241,9 +340,9 @@ public class Sales_AddItem extends javax.swing.JPanel {
         String reorder_status = "LOW STOCK";
         Items.ReorderAlertStatus reorderStatus = Items.ReorderAlertStatus.fromString(reorder_status);
         
-        Items newItem = new Items(item_ID, item_name, selectedCategory, stock_level, reorder_level, price_given, description_given, reorderStatus);
+        Items newItem = new Items(item_ID, item_name, selectedCategory, stock_level, reorder_level, description_given, reorderStatus);
         
-        Items.saveItemToFile(newItem);
+        saveItemToFile(newItem);
         
         //Back to Items table
         Sales_Item item = new Sales_Item(ChangePanel);
@@ -267,10 +366,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
         
     }//GEN-LAST:event_stockLevel1ActionPerformed
 
-    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
-        
-    }//GEN-LAST:event_priceActionPerformed
-
     private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryActionPerformed
@@ -288,8 +383,6 @@ public class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JTextField itemName;
     private javax.swing.JLabel itemName_label;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField price;
-    private javax.swing.JLabel price_label;
     private javax.swing.JTextField stockLevel1;
     private javax.swing.JLabel stockLevel_label1;
     private javax.swing.JLabel title;

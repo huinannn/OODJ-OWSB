@@ -5,9 +5,17 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -16,6 +24,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -24,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
 public class Sales_Supplier extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] columnName = {"ID", "NAME", "CONTACT PERSON", "PHONE", "EMAIL", "ADDRESS", "ITEM SUPPLIED", "ACTION"};
+    private String[] columnName = {"ID", "NAME", "CONTACT PERSON", "PHONE", "EMAIL", "ADDRESS", "ITEM SUPPLIED", "UNIT PRICE(RM)", "ACTION"};
     
     /**
      * Creates new form Sales_Supplier
@@ -32,18 +41,27 @@ public class Sales_Supplier extends javax.swing.JPanel {
     public Sales_Supplier(javax.swing.JPanel ChangePanel) {
         model.setColumnIdentifiers(columnName);
         initComponents();
+        supplierTable = new JTable(model) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+        supplierTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(supplierTable);
         this.ChangePanel = ChangePanel;
         for (int i = 0; i < supplierTable.getColumnCount() - 1; i++) {
             supplierTable.getColumnModel().getColumn(i).setPreferredWidth(110);
             supplierTable.setRowHeight(30);
         }
-        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 3).setPreferredWidth(200);
-        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 2).setPreferredWidth(180);
+        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 4).setPreferredWidth(200);
+        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 3).setPreferredWidth(180);
         supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 1).setPreferredWidth(120);
-        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 6).setPreferredWidth(150);
+        supplierTable.getColumnModel().getColumn(supplierTable.getColumnCount() - 7).setPreferredWidth(150);
         supplierTable.setFont(new java.awt.Font("Georgia", java.awt.Font.PLAIN, 12));
-        List<Suppliers> data = Suppliers.viewSuppliersInFile();
+        List<Suppliers> data = viewSuppliersInFile();
         for (Suppliers supplier : data) {
+            String formattedPrice = String.format("%.2f", supplier.getUnitPrice());
             model.addRow(new Object[]{
                 supplier.getSupplierID(),
                 supplier.getSupplierName(),
@@ -52,6 +70,7 @@ public class Sales_Supplier extends javax.swing.JPanel {
                 supplier.getEmail(),
                 supplier.getAddress(),
                 supplier.getItemSupplied(),
+                formattedPrice,
                 "Edit/Delete"
             });
         }
@@ -110,7 +129,7 @@ public class Sales_Supplier extends javax.swing.JPanel {
                             );
                             
                             if(confirm == JOptionPane.YES_OPTION){
-                                Suppliers.deleteSuppliersInFile(supplierID);
+                                deleteSuppliersInFile(supplierID);
                                 ((DefaultTableModel) supplierTable.getModel()).removeRow(selectedRow);
                                 JOptionPane.showMessageDialog(null, "Supplier ID: " + supplierID + ", Supplier Name: " + supplierName + "\nDeleted!");
                             }
@@ -124,6 +143,103 @@ public class Sales_Supplier extends javax.swing.JPanel {
             }
         });
 
+    }
+    
+    public static List<Suppliers> viewSuppliersInFile(){
+        List<Suppliers> supplierList = new ArrayList<>();
+        
+        try{
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+            if (!file.exists()){
+                JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return supplierList;
+            }
+            
+            try (
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+            ) {
+                String line;
+                boolean isFirstLine = true;
+                
+                while((line = br.readLine()) != null){
+                    if (isFirstLine){
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    if (!line.trim().isEmpty()){
+                        String[] row = line.split(";");
+                        if (row.length >= 8) {
+                            double price = Double.parseDouble(row[7]);
+                            Suppliers supplier = new Suppliers(
+                                row[0], 
+                                row[1], 
+                                row[2], 
+                                row[3], 
+                                row[4], 
+                                row[5], 
+                                row[6],
+                                price
+                            );
+                            supplierList.add(supplier);
+                        } else {
+                            System.err.println("Invalid row: " + Arrays.toString(row));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return supplierList;
+    }
+    
+    public static void deleteSuppliersInFile(String supplierID){
+        try {
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+            
+            if(!file.exists()){
+                 JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        lines.add(line);
+                        isFirstLine = false;
+                        continue;
+                    }
+                    
+                    //Match supplierID
+                    String[] parts = line.split(";");
+                    if (!parts[0].equals(supplierID)) {
+                        lines.add(line);
+                    }
+                }
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (String l : lines) {
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error deleting supplier: " + e.getMessage());
+        }
     }
 
     /**

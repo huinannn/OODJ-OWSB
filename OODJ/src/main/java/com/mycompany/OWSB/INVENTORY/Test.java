@@ -5,6 +5,7 @@
 package com.mycompany.OWSB.INVENTORY;
 
 import com.mycompany.OWSB.SALES.Items;
+import com.mycompany.OWSB.SALES.Sales_AddItem;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,7 +22,7 @@ public class Test extends javax.swing.JPanel {
      */
     public Test() {
         initComponents();
-        item.viewItemsInFile();
+        Sales_AddItem.viewItemsInFile();
     }
 
     /**

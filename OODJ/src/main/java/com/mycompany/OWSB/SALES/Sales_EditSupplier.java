@@ -5,6 +5,12 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -15,35 +21,35 @@ import javax.swing.JOptionPane;
 public class Sales_EditSupplier extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     private Suppliers supplier;
-
     /**
-     * Creates new form Sales_EditSupplier
+     * Creates new form Sales_EditSupplier2
      */
     public Sales_EditSupplier(String SupplierID, javax.swing.JPanel ChangePanel) {
         initComponents();
+        
         this.ChangePanel = ChangePanel;
         //Generate Item Combo Box
         showItemSuppliedComboBox();
         
         //Load Supplier Details
-        this.supplier = Suppliers.getSupplierByID(SupplierID);
+        this.supplier = getSupplierByID(SupplierID);
         System.out.println("Edit Supplier: " + SupplierID);
         if(supplier != null){
             supplierID.setText(SupplierID);
+            supplierID.setEditable(false);
+            supplierID.setBorder(null);
             supplierName.setText(supplier.getSupplierName());
             contactPerson.setText(supplier.getContactPerson());
             phone.setText(supplier.getPhone());
             email.setText(supplier.getEmail());
             address.setText(supplier.getAddress());
             itemSupplied.setSelectedItem(supplier.getItemSupplied());
+            price.setText(String.valueOf(supplier.getUnitPrice()));
             title.setText(supplier.getSupplierName());
             System.out.println(supplier.getSupplierName() + "," + supplier.getItemSupplied());
         }else {
             JOptionPane.showMessageDialog(null, "Supplier not found.");
         }
-        
-        
-        
     }
     
     private void showItemSuppliedComboBox(){
@@ -51,7 +57,7 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
         itemSupplied.removeAllItems();
         itemSupplied.addItem("Please Select Item Supplied!");
         
-        List<Items> allItems = Items.viewItemsInFile();
+        List<Items> allItems = Sales_AddItem.viewItemsInFile();
         if (allItems != null && !allItems.isEmpty()) {
             for (Items item : allItems) {
                 if (item != null) {
@@ -64,6 +70,108 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "No items found in inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
+    public static Suppliers getSupplierByID(String SupplierID){
+        try{
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return null;
+            }
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                boolean isFirstLine = true;
+
+                while ((line = br.readLine()) != null) {
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                    String[] parts = line.split(";");
+                    if (parts.length >= 7 && parts[0].equals(SupplierID)) {
+                        String supplierName = parts[1];
+                        String contactPerson = parts[2];
+                        String phone = parts[3];
+                        String email = parts[4];
+                        String address = parts[5];
+                        String itemCode = parts[6];
+                        double unitPrice = Double.parseDouble(parts[7]);
+                        
+                        return new Suppliers(SupplierID, supplierName, contactPerson, phone, email, address, itemCode, unitPrice);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading supplier: " + e.getMessage());
+        }
+        
+        return null;
+    }
+    
+    public static void editSuppliersInFile(String supplierID, Suppliers updatedSupplier){
+        try {
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Supplier.txt");
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(null, "Supplier.txt file does not exist.");
+                return;
+            }
+
+            List<String> lines = new ArrayList<>();
+            boolean isFirstLine = true;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while((line = br.readLine())!= null){
+                    if (isFirstLine) {
+                        lines.add(line); 
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                String[] parts = line.split(";");
+                    String formattedPrice = String.format("%.2f", updatedSupplier.getUnitPrice());
+                    if (parts[0].equals(supplierID)) {
+                        String updatedLine = updatedSupplier.getSupplierID() + ";" +
+                                updatedSupplier.getSupplierName() + ";" +
+                                updatedSupplier.getContactPerson() + ";" +
+                                updatedSupplier.getPhone() + ";" +
+                                updatedSupplier.getEmail() + ";" +
+                                updatedSupplier.getAddress() + ";" +
+                                updatedSupplier.getItemSupplied() + ";" +
+                                formattedPrice;
+                        lines.add(updatedLine);
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+            
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+                for (String l : lines){
+                    bw.write(l);
+                    bw.newLine();
+                }
+            }
+            
+            JOptionPane.showMessageDialog(null, "Supplier updated successfully!");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error editing supplier: " + e.getMessage());
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +182,16 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        price_label = new javax.swing.JLabel();
+        phone = new javax.swing.JTextField();
+        price = new javax.swing.JTextField();
+        phone_label = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
+        email_label = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
+        address_label = new javax.swing.JLabel();
+        supplierID_label = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
         supplierID = new javax.swing.JTextField();
         back = new javax.swing.JButton();
         supplier_name_label = new javax.swing.JLabel();
@@ -83,16 +201,39 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
         contact_person_label = new javax.swing.JLabel();
         itemSupplied = new javax.swing.JComboBox<>();
         contactPerson = new javax.swing.JTextField();
-        phone = new javax.swing.JTextField();
-        phone_label = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
-        email_label = new javax.swing.JLabel();
-        title = new javax.swing.JLabel();
-        address_label = new javax.swing.JLabel();
-        supplierID_label = new javax.swing.JLabel();
-        address = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
+
+        price_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price_label.setText("ITEM UNIT PRICE (RM)*");
+
+        phone.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        price.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceActionPerformed(evt);
+            }
+        });
+
+        phone_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        phone_label.setText("PHONE*");
+
+        email.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        email_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        email_label.setText("EMAIL*");
+
+        title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        title.setText("SUPPLIER");
+
+        address_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        address_label.setText("ADDRESS*");
+
+        supplierID_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        supplierID_label.setText("SUPPLIER ID");
+
+        address.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
 
         supplierID.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
 
@@ -133,27 +274,6 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
 
         contactPerson.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
 
-        phone.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-
-        phone_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        phone_label.setText("PHONE*");
-
-        email.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-
-        email_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        email_label.setText("EMAIL*");
-
-        title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        title.setText("SUPPLIER");
-
-        address_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        address_label.setText("ADDRESS*");
-
-        supplierID_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        supplierID_label.setText("SUPPLIER ID");
-
-        address.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,8 +292,9 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                             .addComponent(phone_label)
                             .addComponent(email_label)
                             .addComponent(address_label)
-                            .addComponent(item_label))
-                        .addGap(49, 49, 49)
+                            .addComponent(item_label)
+                            .addComponent(price_label))
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(supplierID, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(supplierName, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
@@ -181,8 +302,9 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                             .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                             .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(86, Short.MAX_VALUE))
+                            .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(price))))
+                .addContainerGap(84, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(back)
@@ -223,13 +345,21 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(item_label)
                     .addComponent(itemSupplied, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price_label)
+                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
+
+    }//GEN-LAST:event_priceActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         Sales_Supplier s = new Sales_Supplier(ChangePanel);
@@ -243,8 +373,15 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //Empty Fields, not allowed to submit
-        if(supplierName.getText().trim().isEmpty()|| contactPerson.getText().trim().isEmpty()|| phone.getText().trim().isEmpty()|| email.getText().trim().isEmpty()|| address.getText().trim().isEmpty()|| itemSupplied.getSelectedIndex() == 0){
+        if(supplierName.getText().trim().isEmpty()|| contactPerson.getText().trim().isEmpty()|| phone.getText().trim().isEmpty()|| email.getText().trim().isEmpty()|| address.getText().trim().isEmpty()|| itemSupplied.getSelectedIndex() == 0|| price.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String priceInput = price.getText().trim();
+        //Validate price
+        if(!priceInput.matches("\\d+(\\.\\d+)?")){
+            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -269,10 +406,11 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
         String email_given = email.getText();
         String address_given = address.getText();
         String item_supplied = itemSupplied.getSelectedItem().toString();
+        double price_given = Double.parseDouble(priceInput);
 
-        Suppliers updatedSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied);
+        Suppliers updatedSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied, price_given);
 
-        Suppliers.editSuppliersInFile(supplier_ID, updatedSupplier);
+        editSuppliersInFile(supplier_ID, updatedSupplier);
 
         //Back to Suppliers table
         Sales_Supplier s = new Sales_Supplier(ChangePanel);
@@ -302,6 +440,8 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel item_label;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone_label;
+    private javax.swing.JTextField price;
+    private javax.swing.JLabel price_label;
     private javax.swing.JTextField supplierID;
     private javax.swing.JLabel supplierID_label;
     private javax.swing.JTextField supplierName;

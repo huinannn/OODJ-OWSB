@@ -5,7 +5,9 @@
 package com.mycompany.OWSB.SALES;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -13,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author TP070386
  */
-public class Sales_AddSupplier extends javax.swing.JPanel {
+public final class Sales_AddSupplier extends javax.swing.JPanel {
     private javax.swing.JPanel ChangePanel;
     /**
      * Creates new form Sales_AddSupplier
@@ -23,8 +25,7 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         this.ChangePanel = ChangePanel;
         
         //Generate new supplierID
-        Suppliers newSupplier = new Suppliers();
-        String newID = newSupplier.generateNextSupplierID();
+        String newID = generateNextSupplierID();
         supplierID.setText(newID);
         supplierID.setEditable(false);
         supplierID.setBorder(null);
@@ -37,7 +38,7 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         itemSupplied.removeAllItems();
         itemSupplied.addItem("Please Select Item Supplied!");
         
-        List<Items> allItems = Items.viewItemsInFile();
+        List<Items> allItems = Sales_AddItem.viewItemsInFile();
         if (allItems != null && !allItems.isEmpty()) {
             for (Items item : allItems) {
                 if (item != null) {
@@ -48,6 +49,69 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(this, "No items found in inventory.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public String generateNextSupplierID(){
+        List<Suppliers>supplierList = Sales_Supplier.viewSuppliersInFile();
+        int maxID = 0;
+        
+        for(Suppliers supplier : supplierList){
+            String id = supplier.getSupplierID();
+            if(id.startsWith("SUP")){
+                try{
+                    int numericPart = Integer.parseInt(id.substring(3));
+                    if(numericPart > maxID){
+                        maxID = numericPart;
+                    }
+                } catch (NumberFormatException e){
+                    
+                }
+            }
+        }
+        
+        int nextID = maxID +1;
+        return String.format("SUP%03d", nextID);
+    }
+    
+     public static void saveSupplierToFile(Suppliers supplier){
+        try{
+            //Get Path
+            String classPath = Suppliers.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            if (!dbDir.exists()){
+                dbDir.mkdirs();
+            }
+            
+            File file = new File(dbDir, "Supplier.txt");
+            boolean fileExists = file.exists();
+            
+            //Write File (Append)
+            try (
+                FileWriter fw = new FileWriter(file, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+            ) {
+                if (!fileExists){
+                    bw.write("SupplierID;SupplierName;ContactPerson;Phone;Email;Address;ItemCode;UnitPrice");
+                    bw.newLine();
+                }
+                
+                String formattedPrice = String.format("%.2f", supplier.getUnitPrice());
+                
+                bw.write(supplier.getSupplierID() + ";" +
+                         supplier.getSupplierName() + ";" +
+                         supplier.getContactPerson() + ";" +
+                         supplier.getPhone() + ";" + 
+                         supplier.getEmail() + ";" +
+                         supplier.getAddress() + ";" +
+                         supplier.getItemSupplied() + ";" +
+                         formattedPrice);
+                bw.newLine();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -77,6 +141,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         add = new javax.swing.JButton();
         item_label = new javax.swing.JLabel();
         itemSupplied = new javax.swing.JComboBox<>();
+        price_label = new javax.swing.JLabel();
+        price = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -140,6 +206,16 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
             }
         });
 
+        price_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price_label.setText("ITEM UNIT PRICE (RM)*");
+
+        price.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,23 +228,32 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(supplierID_label)
-                            .addComponent(supplier_name_label)
-                            .addComponent(contact_person_label)
-                            .addComponent(phone_label)
-                            .addComponent(email_label)
-                            .addComponent(address_label)
-                            .addComponent(item_label))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(supplierID, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(supplierName, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(contactPerson, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                            .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(74, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(supplierID_label)
+                                    .addComponent(supplier_name_label)
+                                    .addComponent(contact_person_label)
+                                    .addComponent(phone_label)
+                                    .addComponent(email_label)
+                                    .addComponent(address_label)
+                                    .addComponent(item_label))
+                                .addGap(49, 49, 49)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(supplierID, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(supplierName, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(contactPerson, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                                    .addComponent(itemSupplied, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGap(155, 155, 155)
+                                    .addComponent(price))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(price_label)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(66, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(back)
@@ -209,11 +294,15 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(item_label)
                     .addComponent(itemSupplied, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price_label)
+                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -229,8 +318,15 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //Empty Fields, not allowed to submit
-        if(supplierName.getText().trim().isEmpty()|| contactPerson.getText().trim().isEmpty()|| phone.getText().trim().isEmpty()|| email.getText().trim().isEmpty()|| address.getText().trim().isEmpty()|| itemSupplied.getSelectedIndex() == 0){
+        if(supplierName.getText().trim().isEmpty()|| contactPerson.getText().trim().isEmpty()|| phone.getText().trim().isEmpty()|| email.getText().trim().isEmpty()|| address.getText().trim().isEmpty()|| itemSupplied.getSelectedIndex() == 0|| price.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String priceInput = price.getText().trim();
+        //Validate price
+        if(!priceInput.matches("\\d+(\\.\\d+)?")){
+            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -255,10 +351,11 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         String email_given = email.getText();
         String address_given = address.getText();
         String item_supplied = itemSupplied.getSelectedItem().toString();
+        double price_given = Double.parseDouble(priceInput);
         
-        Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied);
+        Suppliers newSupplier = new Suppliers(supplier_ID, supplier_name, contact_person, phone_no, email_given, address_given, item_supplied, price_given);
         
-        Suppliers.saveSupplierToFile(newSupplier);
+        saveSupplierToFile(newSupplier);
         
         //Back to Suppliers table
         Sales_Supplier supplier = new Sales_Supplier(ChangePanel);
@@ -276,6 +373,10 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_itemSuppliedActionPerformed
 
+    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
+
+    }//GEN-LAST:event_priceActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
@@ -290,6 +391,8 @@ public class Sales_AddSupplier extends javax.swing.JPanel {
     private javax.swing.JLabel item_label;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone_label;
+    private javax.swing.JTextField price;
+    private javax.swing.JLabel price_label;
     private javax.swing.JTextField supplierID;
     private javax.swing.JLabel supplierID_label;
     private javax.swing.JTextField supplierName;

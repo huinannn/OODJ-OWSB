@@ -7,5 +7,5 @@ ITM005;Ayamas Chicken Nuggets;Frozen Foods;0;10;Halal frozen chicken nuggets;LOW
 ITM006;Mr Muscle Floor Cleaner;Cleaning Supplies;0;10;;LOW STOCK
 ITM007;Colgate Toothpaste 120g;Personal Care;0;10;;LOW STOCK
 ITM008;Nescafe Classic 200g;Beverages;0;10;;LOW STOCK
-ITM009;Cabbage (Local) 1kg;Fresh Produce;0;10;Fresh Cameron Highland cabbage;LOW STOCK
+ITM009;Cabbage (Local) 1kg;Fresh Produce;0;10;Fresh Cameron Highland Cabbage;LOW STOCK
 ITM010;Anlene Gold 1kg;Dairy;0;10;;LOW STOCK
