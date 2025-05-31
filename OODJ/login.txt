@@ -10,3 +10,4 @@ IM001,inventory,123,0,unlock
 IM002,inventory2,123,0,unlock
 FM003,finance3,123,3,lock
 PM003,purchase3,123,0,unlock
+SM004,sales4,123,0,unlock
