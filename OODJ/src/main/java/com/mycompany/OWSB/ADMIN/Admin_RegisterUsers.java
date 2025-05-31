@@ -1,10 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.OWSB.ADMIN;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,18 +18,15 @@ import javax.swing.JOptionPane;
  *
  * @author cindy
  */
-public class Admin_RegisterUsers extends javax.swing.JFrame {
+public class Admin_RegisterUsers extends javax.swing.JPanel {
+    private javax.swing.JPanel ChangePanel;
 
     /**
      * Creates new form Admin_RegisterUsers
      */
-    public Admin_RegisterUsers() {
-        setTitle("Register User");
+    public Admin_RegisterUsers(javax.swing.JPanel ChangePanel) {
+        this.ChangePanel = ChangePanel;
         initComponents();
-        Color bgColour = new Color(42,160,97);
-//        Color bgColour = new Color();
-        getContentPane().setBackground(bgColour);
-        setLocationRelativeTo(null); 
     }
 
     /**
@@ -42,159 +38,112 @@ public class Admin_RegisterUsers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        Username_Label = new javax.swing.JLabel();
-        SelectRole_Dropdown = new javax.swing.JComboBox<>();
+        RegisterUser_Label = new javax.swing.JLabel();
         SelectRole_Label = new javax.swing.JLabel();
-        Username_TextField = new javax.swing.JTextField();
+        Username_Label = new javax.swing.JLabel();
         Password_Label = new javax.swing.JLabel();
+        SelectRole_Dropdown = new javax.swing.JComboBox<>();
+        Username_TextField = new javax.swing.JTextField();
         Password_TextField = new javax.swing.JTextField();
-        Clear_Button = new javax.swing.JButton();
-        Register_Button = new javax.swing.JButton();
-        Home_Button = new javax.swing.JButton();
+        ClearButton = new javax.swing.JButton();
+        RegisterButton = new javax.swing.JButton();
 
-        jButton1.setText("jButton1");
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setText("jButton2");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(227, 227, 227));
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 5, true));
-
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(25, 57, 69));
-        jLabel1.setText("Register User");
-
-        Username_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        Username_Label.setText("Enter Username:");
-
-        SelectRole_Dropdown.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        SelectRole_Dropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sales Manager (SM)", "Purchase Manager (PM)", "Inventory Manager (IM)", "Finance Manager (FM)" }));
+        RegisterUser_Label.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
+        RegisterUser_Label.setText("Register User");
 
         SelectRole_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         SelectRole_Label.setText("Select Role:");
 
-        Username_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        Username_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        Username_Label.setText("Enter Username:");
 
         Password_Label.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         Password_Label.setText("Enter Password:");
 
+        SelectRole_Dropdown.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        SelectRole_Dropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sales Manager (SM)", "Purchase Manager (PM)", "Finance Manager (FM)", "Inventory Manager (IM)" }));
+
+        Username_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+
         Password_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
 
-        Clear_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        Clear_Button.setText("CLEAR");
-        Clear_Button.addActionListener(new java.awt.event.ActionListener() {
+        ClearButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        ClearButton.setText("Clear");
+        ClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Clear_ButtonActionPerformed(evt);
+                ClearButtonActionPerformed(evt);
             }
         });
 
-        Register_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        Register_Button.setText("REGISTER");
-        Register_Button.addActionListener(new java.awt.event.ActionListener() {
+        RegisterButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        RegisterButton.setText("Register");
+        RegisterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Register_ButtonActionPerformed(evt);
+                RegisterButtonActionPerformed(evt);
             }
         });
 
-        Home_Button.setFont(new java.awt.Font("Georgia", 0, 10)); // NOI18N
-        Home_Button.setText("HOME");
-        Home_Button.setMargin(new java.awt.Insets(2, 2, 3, 2));
-        Home_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Home_ButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Home_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(112, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Password_Label)
-                            .addComponent(Clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Password_TextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Register_Button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Username_Label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(107, 107, 107)
-                            .addComponent(SelectRole_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(SelectRole_Label)))
-                .addGap(102, 102, 102))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(Home_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(88, 88, 88)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(SelectRole_Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SelectRole_Dropdown))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Username_Label)
-                    .addComponent(Username_TextField))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Password_Label)
-                    .addComponent(Password_TextField))
-                .addGap(71, 71, 71)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Register_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(118, 118, 118)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(RegisterUser_Label))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(ClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(RegisterButton))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Username_Label)
+                                .addComponent(SelectRole_Label)
+                                .addComponent(Password_Label))
+                            .addGap(33, 33, 33)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Username_TextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(SelectRole_Dropdown, javax.swing.GroupLayout.Alignment.LEADING, 0, 235, Short.MAX_VALUE)
+                                .addComponent(Password_TextField)))))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(62, 62, 62)
+                .addComponent(RegisterUser_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SelectRole_Label)
+                    .addComponent(SelectRole_Dropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Username_Label)
+                    .addComponent(Username_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Password_Label)
+                    .addComponent(Password_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(83, 83, 83)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Clear_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Clear_ButtonActionPerformed
+    private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
         // TODO add your handling code here:
         Username_TextField.setText(""); //clear username text field
         Password_TextField.setText(""); //clear password text field
-    }//GEN-LAST:event_Clear_ButtonActionPerformed
+    }//GEN-LAST:event_ClearButtonActionPerformed
 
-    private void Register_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Register_ButtonActionPerformed
+    private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
         // TODO add your handling code here:
         String role = SelectRole_Dropdown.getSelectedItem().toString();
         String username = Username_TextField.getText().trim();
@@ -222,18 +171,8 @@ public class Admin_RegisterUsers extends javax.swing.JFrame {
         }catch (IOException e){
             JOptionPane.showMessageDialog(this, "Error writing to file: " + e.getMessage());
         }
-        
-        
-        
-    }//GEN-LAST:event_Register_ButtonActionPerformed
+    }//GEN-LAST:event_RegisterButtonActionPerformed
 
-    private void Home_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Home_ButtonActionPerformed
-        // TODO add your handling code here:
-        new Admin_Dashboard().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_Home_ButtonActionPerformed
-
-    
     private String Generate_ID(String Role_ID){
         int Max_ID = 0;
         File file = new File("login.txt");
@@ -264,54 +203,16 @@ public class Admin_RegisterUsers extends javax.swing.JFrame {
     }
     
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin_RegisterUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin_RegisterUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin_RegisterUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin_RegisterUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Admin_RegisterUsers().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Clear_Button;
-    private javax.swing.JButton Home_Button;
+    private javax.swing.JButton ClearButton;
     private javax.swing.JLabel Password_Label;
     private javax.swing.JTextField Password_TextField;
-    private javax.swing.JButton Register_Button;
+    private javax.swing.JButton RegisterButton;
+    private javax.swing.JLabel RegisterUser_Label;
     private javax.swing.JComboBox<String> SelectRole_Dropdown;
     private javax.swing.JLabel SelectRole_Label;
     private javax.swing.JLabel Username_Label;
     private javax.swing.JTextField Username_TextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

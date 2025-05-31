@@ -1,10 +1,10 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.OWSB.ADMIN;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -28,22 +29,18 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author cindy
  */
-public class Admin_UnlockUsers extends javax.swing.JFrame {
+public class Admin_UnlockUsers extends javax.swing.JPanel {
+    private javax.swing.JPanel ChangePanel;
     private DefaultTableModel Table_Model;
 
     /**
      * Creates new form Admin_UnlockUsers
      */
-    public Admin_UnlockUsers() {
-        setTitle("Unlock Users Page");
+    public Admin_UnlockUsers(javax.swing.JPanel ChangePanel) {
+        this.ChangePanel = ChangePanel;
         initComponents();
-        Color bgColour = new Color(42,160,97);
-        getContentPane().setBackground(bgColour);
-        setLocationRelativeTo(null); 
-         
         Setup_Table();
         Show_LockedUsers();
-        
     }
 
     /**
@@ -55,16 +52,14 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         UnlockUsers_Table = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        Home_Button = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(227, 227, 227));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 30)); // NOI18N
+        jLabel1.setText("Unlock Users");
 
         UnlockUsers_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -76,78 +71,32 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(UnlockUsers_Table);
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(25, 57, 69));
-        jLabel1.setText("Unlock Users");
-
-        Home_Button.setFont(new java.awt.Font("Georgia", 0, 10)); // NOI18N
-        Home_Button.setText("HOME");
-        Home_Button.setMargin(new java.awt.Insets(2, 2, 3, 2));
-        Home_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Home_ButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 64, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Home_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(Home_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel1)))
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addGap(39, 39, 39))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Home_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Home_ButtonActionPerformed
-        // TODO add your handling code here:
-        new Admin_Dashboard().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_Home_ButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-
+    
     private void Setup_Table() {
         Table_Model = new DefaultTableModel(new String[]{"Employee ID", "Username", "Status", "Lock/Unlock"}, 0);
         UnlockUsers_Table.setModel(Table_Model);
@@ -162,8 +111,8 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
         
 
         // Make the last column hold buttons
-        UnlockUsers_Table.getColumn("Lock/Unlock").setCellRenderer(new ButtonRenderer());
-        UnlockUsers_Table.getColumn("Lock/Unlock").setCellEditor(new ButtonEditor(new JCheckBox()));
+        UnlockUsers_Table.getColumn("Lock/Unlock").setCellRenderer(new Admin_UnlockUsers.ButtonRenderer());
+        UnlockUsers_Table.getColumn("Lock/Unlock").setCellEditor(new Admin_UnlockUsers.ButtonEditor(new JCheckBox()));
     }
     
     private void Show_LockedUsers() {
@@ -183,6 +132,10 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage());
             }
         }
+        
+        // Reset renderers/editors again after model is updated
+        UnlockUsers_Table.getColumn("Lock/Unlock").setCellRenderer(new ButtonRenderer());
+        UnlockUsers_Table.getColumn("Lock/Unlock").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
     
     private void Unlock_User(String employeeId) {
@@ -217,7 +170,6 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
             }
         }
 
-        Show_LockedUsers(); // Refresh table
     }
     
     // Renderer for buttons
@@ -249,6 +201,12 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "User " + employeeId + " remains locked.");
                     }
+                    
+                    // Force editor to stop and commit changes
+                    fireEditingStopped();
+                    
+                    // Refresh the table safely after editing is finished
+                    SwingUtilities.invokeLater(() -> Show_LockedUsers());
                 }
             });
         }
@@ -262,50 +220,20 @@ public class Admin_UnlockUsers extends javax.swing.JFrame {
 
         @Override
         public Object getCellEditorValue() {
+            return "Unlock";
+        }
+        
+        @Override
+        public boolean stopCellEditing() {
             isClicked = false;
-            return "Unlock/Deny";
+            return super.stopCellEditing();
         }
     }
     
-    
-    
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin_UnlockUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin_UnlockUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin_UnlockUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin_UnlockUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Admin_UnlockUsers().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Home_Button;
     private javax.swing.JTable UnlockUsers_Table;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

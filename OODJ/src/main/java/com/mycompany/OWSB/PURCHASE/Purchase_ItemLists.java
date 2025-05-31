@@ -92,12 +92,13 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
     private void loadItemListFromFile() {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[] {
-            "ID", "Name", "Supplier", "Category", "Quantity", "Unit Price(RM)", "Description", "Reorder Alert"
+            "ID", "Name", "Supplier", "Category", "Quantity", "Description", "Reorder Alert"
         });
         
         Map<String, List<String>> itemSupplierMap = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("database/Supplier.txt"))) {
             String line;
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (!line.isEmpty()) {
@@ -123,25 +124,25 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
 
         try (BufferedReader br = new BufferedReader(new FileReader("database/Inventory.txt"))) {
             String line;
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (!line.isEmpty()) {
                     String[] data = line.split(";");
-                    if (data.length == 8) {
+                    if (data.length == 7) {
                         String itemID = data[0];
                         String itemName = data[1];
                         String category = data[2];
                         String quantity = data[3];
-                        String price = data[5];
-                        String description = data[6];
-                        String reorderAlert = data[7];
+                        String description = data[5];
+                        String reorderAlert = data[6];
 
                         // Get supplier(s)
                         List<String> suppliers = itemSupplierMap.getOrDefault(itemID, new ArrayList<>());
                         String supplierHTML = "<html>" + String.join("<br>", suppliers) + "<html>";
 
                         model.addRow(new Object[] {
-                            itemID, itemName, supplierHTML, category, quantity, price, description, reorderAlert
+                            itemID, itemName, supplierHTML, category, quantity, description, reorderAlert
                         });
                     } else {
                         System.out.println("Skipping malformed line in Items.txt: " + line);
@@ -163,15 +164,14 @@ public class Purchase_ItemLists extends javax.swing.JPanel {
         Item_Table.getColumnModel().getColumn(2).setPreferredWidth(130); // Supplier
         Item_Table.getColumnModel().getColumn(3).setPreferredWidth(60);  // Category
         Item_Table.getColumnModel().getColumn(4).setPreferredWidth(60);  // Quantity
-        Item_Table.getColumnModel().getColumn(5).setPreferredWidth(60);  // Price
-        Item_Table.getColumnModel().getColumn(6).setPreferredWidth(110);  // Description
-        Item_Table.getColumnModel().getColumn(7).setPreferredWidth(90); // Reorder Alert
+        Item_Table.getColumnModel().getColumn(5).setPreferredWidth(110);  // Description
+        Item_Table.getColumnModel().getColumn(6).setPreferredWidth(90); // Reorder Alert
 
         Item_Table.getTableHeader().setFont(new java.awt.Font("Georgia", java.awt.Font.BOLD, 12));
         
         
         // Highlight "LOW STOCK" status in red
-        Item_Table.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
+        Item_Table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column) {
 

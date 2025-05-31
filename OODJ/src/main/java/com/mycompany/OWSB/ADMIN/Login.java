@@ -19,7 +19,7 @@ import java.util.List;
  * @author cindy
  */
 public class Login extends javax.swing.JFrame {
-    private int att =0;
+//    private int att =0;
 
     /**
      * Creates new form Login
@@ -201,41 +201,93 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String Prompt_usern = Username_TextField.getText();
         String Prompt_passw = new String(Password_TextField.getPassword());
-        
-        String role = Authentication(Prompt_usern, Prompt_passw);
-        
-        if (role != null) {
 
-            // Redirect based on role
-            switch (role) {
-                case "Admin":
-                    new Admin_Dashboard().setVisible(true);
-                    break;
-//                case "SM":
-//                    new SM_Dashboard().setVisible(true);
-//                    break;
-//                case "PM":
-//                    new PM_Dashboard().setVisible(true);
-//                    break;
-//                case "IM":
-//                    new IM_Dashboard().setVisible(true);
-//                    break;
-//                case "FM":
-//                    new FM_Dashboard().setVisible(true);
-//                    break;
-                default:
-                    JOptionPane.showMessageDialog(this, "Unknown Role! Contact IT Support.");
-                    return;
+        File file = new File("login.txt");
+        List<String> updatedLines = new ArrayList<>();
+        boolean userFound = false;
+        boolean loginSuccess = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] sec = line.split(",");
+                if (sec.length != 5) {
+                    continue;
+                }
+
+                String empID = sec[0].trim();
+                String username = sec[1].trim();
+                String password = sec[2].trim();
+                int attempts = Integer.parseInt(sec[3].trim());
+                String status = sec[4].trim();
+
+                if (username.equals(Prompt_usern)) {
+                    userFound = true;
+
+                    if (status.equalsIgnoreCase("lock")) {
+                        JOptionPane.showMessageDialog(this, "Your account is locked! Please contact Admin.");
+                        updatedLines.add(line);
+                        continue;
+                    }
+
+                    if (password.equals(Prompt_passw)) {
+                        // Login success — reset attempts
+                        Session.setSession(empID, username, password);
+                        JOptionPane.showMessageDialog(this, "Login Successful!");
+                        updatedLines.add(empID + "," + username + "," + password + ",0,unlock"); // Reset attempts
+                        loginSuccess = true;
+                        
+                    } else {
+                        // Wrong password
+                        attempts++;
+                        if (attempts >= 3) {
+                            status = "lock";
+                            JOptionPane.showMessageDialog(this, "Your account is now locked due to multiple failed attempts.");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Incorrect Username or Password! Attempt: " + attempts);
+                        }
+                        updatedLines.add(empID + "," + username + "," + password + "," + attempts + "," + status);
+                    }
+                } else {
+                    updatedLines.add(line); // Not the target user
+                }
             }
-            this.dispose(); // Close login window
-        } else {
-            att++;
-//            JOptionPane.showMessageDialog(this, "Incorrect Username or Password! Attempt: " + att);
 
-//            if (att >= 3) {
-//                JOptionPane.showMessageDialog(this, "Too many failed attempts! Exiting...");
-//                System.exit(0);
-//            }
+            if (!userFound) {
+                JOptionPane.showMessageDialog(this, "Incorrect Username or Password! Please try again.");
+            }
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error reading login file.");
+            return;
+        }
+
+        // Write updated login.txt
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            for (String updatedLine : updatedLines) {
+                bw.write(updatedLine);
+                bw.newLine();
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error updating login file.");
+            return;
+        }
+        
+        if (loginSuccess){
+            String empID = Session.getEmployeeID();
+            String username = Session.getUsername();
+            String password = Session.getPassword();
+            
+            User user = UserCreation.createUser(empID, username, password);
+
+            if (user != null) {
+                user.accessDashboard();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Unknown role.");
+            }
+            
         }
         
     }//GEN-LAST:event_Login_ButtonActionPerformed
@@ -246,82 +298,6 @@ public class Login extends javax.swing.JFrame {
         Password_TextField.setText(""); //clear password text field
     }//GEN-LAST:event_Clear_ButtonActionPerformed
 
-    
-    private String Authentication(String username, String password) {
-        File file = new File("login.txt");
-        List<String> updatedLines = new ArrayList<>();
-        boolean User_Found = false;
-        String User_Role = null;       
-        
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] sec = line.split(",");
-                if (sec.length == 5) {
-                    String Employee_ID = sec[0].trim();
-                    String File_usern = sec[1].trim();
-                    String File_passw = sec[2].trim();
-                    int Failed_att = Integer.parseInt(sec[3].trim());
-                    String Status = sec[4].trim();
-                    
-                    if (File_usern.equals(username)){
-                        User_Found = true;
-                        
-                        if (Status.equals("lock")) {
-                            JOptionPane.showMessageDialog(this, "Your account is locked! Please contact Admin.");
-                            return null;
-                        } 
-                        
-                        if (File_passw.equals(password)) {
-                            JOptionPane.showMessageDialog(this, "Login Successful!");
-                            User_Role = getRole(Employee_ID);
-                            updatedLines.add(Employee_ID + "," + File_usern + "," + File_passw + ",0,unlock"); // Reset attempts
-                        } else {
-                            Failed_att++;
-                            if (Failed_att >= 3){
-                                Status = "lock";
-                                JOptionPane.showMessageDialog(this, "Your account is now locked due to multiple failed attempts.");
-                            }else{
-                                JOptionPane.showMessageDialog(this, "Incorrect Username or Password! Attempt: " + Failed_att);
-                            }
-                            updatedLines.add(Employee_ID + "," + File_usern + "," + File_passw + "," + Failed_att + "," + Status);
-                        }
-                    } else {
-                        updatedLines.add(line);
-                    }  
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading login file!");
-            return null;
-        }
-        
-        if (!User_Found){
-            JOptionPane.showMessageDialog(this, "Incorrect Username or Password! Please try again.");
-        }
-        
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            for (String updatedLine : updatedLines) {
-                bw.write(updatedLine);
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error updating login attempts!");
-        }
-        
-        return User_Role;
-        
-    }
-    
-    private String getRole(String employeeID) {
-    if (employeeID.startsWith("Admin")) return "Admin";
-    if (employeeID.startsWith("SM")) return "SM";
-    if (employeeID.startsWith("PM")) return "PM";
-    if (employeeID.startsWith("IM")) return "IM";
-    if (employeeID.startsWith("FM")) return "FM";
-    return "Non-Exist";
-    }
-    
 
     
     /**
@@ -349,6 +325,9 @@ public class Login extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
