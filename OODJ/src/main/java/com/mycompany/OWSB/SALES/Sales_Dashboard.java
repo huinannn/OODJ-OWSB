@@ -208,9 +208,11 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewPRActionPerformed
 
     private void ViewPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPOActionPerformed
+        Sales_PO po = new Sales_PO(ChangePanel);
         
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(po, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_ViewPOActionPerformed

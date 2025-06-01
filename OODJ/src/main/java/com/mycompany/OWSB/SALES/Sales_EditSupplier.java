@@ -44,7 +44,7 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
             email.setText(supplier.getEmail());
             address.setText(supplier.getAddress());
             itemSupplied.setSelectedItem(supplier.getItemSupplied());
-            price.setText(String.valueOf(supplier.getUnitPrice()));
+            price.setText(String.format("%.2f", supplier.getUnitPrice()));
             title.setText(supplier.getSupplierName());
             System.out.println(supplier.getSupplierName() + "," + supplier.getItemSupplied());
         }else {

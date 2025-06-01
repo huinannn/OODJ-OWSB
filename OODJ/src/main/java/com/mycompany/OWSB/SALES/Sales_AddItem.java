@@ -81,17 +81,18 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                 BufferedWriter bw = new BufferedWriter(fw)
             ) {
                 if (!fileExists) {
-                    bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus");
+                    bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
                     bw.newLine();
                 }
                 
-                
+                String formattedPrice = String.format("%.2f", item.getUnitPrice());
 
                 bw.write(item.getItemCode() + ";" +
                          item.getItemName() + ";" +
                          item.getCategory() + ";" +
                          item.getStockCurrentQuantities() + ";" +
                          item.getReorderLevel() + ";" +
+                         formattedPrice + ";" +
                          item.getDescription() + ";" +
                          item.getReorderStatus());
                 bw.newLine();
@@ -130,18 +131,20 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                    
                     if (!line.trim().isEmpty()) {
                         String[] row = line.split(";");
-                        if (row.length >= 7) {
+                        if (row.length >= 8) {
                             Items.Category category = Items.Category.fromString(row[2]);
                             Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(row[6]);
                             int quantity = Integer.parseInt(row[3]);
                             int reorder_level = Integer.parseInt(row[4]); 
+                            double unit_price = Double.parseDouble(row[5]);
                             Items item = new Items(
                                 row[0], 
                                 row[1], 
                                 category, 
                                 quantity,
                                 reorder_level,
-                                row[5], 
+                                unit_price,
+                                row[6], 
                                 status
                             );
                             itemList.add(item);
@@ -183,6 +186,8 @@ public final class Sales_AddItem extends javax.swing.JPanel {
         description = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
         category = new javax.swing.JComboBox<>();
+        price_label = new javax.swing.JLabel();
+        price = new javax.swing.JTextField();
 
         stockLevel_label1.setText("STOCK LEVEL");
 
@@ -252,6 +257,16 @@ public final class Sales_AddItem extends javax.swing.JPanel {
             }
         });
 
+        price_label.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price_label.setText("ITEM UNIT PRICE (RM)*");
+
+        price.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,25 +276,31 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                 .addComponent(title)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(category_label)
-                    .addComponent(description_label)
-                    .addComponent(itemID_label)
-                    .addComponent(itemName_label))
-                .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(itemID)
-                    .addComponent(itemName)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                    .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(105, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .addComponent(back)
                 .addGap(36, 36, 36)
                 .addComponent(add)
                 .addGap(31, 31, 31))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(price_label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(price))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(category_label)
+                            .addComponent(description_label)
+                            .addComponent(itemID_label)
+                            .addComponent(itemName_label))
+                        .addGap(73, 73, 73)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(itemID)
+                            .addComponent(itemName)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                            .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(105, 105, 105))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,9 +317,13 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                     .addComponent(itemName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price_label)
+                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(category_label)
                     .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(description_label)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -306,7 +331,7 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
                     .addComponent(add))
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -322,25 +347,31 @@ public final class Sales_AddItem extends javax.swing.JPanel {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //Empty Fields, not allowed to submit
-        if(itemName.getText().trim().isEmpty()||  category.getSelectedIndex() == 0){
+        if(itemName.getText().trim().isEmpty()||  category.getSelectedIndex() == 0|| price.getText().trim().isEmpty()){
             JOptionPane.showMessageDialog(this, "Please fill in all required fields!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        
+        String priceInput = price.getText().trim();
+        //Validate price
+        if(!priceInput.matches("\\d+(\\.\\d+)?")){
+            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         
         String item_ID = itemID.getText();
         String item_name = itemName.getText();
         int stock_level = 0;
         int reorder_level = 10;
+        double price_given = Double.parseDouble(priceInput);
         String category_selected = category.getSelectedItem().toString();
         Items.Category selectedCategory = Items.Category.fromString(category_selected);
         String description_given = description.getText();
         String reorder_status = "LOW STOCK";
         Items.ReorderAlertStatus reorderStatus = Items.ReorderAlertStatus.fromString(reorder_status);
         
-        Items newItem = new Items(item_ID, item_name, selectedCategory, stock_level, reorder_level, description_given, reorderStatus);
+        Items newItem = new Items(item_ID, item_name, selectedCategory, stock_level, reorder_level, price_given, description_given, reorderStatus);
         
         saveItemToFile(newItem);
         
@@ -370,6 +401,10 @@ public final class Sales_AddItem extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryActionPerformed
 
+    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
+
+    }//GEN-LAST:event_priceActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
@@ -383,6 +418,8 @@ public final class Sales_AddItem extends javax.swing.JPanel {
     private javax.swing.JTextField itemName;
     private javax.swing.JLabel itemName_label;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField price;
+    private javax.swing.JLabel price_label;
     private javax.swing.JTextField stockLevel1;
     private javax.swing.JLabel stockLevel_label1;
     private javax.swing.JLabel title;

@@ -69,6 +69,7 @@ public class Items {
     private Category category;
     private int stockCurrentQuantities;
     private int reorderLevel;
+    private double unitPrice;
     private String description;
     private ReorderAlertStatus reorderStatus;
     
@@ -76,12 +77,13 @@ public class Items {
     public Items(){}
     
     //Sales Constructor
-    public Items(String itemCode, String itemName, Category category, int stockCurrentQuantities, int reorderLevel, String description, ReorderAlertStatus reorderStatus) {
+    public Items(String itemCode, String itemName, Category category, int stockCurrentQuantities, int reorderLevel, double unitPrice,  String description, ReorderAlertStatus reorderStatus) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.category = category;
         this.stockCurrentQuantities = stockCurrentQuantities;
         this.reorderLevel = reorderLevel;
+        this.unitPrice = unitPrice;
         this.description = description;
         this.reorderStatus = reorderStatus;
     }
@@ -152,7 +154,13 @@ public class Items {
         this.reorderLevel = reorderLevel;
     }
 
+    public double getUnitPrice() {
+        return unitPrice;
+    }
 
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
     
     //Debug
 //    @Override
@@ -166,5 +174,6 @@ public class Items {
 //                "\nDescription: " + description +
 //                "\nReorder Alert Status: " + reorderStatus;
 //    }
+
 }   
 
