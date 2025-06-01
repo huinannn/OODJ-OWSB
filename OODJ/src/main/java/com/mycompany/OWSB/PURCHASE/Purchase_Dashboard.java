@@ -35,7 +35,6 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
         ChangePanel = new javax.swing.JPanel();
         SideBar = new javax.swing.JPanel();
         ProfilePicture = new javax.swing.JLabel();
-        PMName = new javax.swing.JLabel();
         PMRole = new javax.swing.JLabel();
         ViewProfile = new javax.swing.JButton();
         ViewPR = new javax.swing.JButton();
@@ -63,11 +62,6 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
         ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Purchase_Manager.png"))); // NOI18N
-
-        PMName.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
-        PMName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        PMName.setText("PM Name");
-        PMName.setToolTipText("");
 
         PMRole.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         PMRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -142,7 +136,6 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(PMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(PMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                             .addComponent(ProfilePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(32, 32, 32)))
@@ -151,11 +144,9 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
         SideBarLayout.setVerticalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(43, 43, 43)
                 .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addGap(18, 18, 18)
                 .addComponent(PMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
@@ -291,7 +282,6 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ChangePanel;
     private javax.swing.JButton Item_Lists;
     private javax.swing.JButton LogOut;
-    private javax.swing.JLabel PMName;
     private javax.swing.JLabel PMRole;
     private javax.swing.JLabel ProfilePicture;
     private javax.swing.JPanel SideBar;

@@ -5,6 +5,7 @@
 package com.mycompany.OWSB.SALES;
 
 
+import com.mycompany.OWSB.ADMIN.Profile;
 import java.awt.BorderLayout;
 
 
@@ -195,6 +196,13 @@ public class Sales_Dashboard extends javax.swing.JFrame {
 
     private void ViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewProfileActionPerformed
         // TODO add your handling code here:
+        Profile profile = new Profile(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(profile, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
