@@ -6,6 +6,7 @@ package com.mycompany.OWSB.SALES;
 
 import com.mycompany.OWSB.PURCHASE.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -193,7 +195,40 @@ public class Sales_PO extends javax.swing.JPanel {
         PO_Table.getColumnModel().getColumn(7).setPreferredWidth(100); // Date
         PO_Table.getColumnModel().getColumn(8).setPreferredWidth(80);  // Status
         PO_Table.getTableHeader().setFont(new java.awt.Font("Georgia", java.awt.Font.BOLD, 12));
+        PO_Table.getColumnModel().getColumn(8).setCellRenderer(new StatusCellRenderer());
         
+    }
+    
+    class StatusCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            String status = value != null ? value.toString().toLowerCase() : "";
+
+            switch (status) {
+                case "pending":
+                    c.setBackground(Color.YELLOW); 
+                    c.setForeground(Color.BLACK);
+                    break;
+                case "approved":
+                    c.setBackground(Color.GREEN); 
+                    c.setForeground(Color.BLACK);
+                    break;
+                default:
+                    c.setBackground(new Color(240, 240, 240)); // Light Gray (default)
+                    c.setForeground(Color.BLACK);
+                    break;
+            }
+
+            if (isSelected) {
+                c.setBackground(table.getSelectionBackground());
+            }
+
+            return c;
+        }
     }
     
     
