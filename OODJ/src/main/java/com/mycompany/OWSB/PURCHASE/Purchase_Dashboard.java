@@ -202,23 +202,24 @@ public class Purchase_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
-        
-
-        ChangePanel.removeAll();
-        ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.revalidate();
-        ChangePanel.repaint();
+//        Purchase_PRLists PM_PRLists = new Purchase_PRLists(ChangePanel);
+//
+//        ChangePanel.removeAll();
+//        ChangePanel.setLayout(new BorderLayout());
+//        ChangePanel.add(PM_PRLists, BorderLayout.CENTER);
+//        ChangePanel.revalidate();
+//        ChangePanel.repaint();
     }//GEN-LAST:event_ViewPRActionPerformed
 
     private void ViewPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPOActionPerformed
         // TODO add your handling code here:
-        Purchase_POLists PM_POLists = new Purchase_POLists(ChangePanel);
-        
-        ChangePanel.removeAll();
-        ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(PM_POLists, BorderLayout.CENTER);
-        ChangePanel.revalidate();
-        ChangePanel.repaint();
+//        Purchase_POLists PM_POLists = new Purchase_POLists(ChangePanel);
+//        
+//        ChangePanel.removeAll();
+//        ChangePanel.setLayout(new BorderLayout());
+//        ChangePanel.add(PM_POLists, BorderLayout.CENTER);
+//        ChangePanel.revalidate();
+//        ChangePanel.repaint();
     }//GEN-LAST:event_ViewPOActionPerformed
 
     private void Item_ListsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_ListsActionPerformed
