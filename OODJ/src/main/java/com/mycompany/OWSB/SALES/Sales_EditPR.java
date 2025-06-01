@@ -42,11 +42,20 @@ public class Sales_EditPR extends javax.swing.JPanel {
             PRID.setText(prID);
             PRID.setEditable(false);
             PRID.setBorder(null);
-            item.setSelectedItem(pr.getItemCode());
+            for (int i = 0; i < item.getItemCount(); i++) {
+                String comboItem = item.getItemAt(i);
+                if (comboItem.startsWith(pr.getItemCode() + ":")) {
+                    item.setSelectedIndex(i);
+                    break;
+                }
+            }
             quantity.setText(String.valueOf(pr.getQuantity()));
             date.setText(String.valueOf(pr.getDate()));
             raisedBy.setText(pr.getRaisedBy());
+            raisedBy.setEditable(false);
+            raisedBy.setBorder(null);
             title.setText(pr.getPRID());
+            
         } else {
             JOptionPane.showMessageDialog(null, "Purchase Requisition not found.");
         }
@@ -191,6 +200,8 @@ public class Sales_EditPR extends javax.swing.JPanel {
         add = new javax.swing.JButton();
         quantity = new javax.swing.JTextField();
         date_label = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         title.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         title.setText("PURCHASE REQUISITION");
@@ -390,14 +401,14 @@ public class Sales_EditPR extends javax.swing.JPanel {
 
         PR newPR = new PR(prID, itemCode, quantity_given, status, raisedBy_given, date_given);
 
-//        savePRToFile(newPR);
+        editPRsInFile(prID, newPR);
 
         //Back to PR table
-        Sales_PR pr = new Sales_PR(ChangePanel);
+        Sales_PR p = new Sales_PR(ChangePanel);
 
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(pr, BorderLayout.CENTER);
+        ChangePanel.add(p, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_addActionPerformed

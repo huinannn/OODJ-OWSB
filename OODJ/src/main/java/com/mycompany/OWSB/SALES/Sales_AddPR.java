@@ -4,6 +4,7 @@
  */
 package com.mycompany.OWSB.SALES;
 
+import com.mycompany.OWSB.ADMIN.Session;
 import java.awt.BorderLayout;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,6 +34,10 @@ public final class Sales_AddPR extends javax.swing.JPanel {
         PRID.setText(newID);
         PRID.setEditable(false);
         PRID.setBorder(null);
+        String salesManager = Session.getEmployeeID();
+        raisedBy.setText(salesManager);
+        raisedBy.setEditable(false);
+        raisedBy.setBorder(null);
         
         //Generate list of categories
         showItemComboBox();
@@ -275,7 +280,7 @@ public final class Sales_AddPR extends javax.swing.JPanel {
     }//GEN-LAST:event_PRIDActionPerformed
 
     private void raisedByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raisedByActionPerformed
-
+        
     }//GEN-LAST:event_raisedByActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed

@@ -96,7 +96,6 @@ public class Sales_PR extends javax.swing.JPanel {
         }
         prTable.getColumnModel().getColumn(prTable.getColumnCount() - 7).setPreferredWidth(200);
         prTable.getColumnModel().getColumn(prTable.getColumnCount() - 5).setPreferredWidth(200);
-        prTable.getColumnModel().getColumn(prTable.getColumnCount() - 3).setPreferredWidth(200);
         prTable.getColumnModel().getColumn(prTable.getColumnCount() - 1).setPreferredWidth(120);
         prTable.setFont(new java.awt.Font("Georgia", java.awt.Font.PLAIN, 12));
         List<PR> data = PR.viewPRsInFile();
@@ -189,16 +188,16 @@ public class Sales_PR extends javax.swing.JPanel {
                         edit.addActionListener(ae -> {
                             int selectedRow = prTable.getSelectedRow();
                             if (selectedRow >= 0){
-                                String itemCode = prTable.getValueAt(selectedRow, 0).toString();
-                                System.out.println("Sales Item: " + itemCode);
-    //                            Sales_EditItem edit_item = new Sales_EditItem(itemCode, ChangePanel);
-    //                            ChangePanel.removeAll();
-    //                            ChangePanel.setLayout(new BorderLayout());
-    //                            ChangePanel.add(edit_item, BorderLayout.CENTER);
-    //                            ChangePanel.revalidate();
-    //                            ChangePanel.repaint();
+                                String prID = prTable.getValueAt(selectedRow, 0).toString();
+                                System.out.println("Sales PR: " + prID);
+                                Sales_EditPR edit_pr = new Sales_EditPR(prID, ChangePanel);
+                                ChangePanel.removeAll();
+                                ChangePanel.setLayout(new BorderLayout());
+                                ChangePanel.add(edit_pr, BorderLayout.CENTER);
+                                ChangePanel.revalidate();
+                                ChangePanel.repaint();
                             } else {
-                                JOptionPane.showMessageDialog(null, "Please select an item to edit!");
+                                JOptionPane.showMessageDialog(null, "Please select a purchase requisition to edit!");
                             }
 
                         });
