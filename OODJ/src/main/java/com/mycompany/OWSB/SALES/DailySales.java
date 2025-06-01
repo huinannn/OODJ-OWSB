@@ -71,6 +71,7 @@ public class DailySales {
             Sales_EditItem.editItemsInFile(this.itemCode, item);
             
             //Add total sale amount to finance
+//            double totalAmount = this.quantitySold * item.getUnitPrice();
         } else {
             System.out.println("Item with code " + this.itemCode + " not found.");
         }

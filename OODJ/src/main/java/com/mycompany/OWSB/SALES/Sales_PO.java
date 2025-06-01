@@ -6,14 +6,20 @@ package com.mycompany.OWSB.SALES;
 
 import com.mycompany.OWSB.PURCHASE.*;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -111,7 +117,7 @@ public class Sales_PO extends javax.swing.JPanel {
     private void loadPOListFromFile() {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[] {
-            "PO ID", "Item ID", "Item Name", "Quantity", "Supplier", "Status", "Raised By", "Required Delivery Date"
+            "PO ID", "Item ID", "Item Name", "Quantity", "Total Price", "Supplier", "Raised By", "Required Delivery Date", "Status"
         });
         
         Map<String, String> supplierMap = new HashMap<>();
@@ -146,42 +152,29 @@ public class Sales_PO extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error reading login.txt: " + e.getMessage());
         }
         
+        // Use the PO class viewPOsInFile() method
+        List<PO> poList = PO.viewPOsInFile();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("PO_Lists.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (!line.isEmpty()) {
-                    String[] data = line.split(";");
-                    if (data.length == 8) {
-                        String poID = data[0];
-                        String itemID = data[1];
-                        String itemName = data[2];
-                        String quantity = data[3];
-                        
-                        String supplierID = data[4];
-                        String supplierName = supplierMap.getOrDefault(supplierID, "Unknown");
-                        String supplierFull = supplierID + "-" + supplierName;
-                        
-                        String status = data[5];
-                        
-                        String empID = data[6];
-                        String username = empMap.getOrDefault(empID, "Unknown");
-                        String raisedBy = empID + "-" + username;
-                        
-                        String date = data[7];
-                        
-                        model.addRow(new Object[]{
-                            poID, itemID, itemName, quantity, supplierFull, status, raisedBy, date
-                        });
-                        
-                    } else {
-                        System.out.println("Skipping malformed line: " + line);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading PO_Lists.txt: " + e.getMessage());
+        for (PO po : poList) {
+            String supplierID = po.getSupplierID();
+            String supplierName = supplierMap.getOrDefault(supplierID, "Unknown");
+            String supplierFull = supplierID + "-" + supplierName;
+
+            String empID = po.getRaisedBy();
+            String username = empMap.getOrDefault(empID, "Unknown");
+            String raisedBy = empID + "-" + username;
+
+            model.addRow(new Object[]{
+                po.getPOID(),
+                po.getItemID(),
+                po.getItemName(),
+                po.getQuantity(),
+                po.getTotalPrice(),
+                supplierFull,
+                raisedBy,
+                po.getDeliveryDate(),
+                po.getStatus().toString(),
+            });
         }
 
         PO_Table.setModel(model);
@@ -194,12 +187,13 @@ public class Sales_PO extends javax.swing.JPanel {
         PO_Table.getColumnModel().getColumn(1).setPreferredWidth(70);  // Item ID
         PO_Table.getColumnModel().getColumn(2).setPreferredWidth(100); // Item Name
         PO_Table.getColumnModel().getColumn(3).setPreferredWidth(60);  // Quantity
-        PO_Table.getColumnModel().getColumn(4).setPreferredWidth(150);  // Supplier ID
-        PO_Table.getColumnModel().getColumn(5).setPreferredWidth(80);  // Status
+        PO_Table.getColumnModel().getColumn(4).setPreferredWidth(60);  // Total Price
+        PO_Table.getColumnModel().getColumn(5).setPreferredWidth(150);  // Supplier
         PO_Table.getColumnModel().getColumn(6).setPreferredWidth(120);  // Emp ID
         PO_Table.getColumnModel().getColumn(7).setPreferredWidth(100); // Date
-
+        PO_Table.getColumnModel().getColumn(8).setPreferredWidth(80);  // Status
         PO_Table.getTableHeader().setFont(new java.awt.Font("Georgia", java.awt.Font.BOLD, 12));
+        
     }
     
     
