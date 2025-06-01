@@ -99,13 +99,13 @@ public class Sales_PO extends javax.swing.JPanel {
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         // TODO add your handling code here:
-        Purchase_CreatePO PMcreatePO = new Purchase_CreatePO(ChangePanel);
-        
-        ChangePanel.removeAll();
-        ChangePanel.setLayout(new BorderLayout());
-        ChangePanel.add(PMcreatePO, BorderLayout.CENTER);
-        ChangePanel.revalidate();
-        ChangePanel.repaint();
+//        Purchase_CreatePO PMcreatePO = new Purchase_CreatePO(ChangePanel);
+//        
+//        ChangePanel.removeAll();
+//        ChangePanel.setLayout(new BorderLayout());
+//        ChangePanel.add(PMcreatePO, BorderLayout.CENTER);
+//        ChangePanel.revalidate();
+//        ChangePanel.repaint();
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void loadPOListFromFile() {
