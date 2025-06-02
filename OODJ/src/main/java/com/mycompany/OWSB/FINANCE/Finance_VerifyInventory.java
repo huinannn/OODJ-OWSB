@@ -252,7 +252,6 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
         SearchImage = new javax.swing.JLabel();
         search = new javax.swing.JLabel();
         btnSearch = new javax.swing.JTextField();
-        SearchImage4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -269,6 +268,8 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(Inventory_Table);
 
+        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
+
         search.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         search.setText("Search");
 
@@ -277,8 +278,6 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
                 btnSearchActionPerformed(evt);
             }
         });
-
-        SearchImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -295,8 +294,6 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(SearchImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SearchImage4)
-                        .addGap(12, 12, 12)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -309,9 +306,6 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(InventoryList_Label)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(SearchImage4)
-                            .addGap(4, 4, 4))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(search))
@@ -340,7 +334,6 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
     private javax.swing.JLabel InventoryList_Label;
     private javax.swing.JTable Inventory_Table;
     private javax.swing.JLabel SearchImage;
-    private javax.swing.JLabel SearchImage4;
     private javax.swing.JTextField btnSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel search;

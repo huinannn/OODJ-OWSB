@@ -312,7 +312,7 @@ public class FinancialReport {
 
     public static String generateNewFinanceReportID() {
         int lastNum = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader("FReport.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("FinancialReport.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.matches(".*FREP\\d{3}.*")) {

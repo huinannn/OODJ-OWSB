@@ -142,9 +142,6 @@ public class Finance_ViewPR extends javax.swing.JPanel {
         search = new javax.swing.JLabel();
         btnSearch = new javax.swing.JTextField();
         SearchImage = new javax.swing.JLabel();
-        SearchImage1 = new javax.swing.JLabel();
-        SearchImage2 = new javax.swing.JLabel();
-        SearchImage4 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,7 +178,7 @@ public class Finance_ViewPR extends javax.swing.JPanel {
             }
         });
 
-        SearchImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
+        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -196,24 +193,12 @@ public class Finance_ViewPR extends javax.swing.JPanel {
                         .addGap(28, 28, 28)
                         .addComponent(PRList_Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SearchImage4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SearchImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(312, 312, 312)
-                    .addComponent(SearchImage1)
-                    .addContainerGap(328, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(322, Short.MAX_VALUE)
-                    .addComponent(SearchImage2)
-                    .addGap(318, 318, 318)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,9 +207,6 @@ public class Finance_ViewPR extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PRList_Label)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(SearchImage4)
-                            .addGap(4, 4, 4))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(search))
@@ -232,16 +214,6 @@ public class Finance_ViewPR extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(287, 287, 287)
-                    .addComponent(SearchImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(287, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(297, Short.MAX_VALUE)
-                    .addComponent(SearchImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(277, 277, 277)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -263,9 +235,6 @@ public class Finance_ViewPR extends javax.swing.JPanel {
     private javax.swing.JLabel PRList_Label;
     private javax.swing.JTable PR_Table;
     private javax.swing.JLabel SearchImage;
-    private javax.swing.JLabel SearchImage1;
-    private javax.swing.JLabel SearchImage2;
-    private javax.swing.JLabel SearchImage4;
     private javax.swing.JTextField btnSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
