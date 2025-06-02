@@ -139,7 +139,7 @@ public class Sales_EditSupplier extends javax.swing.JPanel {
                         continue;
                     }
 
-                String[] parts = line.split(";");
+                    String[] parts = line.split(";");
                     String formattedPrice = String.format("%.2f", updatedSupplier.getUnitPrice());
                     if (parts[0].equals(supplierID)) {
                         String updatedLine = updatedSupplier.getSupplierID() + ";" +

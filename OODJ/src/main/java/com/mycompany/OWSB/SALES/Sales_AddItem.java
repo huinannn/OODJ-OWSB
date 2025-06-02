@@ -44,7 +44,7 @@ public final class Sales_AddItem extends javax.swing.JPanel {
         int maxID = 0;
         
         for(Items item : itemList){
-             String id = item.getItemCode();
+            String id = item.getItemCode();
             if(id.startsWith("ITM")){
                 try{
                     int numericPart = Integer.parseInt(id.substring(3));

@@ -1,0 +1,2 @@
+SalesID;ItemCode;QuantitySold;DateOfSales
+DS001;ITM001;8;2025-06-02

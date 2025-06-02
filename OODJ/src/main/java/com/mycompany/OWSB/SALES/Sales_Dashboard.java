@@ -237,10 +237,11 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_item_suppliersActionPerformed
 
     private void daily_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daily_salesActionPerformed
-        
+        Sales_DailySales ds = new Sales_DailySales(ChangePanel);
         
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(ds, BorderLayout.CENTER);
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_daily_salesActionPerformed
