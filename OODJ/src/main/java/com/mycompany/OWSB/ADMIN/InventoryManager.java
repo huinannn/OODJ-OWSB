@@ -4,7 +4,7 @@
  */
 package com.mycompany.OWSB.ADMIN;
 
-import com.mycompany.OWSB.PURCHASE.Purchase_Dashboard;
+import com.mycompany.OWSB.INVENTORY.*;
 
 
 /**
@@ -18,6 +18,6 @@ public class InventoryManager extends User{
     
     @Override
     public void accessDashboard(){
-        new Purchase_Dashboard().setVisible(true); //wrong dashboard, waiting for inventory dashboard
+        new IM_Dashboard().setVisible(true); //wrong dashboard, waiting for inventory dashboard
     }
 }

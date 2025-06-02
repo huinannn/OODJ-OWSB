@@ -35,6 +35,13 @@ public class IM_Dashboard extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        IM_ViewInventory inventoryPanel = new IM_ViewInventory(); 
+
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
     }
 
     private void updateStockFromPO() throws IOException {
@@ -181,7 +188,6 @@ public class IM_Dashboard extends javax.swing.JFrame {
         ViewInventory = new javax.swing.JButton();
         View_Approved_PO = new javax.swing.JButton();
         Arrived_Stock = new javax.swing.JButton();
-        Stock_History = new javax.swing.JButton();
         LogOut = new javax.swing.JButton();
         IM_Panel = new javax.swing.JPanel();
 
@@ -227,14 +233,6 @@ public class IM_Dashboard extends javax.swing.JFrame {
             }
         });
 
-        Stock_History.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        Stock_History.setText("Stocks History");
-        Stock_History.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Stock_HistoryActionPerformed(evt);
-            }
-        });
-
         LogOut.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         LogOut.setText("Log Out");
         LogOut.addActionListener(new java.awt.event.ActionListener() {
@@ -259,17 +257,14 @@ public class IM_Dashboard extends javax.swing.JFrame {
                             .addComponent(ViewInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(View_Approved_PO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Arrived_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Stock_History, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(FMRole)
+                        .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ProfilePicture)
+                            .addComponent(FMRole))
                         .addGap(32, 32, 32)))
                 .addGap(32, 32, 32))
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SideBarLayout.setVerticalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,11 +281,9 @@ public class IM_Dashboard extends javax.swing.JFrame {
                 .addComponent(View_Approved_PO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
                 .addComponent(Arrived_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(25, 25, 25)
-                .addComponent(Stock_History, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(25, 25, 25)
+                .addGap(26, 26, 26)
                 .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(40, 40, 40))
+                .addGap(84, 84, 84))
         );
 
         IM_Panel.setBackground(new java.awt.Color(255, 255, 255));
@@ -357,31 +350,20 @@ public class IM_Dashboard extends javax.swing.JFrame {
         IM_Panel.repaint();
     }//GEN-LAST:event_View_Approved_POActionPerformed
 
-    private void Stock_HistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock_HistoryActionPerformed
-        // TODO add your handling code here:
-//        IM_ViewStockHistory inventoryPanel = new IM_ViewStockHistory(); 
-//
-//        IM_Panel.removeAll();
-//        IM_Panel.setLayout(new BorderLayout());
-//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
-//        IM_Panel.revalidate();
-//        IM_Panel.repaint();
-    }//GEN-LAST:event_Stock_HistoryActionPerformed
-
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
-//        new com.mycompany.OWSB.ADMIN.Login().setVisible(true);
-//        this.dispose();
+        new com.mycompany.OWSB.ADMIN.Login().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_LogOutActionPerformed
 
     private void Arrived_StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Arrived_StockActionPerformed
         // TODO add your handling code here:
-//        IM_ManageStock inventoryPanel = new IM_ManageStock(); 
-//
-//        IM_Panel.removeAll();
-//        IM_Panel.setLayout(new BorderLayout());
-//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
-//        IM_Panel.revalidate();
-//        IM_Panel.repaint();
+        IM_ManageStock inventoryPanel = new IM_ManageStock(); 
+
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
     }//GEN-LAST:event_Arrived_StockActionPerformed
 
     /**
@@ -428,7 +410,6 @@ public class IM_Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton LogOut;
     private javax.swing.JLabel ProfilePicture;
     private javax.swing.JPanel SideBar;
-    private javax.swing.JButton Stock_History;
     private javax.swing.JButton ViewInventory;
     private javax.swing.JButton ViewProfile;
     private javax.swing.JButton View_Approved_PO;
