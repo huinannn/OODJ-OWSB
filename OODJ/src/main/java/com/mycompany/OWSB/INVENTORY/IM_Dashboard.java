@@ -4,9 +4,13 @@
  */
 
 package com.mycompany.OWSB.INVENTORY;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.awt.*;
-
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 /**
  *
  * @author Hui Nan
@@ -19,10 +23,143 @@ public class IM_Dashboard extends javax.swing.JFrame {
      */
     
     public IM_Dashboard() {
-        setTitle("Finance Manager Dashboard");
+        setTitle("Inventory Manager Dashboard");
         initComponents();
         setLocationRelativeTo(null); 
+
+        try {
+            updateStockFromPO();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    private void updateStockFromPO() throws IOException {
+        List<String[]> poList = readFile("PO_Lists.txt");
+        List<String[]> stockList = readOrCreateFile("Stock.txt");
+        List<String[]> inventoryList = readFile("../OODJ_My_Code/database/Inventory.txt");
+
+        Set<String> existingPOIDs = new HashSet<>();
+        Set<String> existingStockIDs = new HashSet<>();
+
+        for (int i = 1; i < stockList.size(); i++) {
+            existingPOIDs.add(stockList.get(i)[1]);
+            existingStockIDs.add(stockList.get(i)[0]);
+        }
+
+        Map<String, Integer> inventoryQuantities = new HashMap<>();
+        for (int i = 1; i < inventoryList.size(); i++) {
+            String[] parts = inventoryList.get(i);
+            inventoryQuantities.put(parts[0], Integer.parseInt(parts[3]));
+        }
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter[] dateFormats = {
+                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        };
+
+        
+        List<String[]> newStockEntries = new ArrayList<>();
+
+        for (String[] po : poList) {
+            if (po.length < 9) continue;
+
+            String poid = po[0];
+            String itemid = po[1];
+            String itemname = po[2];
+            int newQty = Integer.parseInt(po[3]);
+            double unitPrice = Double.parseDouble(po[4]);
+            String supplier = po[5];
+            String deliveryDateStr = po[7];
+            String status = po[8];
+
+            // Process only approved POs
+            if (!status.equals("Approved")) continue;
+
+            // Skip if already processed
+            if (existingPOIDs.contains(poid)) continue;
+
+            // Parse delivery date
+            LocalDate deliveryDate = null;
+            for (DateTimeFormatter format : dateFormats) {
+                try {
+                    deliveryDate = LocalDate.parse(deliveryDateStr, format);
+                    break;
+                } catch (Exception ignored) {}
+            }
+            if (deliveryDate == null || deliveryDate.isAfter(today)) continue;
+
+            int prevQty = inventoryQuantities.getOrDefault(itemid, 0);
+            int currQty = prevQty + newQty;
+            double totalPrice = newQty * unitPrice;
+
+            String newStockID = generateStockID(existingStockIDs);
+            existingStockIDs.add(newStockID);
+
+            String[] newEntry = {
+                    newStockID,
+                    poid,
+                    itemid,
+                    itemname,
+                    String.valueOf(newQty),
+                    String.format("%.2f", totalPrice),
+                    supplier,
+                    deliveryDate.format(dateFormats[0]),
+                    String.valueOf(prevQty),
+                    String.valueOf(currQty),
+                    "Pending",
+                    "-",
+                    "Unpaid"
+            };
+
+            newStockEntries.add(newEntry);
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("Stock.txt", true))) {
+            if (stockList.size() == 0) {
+                bw.write("NewStockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus\n");
+            }
+            for (String[] entry : newStockEntries) {
+                bw.write(String.join(";", entry));
+                bw.newLine();
+            }
+        }
+
+        System.out.println("Stock update completed.");
+    }
+    private static List<String[]> readFile(String filename) throws IOException {
+        List<String[]> data = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    data.add(line.split(";", -1));
+                }
+            }
+        }
+        return data;
+    }
+
+    private static List<String[]> readOrCreateFile(String filename) throws IOException {
+        File file = new File(filename);
+        if (!file.exists()) {
+            file.createNewFile();
+            return new ArrayList<>();
+        } else {
+            return readFile(filename);
+        }
+    }
+
+    private static String generateStockID(Set<String> existingIDs) {
+        int i = 1;
+        while (true) {
+            String id = String.format("NS%03d", i);
+            if (!existingIDs.contains(id)) return id;
+            i++;
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,7 +186,7 @@ public class IM_Dashboard extends javax.swing.JFrame {
 
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
-        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Finance Manager Profile.png"))); // NOI18N
+        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Admin.png"))); // NOI18N
 
         FMRole.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         FMRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -190,22 +327,36 @@ public class IM_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewInventoryActionPerformed
-    IM_ViewInventory inventoryPanel = new IM_ViewInventory(); 
+        IM_ViewInventory inventoryPanel = new IM_ViewInventory(); 
 
-    IM_Panel.removeAll();
-    IM_Panel.setLayout(new BorderLayout());
-    IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
-    IM_Panel.revalidate();
-    IM_Panel.repaint();
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
         
     }//GEN-LAST:event_ViewInventoryActionPerformed
 
     private void View_Approved_POActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_Approved_POActionPerformed
         // TODO add your handling code here:
+//        IM_ViewApprovedPO inventoryPanel = new IM_ViewApprovedPO(); 
+//
+//        IM_Panel.removeAll();
+//        IM_Panel.setLayout(new BorderLayout());
+//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+//        IM_Panel.revalidate();
+//        IM_Panel.repaint();
     }//GEN-LAST:event_View_Approved_POActionPerformed
 
     private void Stock_HistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock_HistoryActionPerformed
         // TODO add your handling code here:
+//        IM_ViewStockHistory inventoryPanel = new IM_ViewStockHistory(); 
+//
+//        IM_Panel.removeAll();
+//        IM_Panel.setLayout(new BorderLayout());
+//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+//        IM_Panel.revalidate();
+//        IM_Panel.repaint();
     }//GEN-LAST:event_Stock_HistoryActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
@@ -215,6 +366,13 @@ public class IM_Dashboard extends javax.swing.JFrame {
 
     private void Arrived_StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Arrived_StockActionPerformed
         // TODO add your handling code here:
+//        IM_ManageStock inventoryPanel = new IM_ManageStock(); 
+//
+//        IM_Panel.removeAll();
+//        IM_Panel.setLayout(new BorderLayout());
+//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+//        IM_Panel.revalidate();
+//        IM_Panel.repaint();
     }//GEN-LAST:event_Arrived_StockActionPerformed
 
     /**
