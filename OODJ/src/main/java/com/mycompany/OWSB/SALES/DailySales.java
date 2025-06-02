@@ -19,21 +19,24 @@ import javax.swing.JOptionPane;
  *
  * @author xiaochingloh
  */
-public class DailySales {
+public final class DailySales {
     private String salesID;
     private String itemCode;
     private int quantitySold;
+    private double totalAmount;
     private LocalDate date;
     
     //Empty Constructor
     public DailySales(){}
     
     //Constructor
-    public DailySales(String salesID, String itemCode, int quantitySold, LocalDate date){
+    public DailySales(String salesID, String itemCode, int quantitySold, double totalAmount, LocalDate date){
         this.salesID = salesID;
         this.itemCode = itemCode;
         this.quantitySold = quantitySold;
+        this.totalAmount = totalAmount;
         this.date = date;
+        calculateTotalSales();
     }
 
     public String getSalesID() {
@@ -50,6 +53,7 @@ public class DailySales {
 
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
+        calculateTotalSales();
     }
 
     public int getQuantitySold() {
@@ -58,6 +62,7 @@ public class DailySales {
 
     public void setQuantitySold(int quantitySold) {
         this.quantitySold = quantitySold;
+        calculateTotalSales();
     }
 
     public LocalDate getDate() {
@@ -67,8 +72,16 @@ public class DailySales {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
     
-    // Reduces stock & Add revenue after sales
+    // Reduces stock
     public void reduceStock() {
         Items item = Sales_EditItem.getItemByCode(this.itemCode);
         if (item != null){
@@ -83,14 +96,30 @@ public class DailySales {
         }
     }
     
+    //Add revenue after sales
     public double calculateTotalSales() {
         Items item = Sales_EditItem.getItemByCode(this.itemCode);
         if (item != null) {
-            // Add total sale amount to finance
-            double totalAmount = this.quantitySold * item.getUnitPrice();
-            return totalAmount;
+            this.totalAmount = this.quantitySold * item.getUnitPrice();
+        } else {
+            this.totalAmount = 0.0;
         }
-        return 0.0;
+        return this.totalAmount;
+    }
+    
+    //Edit Stock Quantity (Add back the original quantity sold before subtracting new edited quantity sold)
+    public void editStock() {
+        Items item = Sales_EditItem.getItemByCode(this.itemCode);
+        if (item != null){
+            //Reduce Stock
+            int currentQuantity = item.getStockCurrentQuantities();
+            item.setStockCurrentQuantities(currentQuantity + this.quantitySold);
+            
+            Sales_EditItem.editItemsInFile(this.itemCode, item);
+            
+        } else {
+            System.out.println("Item with code " + this.itemCode + " not found.");
+        }
     }
     
     
@@ -114,13 +143,14 @@ public class DailySales {
                 BufferedWriter bw = new BufferedWriter(fw);
             ) {
                 if (!fileExists){
-                    bw.write("SalesID;ItemCode;QuantitySold;DateOfSales");
+                    bw.write("SalesID;ItemCode;QuantitySold;TotalAmount;DateOfSales");
                     bw.newLine();
                 }
                 
                 bw.write(ds.getSalesID() + ";" +
                          ds.getItemCode() + ";" +
                          ds.getQuantitySold() + ";" +
+                         ds.getTotalAmount() + ";" +
                          ds.getDate());
                 bw.newLine();
             }
@@ -156,9 +186,10 @@ public class DailySales {
                     if (parts.length >= 4 && parts[0].equals(salesID)){
                         String itemCode = parts[1];
                         int quantitySold = Integer.parseInt(parts[2]);
-                        LocalDate date = LocalDate.parse(parts[3]);
+                        double totalAmount = Double.parseDouble(parts[3]);
+                        LocalDate date = LocalDate.parse(parts[4]);
                         
-                        return new DailySales(salesID, itemCode, quantitySold, date);
+                        return new DailySales(salesID, itemCode, quantitySold, totalAmount, date);
                                 
                     }
                 }
@@ -201,11 +232,13 @@ public class DailySales {
                         String[] row = line.split(";");
                         if (row.length >= 4){
                             int quantitySold = Integer.parseInt(row[2]);
-                            LocalDate date = LocalDate.parse(row[3]);
+                            double totalAmount = Double.parseDouble(row[3]);
+                            LocalDate date = LocalDate.parse(row[4]);
                             DailySales ds = new DailySales(
                                     row[0],
                                     row[1],
                                     quantitySold,
+                                    totalAmount,
                                     date
                             );
                             dsList.add(ds);
@@ -253,6 +286,7 @@ public class DailySales {
                         String updatedLine = updatedSales.getSalesID() + ";" +
                                 updatedSales.getItemCode() + ";" +
                                 updatedSales.getQuantitySold() + ";" +
+                                updatedSales.getTotalAmount() + ";" +
                                 updatedSales.getDate();
                         lines.add(updatedLine);
                     } else {

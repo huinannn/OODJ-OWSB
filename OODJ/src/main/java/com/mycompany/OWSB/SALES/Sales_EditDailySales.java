@@ -43,9 +43,12 @@ public class Sales_EditDailySales extends javax.swing.JPanel {
             quantity.setText(String.valueOf(dailySales.getQuantitySold()));
             date.setText(String.valueOf(dailySales.getDate()));
             title.setText(dailySales.getSalesID());
+            dailySales.editStock();
         } else {
             JOptionPane.showMessageDialog(null, "Sales not found.");
         }
+        
+        
     }
     
     private void showItemComboBox(){
@@ -236,10 +239,14 @@ public class Sales_EditDailySales extends javax.swing.JPanel {
         String itemCode = itemDetail.split(":")[0].trim();
         int quantity_given = Integer.parseInt(quantityInput);
         LocalDate date_given = LocalDate.parse(date.getText());
+        double totalAmount = 0.0;
 
-        DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, date_given);
+        DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, totalAmount, date_given);
 
         DailySales.editDSInFile(DSID, new_ds);
+        
+        //Deduct Stock in Inventory.txt
+        new_ds.reduceStock();
 
         //Back to Daily Sales table
         Sales_DailySales d = new Sales_DailySales(ChangePanel);

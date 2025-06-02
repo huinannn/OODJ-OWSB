@@ -128,6 +128,8 @@ public class Sales_DailySales extends javax.swing.JPanel {
                             );
                             
                             if(confirm == JOptionPane.YES_OPTION){
+                                DailySales ds = DailySales.getDSByID(DSID);
+                                ds.editStock();
                                 DailySales.deleteDSInFile(DSID);
                                 ((DefaultTableModel) dsTable.getModel()).removeRow(selectedRow);
                                 JOptionPane.showMessageDialog(null, "Sales ID: " + DSID + ", Item Name: " + item + "\nDeleted!");

@@ -249,10 +249,14 @@ public final class Sales_AddDailySales extends javax.swing.JPanel {
         String itemCode = itemDetail.split(":")[0].trim();
         int quantity_given = Integer.parseInt(quantityInput);
         LocalDate date_given = LocalDate.parse(date.getText());
+        double totalAmount = 0.0;
         
-        DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, date_given);
+        DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, totalAmount, date_given);
         
         DailySales.saveDSToFile(new_ds);
+        
+        //Deduct Stock in Inventory.txt
+        new_ds.reduceStock();
 
         //Back to Daily Sales table
         Sales_DailySales d = new Sales_DailySales(ChangePanel);

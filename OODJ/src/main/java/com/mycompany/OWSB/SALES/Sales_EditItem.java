@@ -144,8 +144,6 @@ public class Sales_EditItem extends javax.swing.JPanel {
                 }
             }
             
-            JOptionPane.showMessageDialog(null, "Item updated successfully!");
-            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error editing item: " + e.getMessage());
@@ -362,6 +360,7 @@ public class Sales_EditItem extends javax.swing.JPanel {
         Items newItem = new Items(item_ID, item_name, selectedCategory, stock_level, reorder_level, price_given, description_given, reorderStatus);
         
         editItemsInFile(item_ID, newItem);
+        JOptionPane.showMessageDialog(null, "Item updated successfully!");
         
         //Back to Items table
         Sales_Item item_panel = new Sales_Item(ChangePanel);
