@@ -73,6 +73,7 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
         Date_TextField = new javax.swing.JTextField();
         BackButton = new javax.swing.JButton();
         CreateButton = new javax.swing.JButton();
+        DisclaimButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -125,6 +126,14 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
             }
         });
 
+        DisclaimButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        DisclaimButton.setText("Disclaim");
+        DisclaimButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DisclaimButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,7 +158,11 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
                             .addComponent(Quantity_TextField, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Item_TextField, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(PRID_TextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CreateButton)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(DisclaimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(CreateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(170, 170, 170)
                         .addComponent(PR_Label)))
@@ -187,7 +200,8 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CreateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DisclaimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(116, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -255,6 +269,29 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
         ChangePanel.revalidate();
         ChangePanel.repaint();
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void DisclaimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DisclaimButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Update PR.txt status to DISCLAIMED for this PRID
+            updatePRStatus(PRID_TextField.getText(), "DISCLAIMED");
+
+            JOptionPane.showMessageDialog(this, "Purchase Requisition has been disclaimed successfully!");
+
+            // Return to PR Lists view
+            Purchase_PRLists PM_PRLists = new Purchase_PRLists(ChangePanel);
+            ChangePanel.removeAll();
+            ChangePanel.setLayout(new BorderLayout());
+            ChangePanel.add(PM_PRLists, BorderLayout.CENTER);
+            ChangePanel.revalidate();
+            ChangePanel.repaint();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error disclaiming PR: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_DisclaimButtonActionPerformed
 
     
     private void loadSuppliersForItem(String itemID) {
@@ -331,6 +368,7 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
     private javax.swing.JButton CreateButton;
     private javax.swing.JLabel Date_Label;
     private javax.swing.JTextField Date_TextField;
+    private javax.swing.JButton DisclaimButton;
     private javax.swing.JLabel Item_Label;
     private javax.swing.JTextField Item_TextField;
     private javax.swing.JLabel PRID_Label;
