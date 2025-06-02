@@ -39,7 +39,7 @@ public class IM_Dashboard extends javax.swing.JFrame {
     private void updateStockFromPO() throws IOException {
         List<String[]> poList = readFile("PO_Lists.txt");
         List<String[]> stockList = readOrCreateFile("Stock.txt");
-        List<String[]> inventoryList = readFile("../OODJ_My_Code/database/Inventory.txt");
+        List<String[]> inventoryList = readFile("../OODJ/database/Inventory.txt");
 
         Set<String> existingPOIDs = new HashSet<>();
         Set<String> existingStockIDs = new HashSet<>();
@@ -276,19 +276,19 @@ public class IM_Dashboard extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(FMRole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(59, 59, 59)
-                .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(ViewInventory, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(ViewInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(View_Approved_PO, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(View_Approved_PO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(Arrived_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(Arrived_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(Stock_History, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(Stock_History, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
         );
 
@@ -299,7 +299,7 @@ public class IM_Dashboard extends javax.swing.JFrame {
         IM_Panel.setLayout(IM_PanelLayout);
         IM_PanelLayout.setHorizontalGroup(
             IM_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 699, Short.MAX_VALUE)
+            .addGap(0, 627, Short.MAX_VALUE)
         );
         IM_PanelLayout.setVerticalGroup(
             IM_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

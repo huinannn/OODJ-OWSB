@@ -1,11 +1,11 @@
 ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus
 ITM001;Jasmine Rice 4kg;Dry Goods;75;10;18.00;Premium jasmine rice, fragrant and fluffy;STOCK READY
-ITM002;Milo 2kg;Beverages;90;10;15.00;Chocolate malt drink powder, energizing;STOCK READY
+ITM002;Milo 2kg;Beverages;90;10;15.00;Chocolate malt drink powder, energizing;LOW STOCK
 ITM003;Fresh Spinach 200g;Fresh Produce;100;10;3.50;Organic fresh spinach leaves, nutrient-rich;STOCK READY
 ITM004;Dutch Lady Milk 1L;Dairy;5;10;6.00;Fresh full cream milk, 1 liter pack;LOW STOCK
 ITM005;Ayamas Chicken Nuggets;Frozen Foods;9;10;9.00;Crispy and tasty chicken nuggets;LOW STOCK
 ITM006;Mr Muscle Floor Cleaner;Cleaning Supplies;100;10;7.20;Powerful floor cleaner with fresh scent;STOCK READY
 ITM007;Colgate Toothpaste 120g;Personal Care;100;10;4.50;Fluoride toothpaste for daily oral care;STOCK READY
-ITM008;Nescafe Classic 200g;Beverages;80;10;12.00;Classic instant coffee, rich aroma;STOCK READY
+ITM008;Nescafe Classic 200g;Beverages;80;100;12.00;Classic instant coffee, rich aroma;LOW STOCK
 ITM009;Cabbage (Local) 1kg;Fresh Produce;9;10;2.00;Fresh locally grown cabbage, crisp and green;LOW STOCK
 ITM010;Anlene Gold 1kg;Dairy;30;10;45.00;Calcium enriched milk powder for adults;STOCK READY

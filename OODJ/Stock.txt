@@ -1,0 +1,7 @@
+StockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus
+NS001;PO008;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;01-01-2025;0;10;APPROVED;03-06-2025;Unpaid
+NS002;PO0011;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;02-06-2025;0;10;APPROVED;03-06-2025;Unpaid
+NS003;PO0018;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;02-06-2025;0;10;APPROVED;01-06-2025;Paid
+NS004;PO0019;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;02-06-2025;0;10;DISCLAIMED;-;Disclaimed
+NS005;PO0020;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;02-06-2025;0;10;DISCLAIMED;-;Disclaimed
+NS006;PO0020;ITM002;Milo 2kg;10;500.0;SUP004-Nestlé Malaysia;02-06-2025;0;10;PENDING;-;Unpaid
