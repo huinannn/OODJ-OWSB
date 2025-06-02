@@ -1,5 +1,5 @@
 ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus
-ITM001;Jasmine Rice 5kg;Dry Goods;0;10;15.50;Premium long grain rice;LOW STOCK
+ITM001;Jasmine Rice 5kg;Dry Goods;0;20;15.50;Premium long grain rice;STOCK READY
 ITM002;Milo 2kg;Beverages;0;10;27.90;Popular chocolate malt drink;LOW STOCK
 ITM003;Fresh Spinach 200g;Fresh Produce;0;10;3.80;Locally grown spinach;LOW STOCK
 ITM004;Dutch Lady Milk 1L;Dairy;0;10;6.50;;LOW STOCK

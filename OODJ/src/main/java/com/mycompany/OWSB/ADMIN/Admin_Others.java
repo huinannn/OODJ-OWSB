@@ -5,7 +5,7 @@
 package com.mycompany.OWSB.ADMIN;
 
 import com.mycompany.OWSB.FINANCE.Finance_Dashboard;
-import com.mycompany.OWSB.INVENTORY.Inventory_Dashboard;
+import com.mycompany.OWSB.INVENTORY.IM_Dashboard;
 import com.mycompany.OWSB.PURCHASE.Purchase_Dashboard;
 import com.mycompany.OWSB.SALES.Sales_Dashboard;
 import javax.swing.JFrame;
@@ -194,7 +194,7 @@ public class Admin_Others extends javax.swing.JPanel {
     private void IM_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IM_ButtonActionPerformed
         // TODO add your handling code here:
         JFrame adminFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        Inventory_Dashboard pd = new Inventory_Dashboard();
+        IM_Dashboard pd = new IM_Dashboard();
         pd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         adminFrame.setVisible(false);
         

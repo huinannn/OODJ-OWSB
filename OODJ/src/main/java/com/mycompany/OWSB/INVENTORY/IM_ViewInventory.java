@@ -4,12 +4,12 @@
  */
 package com.mycompany.OWSB.INVENTORY;
 
+import com.mycompany.OWSB.SALES.Items;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,7 +113,7 @@ public class IM_ViewInventory extends javax.swing.JPanel {
                         .addComponent(Save_InventoryBtn))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -124,9 +124,9 @@ public class IM_ViewInventory extends javax.swing.JPanel {
                     .addComponent(Inventory_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Save_InventoryBtn)
                     .addComponent(SortBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(175, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 private void filterAndDisplayInventory() {
@@ -143,7 +143,7 @@ private void filterAndDisplayInventory() {
             String category = data[2];
             int quantity = Integer.parseInt(data[3]);
             int reorderLevel = Integer.parseInt(data[4]);
-            String reorderAlert = data[6];
+            String reorderAlert = data[7];
 
             // Apply filter based on selection
             if (selected.equals("Low Stock") && quantity >= reorderLevel) continue;
@@ -187,8 +187,10 @@ private void filterAndDisplayInventory() {
         // Preserve description from fullInventoryData (or use empty if missing)
         String[] originalData = fullInventoryData.get(itemID);
         String description = "";
+        String unitPrice = "";
         if (originalData != null && originalData.length >= 7) {
-            description = originalData[5]; // original description index (5)
+            description = originalData[6]; // original description index (6)
+            unitPrice = originalData[5];
         }
 
         // Update the fullInventoryData map with edited data for this item
@@ -199,6 +201,7 @@ private void filterAndDisplayInventory() {
             category,
             String.valueOf(quantity),
             String.valueOf(reorderLevel),
+            unitPrice,
             description,
             reorderAlert
         });
@@ -211,25 +214,32 @@ private void filterAndDisplayInventory() {
         return Integer.compare(idA, idB);
     });
 
-    // Now save the fullInventoryData to file
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("../OODJ_My_Code/database/Inventory.txt"))) {
-    // Write header
-        bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus");
-        bw.newLine();
+    // Now save the fullInventoryData to file (XC: I changed ur file path)
+    try {
+            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File file = new File(dbDir, "Inventory.txt");
+            
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                // Write header
+                bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
+                bw.newLine();
+                
+                // Write all sorted inventory data
+                for (String[] rowData : sortedList) {
+                    String line = String.join(";", rowData);
+                    bw.write(line);
+                    bw.newLine();
+                }
 
-        // Write all sorted inventory data
-        for (String[] rowData : sortedList) {
-            String line = String.join(";", rowData);
-            bw.write(line);
-            bw.newLine();
-        }
-
-        bw.flush();
-        javax.swing.JOptionPane.showMessageDialog(this, "Inventory saved successfully.");
-    } catch (IOException e) {
+                bw.flush();
+                javax.swing.JOptionPane.showMessageDialog(this, "Inventory saved successfully.");
+            }
+    } catch (Exception e) {
+        e.printStackTrace();
         javax.swing.JOptionPane.showMessageDialog(this, "Error saving inventory: " + e.getMessage());
     }
-
     // Reload full data from file
     fullInventoryData.clear();
     loadInventoryData();
@@ -248,35 +258,51 @@ private void loadInventoryData() {
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
     model.setRowCount(0); // Clear existing data
     fullInventoryData.clear();
+    
+    
+    //(XC: I changed ur file path)
+    try {
+        //Get Path
+        String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        File baseDir = new File(classPath).getParentFile(); 
 
-    try (BufferedReader br = new BufferedReader(new FileReader("../OODJ_My_Code/database/Inventory.txt"))) {
-        String line;
-        boolean skipHeader = true;
-        while ((line = br.readLine()) != null) {
-            if (skipHeader) {
-                skipHeader = false;
-                continue;
-            }
+        File dbDir = new File(baseDir.getParentFile(), "database");
+        if (!dbDir.exists()) {
+            dbDir.mkdirs(); 
+        }
+        File file = new File(dbDir, "Inventory.txt");
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean skipHeader = true;
+            while ((line = br.readLine()) != null) {
+                if (skipHeader) {
+                    skipHeader = false;
+                    continue;
+                }
 
-            String[] parts = line.split(";", -1);  // -1 to keep trailing empty strings
-            if (parts.length >= 7) {
-                String itemID = parts[0];
-                fullInventoryData.put(itemID, parts);
+                String[] parts = line.split(";", -1);  // -1 to keep trailing empty strings
+                if (parts.length >= 7) {
+                    String itemID = parts[0];
+                    fullInventoryData.put(itemID, parts);
 
-                // Add only required fields to table
-                String itemName = parts[1];
-                String category = parts[2];
-                int quantity = Integer.parseInt(parts[3]);
-                int reorderLevel = Integer.parseInt(parts[4]);
-                String reorderAlert = parts[6];
+                    // Add only required fields to table
+                    String itemName = parts[1];
+                    String category = parts[2];
+                    int quantity = Integer.parseInt(parts[3]);
+                    int reorderLevel = Integer.parseInt(parts[4]);
+                    String reorderAlert = parts[7];
 
-                model.addRow(new Object[] {
-                    itemID, itemName, category, quantity, reorderLevel, reorderAlert
-                });
+                    model.addRow(new Object[] {
+                        itemID, itemName, category, quantity, reorderLevel, reorderAlert
+                    });
+                }
             }
         }
-    } catch (IOException | NumberFormatException e) {
+    
+    } catch (Exception e){
         javax.swing.JOptionPane.showMessageDialog(this, "Error loading inventory: " + e.getMessage());
+        e.printStackTrace();
     }
 }
 
