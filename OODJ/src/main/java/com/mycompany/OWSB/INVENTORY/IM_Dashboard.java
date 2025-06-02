@@ -6,6 +6,7 @@
 package com.mycompany.OWSB.INVENTORY;
 
 
+import com.mycompany.OWSB.ADMIN.Profile;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
@@ -325,7 +326,13 @@ public class IM_Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewProfileActionPerformed
-        // TODO add your handling code here:
+        Profile profile = new Profile(IM_Panel);
+        
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(profile, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewInventoryActionPerformed
@@ -341,13 +348,13 @@ public class IM_Dashboard extends javax.swing.JFrame {
 
     private void View_Approved_POActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_Approved_POActionPerformed
         // TODO add your handling code here:
-//        IM_ViewApprovedPO inventoryPanel = new IM_ViewApprovedPO(); 
-//
-//        IM_Panel.removeAll();
-//        IM_Panel.setLayout(new BorderLayout());
-//        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
-//        IM_Panel.revalidate();
-//        IM_Panel.repaint();
+        IM_ViewApprovedPO inventoryPanel = new IM_ViewApprovedPO(); 
+
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
     }//GEN-LAST:event_View_Approved_POActionPerformed
 
     private void Stock_HistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stock_HistoryActionPerformed

@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ooijinghui
  */
-public class IM_ViewApprovedPO extends javax.swing.JPanel {
+public final class IM_ViewApprovedPO extends javax.swing.JPanel {
 
     /**
      * Creates new form IM_ViewApprovedPO
