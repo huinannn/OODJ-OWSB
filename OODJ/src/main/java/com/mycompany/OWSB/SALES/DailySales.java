@@ -125,7 +125,7 @@ public final class DailySales {
     public void editStock() {
         Items item = Sales_EditItem.getItemByCode(this.itemCode);
         if (item != null){
-            //Reduce Stock
+            //Add Stock
             int currentQuantity = item.getStockCurrentQuantities();
             item.setStockCurrentQuantities(currentQuantity + this.quantitySold);
             

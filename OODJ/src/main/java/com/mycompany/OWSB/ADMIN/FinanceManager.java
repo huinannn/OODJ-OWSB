@@ -19,5 +19,6 @@ public class FinanceManager extends User{
     @Override
     public void accessDashboard(){
         new Finance_Dashboard().setVisible(true);
+        
     }
 }

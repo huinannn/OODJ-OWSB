@@ -7,6 +7,7 @@ package com.mycompany.OWSB.INVENTORY;
 
 
 import com.mycompany.OWSB.ADMIN.Profile;
+import com.mycompany.OWSB.ADMIN.Session;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
@@ -351,7 +352,9 @@ public class IM_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_View_Approved_POActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
-        new com.mycompany.OWSB.ADMIN.Login().setVisible(true);
+        if (!"Admin001".equals(Session.getEmployeeID())){
+            new com.mycompany.OWSB.ADMIN.Login().setVisible(true);
+        }
         this.dispose();
     }//GEN-LAST:event_LogOutActionPerformed
 

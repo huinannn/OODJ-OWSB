@@ -107,6 +107,11 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
         Supplier_Dropdown.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
 
         RaisedBy_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        RaisedBy_TextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RaisedBy_TextFieldActionPerformed(evt);
+            }
+        });
 
         Date_TextField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
 
@@ -292,6 +297,10 @@ public class Purchase_ReviewPR extends javax.swing.JPanel {
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_DisclaimButtonActionPerformed
+
+    private void RaisedBy_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RaisedBy_TextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RaisedBy_TextFieldActionPerformed
 
     
     private void loadSuppliersForItem(String itemID) {

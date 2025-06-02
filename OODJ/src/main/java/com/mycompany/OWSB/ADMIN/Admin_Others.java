@@ -136,12 +136,15 @@ public class Admin_Others extends javax.swing.JPanel {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 adminFrame.setVisible(true);
+                new Login().setVisible(false);
             }
 
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
                 adminFrame.setVisible(true);
+                new Login().setVisible(false);
             }
+            
         });
 
         pd.setVisible(true);

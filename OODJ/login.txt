@@ -1,7 +1,7 @@
 Admin001,admin,123,0,unlock
 SM001,sales,123,0,unlock
 SM002,sales2,123,0,unlock
-SM003,sales3,123,3,lock
+SM003,sales3,123,0,unlock
 PM001,purchase,123,0,unlock
 PM002,purchase2,123,0,unlock
 FM001,finance,123,0,unlock

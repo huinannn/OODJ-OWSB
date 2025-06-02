@@ -4,6 +4,8 @@
  */
 package com.mycompany.OWSB.INVENTORY;
 
+import com.mycompany.OWSB.SALES.Items;
+import com.mycompany.OWSB.SALES.Sales_EditItem;
 import javax.swing.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
@@ -63,8 +65,8 @@ private void loadStockDataIntoTable() {
         new Object[][] {},
         new String[] {
             "Stock ID", "PO ID", "Item ID", "Item Name", "Quantity Delivered",
-            "Supplier Name", "Previous Stock Quantity", "Current Stock Quantity",
-            "Stock Arrival Date", "Stock Approval Status", "Approve Date", "Payment Status"
+            "Supplier Name", "Stock Arrival Date", "Previous Stock Quantity", "Current Stock Quantity",
+             "Stock Approval Status", "Approve Date", "Payment Status"
         }
     ) {
         @Override
@@ -225,7 +227,7 @@ private void loadStockDataIntoTable() {
     updatedLines.add("StockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus");
     
     // Load existing data into a map by StockID (index 0)
-Map<String, String> existingStockMap = new HashMap<>();
+    Map<String, String> existingStockMap = new HashMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader("Stock.txt"))) {
         String line = br.readLine(); // Skip header line
         while ((line = br.readLine()) != null) {
@@ -308,6 +310,8 @@ Map<String, String> existingStockMap = new HashMap<>();
                 case "approved":
                     approvalDate = today;
                     paymentStatus = "Unpaid";
+                    int qty = Integer.parseInt(newStockQty);
+//                    addStock(itemID, qty);
                     break;
                 case "pending":
                     paymentStatus = "Unpaid";
@@ -331,6 +335,8 @@ Map<String, String> existingStockMap = new HashMap<>();
             );
 
             updatedLines.add(line);
+            
+            
         }
     }
 
@@ -342,6 +348,23 @@ Map<String, String> existingStockMap = new HashMap<>();
         JOptionPane.showMessageDialog(this, "Stock approval statuses saved successfully.");
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error saving Stock.txt: " + e.getMessage());
+    }
+    
+    
+    
+}
+    
+private void addStock(String stockID, String itemID, int quantity) {
+    Items item = Sales_EditItem.getItemByCode(itemID);
+    if (item != null && stockID != null){
+        //Add Stock
+        int currentQuantity = item.getStockCurrentQuantities();
+        item.setStockCurrentQuantities(currentQuantity + quantity);
+
+        Sales_EditItem.editItemsInFile(itemID, item);
+
+    } else {
+        System.out.println("Item with code " + itemID + " not found.");
     }
 }
 
