@@ -4,37 +4,51 @@
  */
 
 package com.mycompany.OWSB.FINANCE;
+import com.mycompany.OWSB.PURCHASE.PO;
 import com.mycompany.OWSB.SALES.*;
 import java.awt.*;
 import java.io.*;
+import javax.swing.*;
+import javax.swing.table.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
-import javax.swing.table.*;
 
 /**
  *
  * @author Thong Hui Nan
  */
 
-public class Finance_ViewPR extends javax.swing.JPanel {
-
-    public Finance_ViewPR(javax.swing.JPanel ChangePanel) {
+public class Finance_ViewPO extends javax.swing.JPanel {
+    private final javax.swing.JPanel ChangePanel;
+    
+    public Finance_ViewPO(javax.swing.JPanel ChangePanel) {
+        this.ChangePanel = ChangePanel;
         initComponents();
-        loadPRListFromFile();
-        setStatusColorRenderer();
+        loadPOListFromFile();
     }
     
-    private void loadPRListFromFile() {
-        String[] columns = {"PR ID", "Item", "Qty", "Supplier", "Status", "Raised By", "Date"};
-        DefaultTableModel model = new DefaultTableModel(columns, 0) {
+    private void loadPOListFromFile() {
+        List<PO> poList = loadPOListFromFileToObjects(); 
+        DefaultTableModel model = createPOTableModel(poList);
+        setupPO_Table(model);
+        setStatusColorRenderer();
+        setEditButtonFunctionality();
+    }
+
+    private DefaultTableModel createPOTableModel(List<PO> poList) {
+        DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == 8; 
             }
         };
 
+        model.setColumnIdentifiers(new String[]{
+             "PO ID", "Item", "Qty", "Total", "Supplier", "Raised By", "Date", "Status", "Action"
+        });
+        
         Map<String, String[]> itemCodeToPRMap = new HashMap<>();
         java.util.List<Items> items = Sales_AddItem.viewItemsInFile();
         for (Items item : items) {
@@ -42,47 +56,135 @@ public class Finance_ViewPR extends javax.swing.JPanel {
             String[] itemDetail = {item.getItemCode(), item.getItemName()};
             itemCodeToPRMap.put(prItemCode, itemDetail);
         }
-        
+
         Map<String, java.util.List<String>> itemCodeToSuppliersMap = new HashMap<>();
         java.util.List<Suppliers> suppliers = Sales_Supplier.viewSuppliersInFile();
-        for (Suppliers supplier : suppliers){
+        for (Suppliers supplier : suppliers) {
             String suppliedItemCode = supplier.getItemSupplied().split(":")[0].trim();
             String supplierInfo = supplier.getSupplierID() + " - " + supplier.getSupplierName();
             itemCodeToSuppliersMap.computeIfAbsent(suppliedItemCode, k -> new ArrayList<>()).add(supplierInfo);
         }
         
-        Map<String, String> empMap = loadAllUsers(); 
-        for (PR pr : PR.viewPRsInFile()) {
-            String[] itemDetail = itemCodeToPRMap.getOrDefault(pr.getItemCode(), new String[]{});
-            String item = (itemDetail.length >= 2 ? itemDetail[0] + " - " + itemDetail[1] : "");
+        Map<String, String> empMap = loadAllUsers();
 
-            java.util.List<String> suppliersList = itemCodeToSuppliersMap.getOrDefault(pr.getItemCode(), new ArrayList<>());
-            String supplierInfo = suppliersList.isEmpty() ? "N/A" : "<html>" + String.join("<br>", suppliersList) + "</html>";
-
-            String empID = pr.getRaisedBy();
-            String username = empMap.getOrDefault(empID, "Unknown");
-            String raisedBy = empID + " - " + username;
+        for (PO po : poList) {
+            String itemCode = po.getItemID();
+            if (!itemCodeToPRMap.containsKey(itemCode)) continue; 
             
-            model.addRow(new Object[] {
-                pr.getPRID(),
-                item,
-                pr.getQuantity(),
+            String[] itemDetails = itemCodeToPRMap.get(itemCode);
+            String itemName = itemDetails[1];
+
+            String supplierID = po.getSupplierID();
+            String supplierInfo = supplierID;
+
+            for (Suppliers supplier : suppliers) {
+                if (supplier.getSupplierID().equals(supplierID)) {
+                    supplierInfo = supplierID + " - " + supplier.getSupplierName();
+                    break;
+                }
+            }
+
+            String empID = po.getRaisedBy();
+            if (!empMap.containsKey(empID)) continue; 
+            String username = empMap.get(empID);
+            String raisedBy = empID + " - " + username;
+
+            model.addRow(new Object[]{
+                po.getPOID(),
+                itemCode + " - " + itemName,
+                po.getQuantity(),
+                String.format("%.2f", po.getTotalPrice()),
                 supplierInfo,
-                pr.getStatus(),
                 raisedBy,
-                pr.getDate(),
+                po.getDeliveryDate(),
+                po.getStatus(),
+                "Edit"
             });
         }
+        return model;
+    }
 
-        PR_Table.setModel(model);
-        PR_Table.setFont(new Font("Georgia", Font.PLAIN, 10));
-        PR_Table.setRowHeight(80);
-        PR_Table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10));
+    private void setupPO_Table(DefaultTableModel model) {
+        PO_Table.setModel(model);
+        PO_Table.setFont(new Font("Georgia", Font.PLAIN, 10));
+        PO_Table.setRowHeight(50);
+        PO_Table.getTableHeader().setFont(new Font("Georgia", Font.BOLD, 10));
 
-        int[] columnWidths = {60, 80, 40, 250, 110, 120, 100};
+        int[] columnWidths = {60, 60, 50, 58, 65, 68, 82, 100, 60};
         for (int i = 0; i < columnWidths.length; i++) {
-            PR_Table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
+            PO_Table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
         }
+    }
+   
+    private void setEditButtonFunctionality() {
+        PO_Table.getColumnModel().getColumn(8).setCellRenderer(new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
+                JButton button = new JButton("Edit");
+                button.setFont(new Font("Georgia", Font.PLAIN, 10));
+
+                button.setEnabled(true);
+                return button;
+            }
+        });
+
+        PO_Table.getColumnModel().getColumn(8).setCellEditor(new DefaultCellEditor(new JTextField()) {
+            private final JButton button = new JButton("Edit");
+            private int currentRow;
+
+            {
+                button.addActionListener(e -> {
+                    String status = PO_Table.getValueAt(currentRow, 7).toString();
+                    if (!status.equalsIgnoreCase("Pending")) {
+                        JOptionPane.showMessageDialog(PO_Table, "Only Pending POs can be edited.");
+                        fireEditingCanceled();
+                        return;
+                    }
+
+                    String poID = PO_Table.getValueAt(currentRow, 0).toString();
+                    System.out.println("Editing PO ID: " + poID);
+                    Finance_EditPO editPanel = new Finance_EditPO(poID, ChangePanel);
+                    ChangePanel.removeAll();
+                    ChangePanel.setLayout(new BorderLayout());
+                    ChangePanel.add(editPanel, BorderLayout.CENTER);
+                    ChangePanel.revalidate();
+                    ChangePanel.repaint();
+
+                    fireEditingStopped();
+                });
+            }
+
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value,
+                                                         boolean isSelected, int row, int column) {
+                currentRow = row;
+                return button;
+            }
+        });
+    }
+
+    private List<PO> loadPOListFromFileToObjects() {
+        List<PO> poList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("PO_Lists.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length == 9) {
+                    PO po = new PO(
+                        data[0], data[1], data[2],
+                        Integer.parseInt(data[3]),
+                        Double.parseDouble(data[4]),
+                        data[5], data[6], data[7],
+                        PO.PO_Status.fromString(data[8]) 
+                    );
+                    poList.add(po);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return poList;
     }
     
     public static Map<String, String> loadAllUsers() {
@@ -107,7 +209,7 @@ public class Finance_ViewPR extends javax.swing.JPanel {
     }
     
     private void setStatusColorRenderer() {
-        PR_Table.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+        PO_Table.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
                                                            boolean isSelected, boolean hasFocus, int row, int column) {
@@ -116,9 +218,9 @@ public class Finance_ViewPR extends javax.swing.JPanel {
 
                 if (!isSelected) {
                     switch (status) {
-                        case "approved" -> c.setBackground(new Color(144, 238, 144)); // light green
-                        case "disclaimed" -> c.setBackground(new Color(255, 182, 193)); // light pink
-                        case "pending" -> c.setBackground(new Color(173, 216, 230)); // light blue
+                        case "approved" -> c.setBackground(new Color(144, 238, 144)); 
+                        case "disclaimed" -> c.setBackground(new Color(255, 182, 193)); 
+                        case "pending" -> c.setBackground(new Color(173, 216, 230)); 
                         default -> c.setBackground(Color.WHITE);
                     }
                     c.setForeground(Color.BLACK);
@@ -130,39 +232,25 @@ public class Finance_ViewPR extends javax.swing.JPanel {
             }
         });
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        PRList_Label = new javax.swing.JLabel();
+        POList_Label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        PR_Table = new javax.swing.JTable();
+        PO_Table = new javax.swing.JTable();
+        SearchImage = new javax.swing.JLabel();
         search = new javax.swing.JLabel();
         btnSearch = new javax.swing.JTextField();
-        SearchImage = new javax.swing.JLabel();
-        SearchImage1 = new javax.swing.JLabel();
-        SearchImage2 = new javax.swing.JLabel();
         SearchImage4 = new javax.swing.JLabel();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        PRList_Label.setFont(new java.awt.Font("Comic Sans MS", 1, 20)); // NOI18N
-        PRList_Label.setText("Purchase Requisitions Lists");
+        POList_Label.setFont(new java.awt.Font("Comic Sans MS", 1, 20)); // NOI18N
+        POList_Label.setText("Purchase Order Lists");
 
-        PR_Table.setModel(new javax.swing.table.DefaultTableModel(
+        PO_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -170,7 +258,7 @@ public class Finance_ViewPR extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(PR_Table);
+        jScrollPane1.setViewportView(PO_Table);
 
         search.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         search.setText("Search");
@@ -187,40 +275,30 @@ public class Finance_ViewPR extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(PRList_Label)
+                        .addComponent(POList_Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SearchImage4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SearchImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SearchImage4)
+                        .addGap(12, 12, 12)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(312, 312, 312)
-                    .addComponent(SearchImage1)
-                    .addContainerGap(328, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(322, Short.MAX_VALUE)
-                    .addComponent(SearchImage2)
-                    .addGap(318, 318, 318)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PRList_Label)
+                    .addComponent(POList_Label)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(SearchImage4)
@@ -232,42 +310,29 @@ public class Finance_ViewPR extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(287, 287, 287)
-                    .addComponent(SearchImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(287, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(297, Short.MAX_VALUE)
-                    .addComponent(SearchImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(277, 277, 277)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String query = btnSearch.getText().trim();  
-        DefaultTableModel model = (DefaultTableModel) PR_Table.getModel(); 
+        String query = btnSearch.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) PO_Table.getModel();
 
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        PR_Table.setRowSorter(sorter);
+        PO_Table.setRowSorter(sorter);
 
         if (query.length() == 0) {
-            sorter.setRowFilter(null);  
+            sorter.setRowFilter(null);
         } else {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));  
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel PRList_Label;
-    private javax.swing.JTable PR_Table;
+    private javax.swing.JLabel POList_Label;
+    private javax.swing.JTable PO_Table;
     private javax.swing.JLabel SearchImage;
-    private javax.swing.JLabel SearchImage1;
-    private javax.swing.JLabel SearchImage2;
     private javax.swing.JLabel SearchImage4;
     private javax.swing.JTextField btnSearch;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel search;
     // End of variables declaration//GEN-END:variables
