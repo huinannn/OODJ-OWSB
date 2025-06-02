@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,6 +115,8 @@ public class Sales_Item extends javax.swing.JPanel {
                 "Edit/Delete"
             });
         }
+        
+        model.getDataVector().sort(Comparator.comparing(v -> v.get(0).toString()));
         
         adjustRowHeights();
 

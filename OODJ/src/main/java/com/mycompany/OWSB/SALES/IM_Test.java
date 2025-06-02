@@ -2,31 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.OWSB.INVENTORY;
+package com.mycompany.OWSB.SALES;
 
-import com.mycompany.OWSB.SALES.Items;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  *
  * @author ooijinghui
  */
-public class IM_ViewInventory extends javax.swing.JPanel {
-
+public class IM_Test extends javax.swing.JPanel {
+    private java.util.Map<String, Items> fullInventoryData = new java.util.HashMap<>();
     /**
      * Creates new form IM_ViewInventory
      */
-    public IM_ViewInventory() {
+    public IM_Test() {
         initComponents();
         loadInventoryData();
-        
-
     }
 
     /**
@@ -126,7 +125,7 @@ public class IM_ViewInventory extends javax.swing.JPanel {
                     .addComponent(SortBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 private void filterAndDisplayInventory() {
@@ -134,42 +133,32 @@ private void filterAndDisplayInventory() {
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
     model.setRowCount(0); // Clear current table rows
 
-    java.util.List<Object[]> filteredList = new java.util.ArrayList<>();
-
-    for (String[] data : fullInventoryData.values()) {
-        try {
-            String itemID = data[0];
-            String itemName = data[1];
-            String category = data[2];
-            int quantity = Integer.parseInt(data[3]);
-            int reorderLevel = Integer.parseInt(data[4]);
-            String reorderAlert = data[7];
-
-            // Apply filter based on selection
-            if (selected.equals("Low Stock") && quantity >= reorderLevel) continue;
-            if (selected.equals("Stock Prepared") && quantity < reorderLevel) continue;
-
-            filteredList.add(new Object[] {
-                itemID, itemName, category, quantity, reorderLevel, reorderAlert
-            });
-        } catch (NumberFormatException e) {
-            // Skip invalid row
-        }
+    List<Items> filteredList = new ArrayList<>(fullInventoryData.values());
+    
+    //Filter witeh Item Code, Low Stock, Stock Prepared
+    if (null == selected) {
+        filteredList.sort(Comparator.comparing(Items::getItemCode));
+    } else switch (selected) {
+        case "Item Code" -> filteredList.sort(Comparator.comparing(Items::getItemCode));
+        case "Low Stock" -> filteredList.removeIf(item -> item.getStockCurrentQuantities() >= item.getReorderLevel());
+        case "Stock Prepared" -> filteredList.removeIf(item -> item.getStockCurrentQuantities() < item.getReorderLevel());
+        default -> filteredList.sort(Comparator.comparing(Items::getItemCode));
     }
-
-    // Sort by Item ID if selected
-    if (selected.equals("Sort by Item ID")) {
-        filteredList.sort((a, b) -> ((String) a[0]).compareTo((String) b[0]));
-    }
-
-    // Re-populate table
-    for (Object[] row : filteredList) {
-        model.addRow(row);
+    
+     for (Items item : filteredList) {
+        model.addRow(new Object[]{
+            item.getItemCode(),
+            item.getItemName(),
+            item.getCategory().toString(),
+            item.getStockCurrentQuantities(),
+            item.getReorderLevel(),
+            item.getReorderStatus().toString().replace("_", " ")
+        });
     }
 }
 
     private void Save_InventoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_InventoryBtnActionPerformed
-        if (jTable1.isEditing()) {
+    if (jTable1.isEditing()) {
         jTable1.getCellEditor().stopCellEditing();
     }
 
@@ -177,43 +166,20 @@ private void filterAndDisplayInventory() {
 
     // Update fullInventoryData with edits from the visible rows
     for (int i = 0; i < model.getRowCount(); i++) {
-        String itemID = (String) model.getValueAt(i, 0);
-        String itemName = (String) model.getValueAt(i, 1);
-        String category = (String) model.getValueAt(i, 2);
-        int quantity = Integer.parseInt(model.getValueAt(i, 3).toString());
-        int reorderLevel = Integer.parseInt(model.getValueAt(i, 4).toString());
-        String reorderAlert = (String) model.getValueAt(i, 5);
+       String itemID = (String) model.getValueAt(i, 0);
+            String itemName = (String) model.getValueAt(i, 1);
+            Items.Category category = Items.Category.fromString(model.getValueAt(i,2).toString());
+            int quantity = Integer.parseInt(model.getValueAt(i, 3).toString());
+            int reorderLevel = Integer.parseInt(model.getValueAt(i, 4).toString());
+            Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(model.getValueAt(i,5).toString());
 
         // Preserve description from fullInventoryData (or use empty if missing)
-        String[] originalData = fullInventoryData.get(itemID);
-        String description = "";
-        String unitPrice = "";
-        if (originalData != null && originalData.length >= 7) {
-            description = originalData[6]; // original description index (6)
-            unitPrice = originalData[5];
-        }
-
         // Update the fullInventoryData map with edited data for this item
-        // Format: [ItemCode, ItemName, Category, StockCurrentQuantities, ReorderLevel, Description, ReorderAlertStatus]
-        fullInventoryData.put(itemID, new String[] {
-            itemID,
-            itemName,
-            category,
-            String.valueOf(quantity),
-            String.valueOf(reorderLevel),
-            unitPrice,
-            description,
-            reorderAlert
-        });
+        // Format: [ItemCode, ItemName, Category, StockCurrentQuantities, ReorderLevel, UnitPrice, Description, ReorderAlertStatus]
+        Items updatedItem = new Items(itemID, itemName, category, quantity, reorderLevel, status);
+        fullInventoryData.put(itemID, updatedItem);
     }
-        // Sort fullInventoryData by numeric part of Item ID (e.g., ITM001 -> 1)
-    List<String[]> sortedList = new ArrayList<>(fullInventoryData.values());
-    sortedList.sort((a, b) -> {
-        int idA = Integer.parseInt(a[0].replaceAll("\\D+", "")); // Remove non-digits
-        int idB = Integer.parseInt(b[0].replaceAll("\\D+", ""));
-        return Integer.compare(idA, idB);
-    });
-
+   
     // Now save the fullInventoryData to file (XC: I changed ur file path)
     try {
             String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -227,9 +193,18 @@ private void filterAndDisplayInventory() {
                 bw.newLine();
                 
                 // Write all sorted inventory data
-                for (String[] rowData : sortedList) {
-                    String line = String.join(";", rowData);
-                    bw.write(line);
+                for (Items item : fullInventoryData.values()) {
+                    String[] original = new String[] {
+                        item.getItemCode(),
+                        item.getItemName(),
+                        item.getCategory().toString(),
+                        String.valueOf(item.getStockCurrentQuantities()),
+                        String.valueOf(item.getReorderLevel()),
+                        String.valueOf(item.getUnitPrice()),
+                        item.getDescription(),
+                        item.getReorderStatus().toString().replace("_", " ")
+                    };
+                    bw.write(String.join(";", original));
                     bw.newLine();
                 }
 
@@ -241,17 +216,15 @@ private void filterAndDisplayInventory() {
         javax.swing.JOptionPane.showMessageDialog(this, "Error saving inventory: " + e.getMessage());
     }
     // Reload full data from file
-    fullInventoryData.clear();
-    loadInventoryData();
-
-    // Reapply the current filter to reflect the updated data in the table
-    SortBtnActionPerformed(null);
+    filterAndDisplayInventory();
+    
     }//GEN-LAST:event_Save_InventoryBtnActionPerformed
 
     private void SortBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortBtnActionPerformed
         filterAndDisplayInventory();
     }//GEN-LAST:event_SortBtnActionPerformed
-private java.util.Map<String, String[]> fullInventoryData = new java.util.HashMap<>();
+
+
 
 
 private void loadInventoryData() {
@@ -282,24 +255,22 @@ private void loadInventoryData() {
                 }
 
                 String[] parts = line.split(";", -1);  // -1 to keep trailing empty strings
-                if (parts.length >= 7) {
-                    String itemID = parts[0];
-                    fullInventoryData.put(itemID, parts);
-
-                    // Add only required fields to table
+                 if (parts.length >= 8) {
+                    String itemCode = parts[0];
                     String itemName = parts[1];
-                    String category = parts[2];
+                    Items.Category category = Items.Category.fromString(parts[2]);
+                    Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(parts[7]);
                     int quantity = Integer.parseInt(parts[3]);
                     int reorderLevel = Integer.parseInt(parts[4]);
-                    String reorderAlert = parts[7];
 
-                    model.addRow(new Object[] {
-                        itemID, itemName, category, quantity, reorderLevel, reorderAlert
-                    });
+                    Items item = new Items(itemCode, itemName, category, quantity, reorderLevel, status);
+                    fullInventoryData.put(itemCode, item);
+                    
+                    // Add to table
+                    model.addRow(new Object[]{itemCode, itemName, category.toString(), quantity, reorderLevel, status});
                 }
             }
-        }
-    
+        }   
     } catch (Exception e){
         javax.swing.JOptionPane.showMessageDialog(this, "Error loading inventory: " + e.getMessage());
         e.printStackTrace();
