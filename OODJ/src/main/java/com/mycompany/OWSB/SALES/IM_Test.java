@@ -174,9 +174,12 @@ private void filterAndDisplayInventory() {
             Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(model.getValueAt(i,5).toString());
 
         // Preserve description from fullInventoryData (or use empty if missing)
+        Items originalItem = fullInventoryData.get(itemID);
+        double unitPrice = (originalItem != null) ? originalItem.getUnitPrice() : 0.0;
+        String description = (originalItem != null) ? originalItem.getDescription() : "";
         // Update the fullInventoryData map with edited data for this item
         // Format: [ItemCode, ItemName, Category, StockCurrentQuantities, ReorderLevel, UnitPrice, Description, ReorderAlertStatus]
-        Items updatedItem = new Items(itemID, itemName, category, quantity, reorderLevel, status);
+        Items updatedItem = new Items(itemID, itemName, category, quantity, reorderLevel, unitPrice, description, status);
         fullInventoryData.put(itemID, updatedItem);
     }
    
@@ -202,7 +205,7 @@ private void filterAndDisplayInventory() {
                         String.valueOf(item.getReorderLevel()),
                         String.valueOf(item.getUnitPrice()),
                         item.getDescription(),
-                        item.getReorderStatus().toString().replace("_", " ")
+                        item.getReorderStatus().toString()
                     };
                     bw.write(String.join(";", original));
                     bw.newLine();
@@ -262,6 +265,7 @@ private void loadInventoryData() {
                     Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(parts[7]);
                     int quantity = Integer.parseInt(parts[3]);
                     int reorderLevel = Integer.parseInt(parts[4]);
+                    
 
                     Items item = new Items(itemCode, itemName, category, quantity, reorderLevel, status);
                     fullInventoryData.put(itemCode, item);

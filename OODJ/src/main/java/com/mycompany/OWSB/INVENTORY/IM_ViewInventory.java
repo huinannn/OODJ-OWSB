@@ -216,26 +216,26 @@ private void filterAndDisplayInventory() {
 
     // Now save the fullInventoryData to file (XC: I changed ur file path)
     try {
-            String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-            File baseDir = new File(classPath).getParentFile();
-            File dbDir = new File(baseDir.getParentFile(), "database");
-            File file = new File(dbDir, "Inventory.txt");
-            
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-                // Write header
-                bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
-                bw.newLine();
-                
-                // Write all sorted inventory data
-                for (String[] rowData : sortedList) {
-                    String line = String.join(";", rowData);
-                    bw.write(line);
-                    bw.newLine();
-                }
+        String classPath = Items.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+        File baseDir = new File(classPath).getParentFile();
+        File dbDir = new File(baseDir.getParentFile(), "database");
+        File file = new File(dbDir, "Inventory.txt");
 
-                bw.flush();
-                javax.swing.JOptionPane.showMessageDialog(this, "Inventory saved successfully.");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            // Write header
+            bw.write("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;UnitPrice;Description;ReorderAlertStatus");
+            bw.newLine();
+
+            // Write all sorted inventory data
+            for (String[] rowData : sortedList) {
+                String line = String.join(";", rowData);
+                bw.write(line);
+                bw.newLine();
             }
+
+            bw.flush();
+            javax.swing.JOptionPane.showMessageDialog(this, "Inventory saved successfully.");
+        }
     } catch (Exception e) {
         e.printStackTrace();
         javax.swing.JOptionPane.showMessageDialog(this, "Error saving inventory: " + e.getMessage());

@@ -207,6 +207,7 @@ public class Sales_Dashboard extends javax.swing.JFrame {
 
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
         Sales_PR pr = new Sales_PR(ChangePanel);
+        
 
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());

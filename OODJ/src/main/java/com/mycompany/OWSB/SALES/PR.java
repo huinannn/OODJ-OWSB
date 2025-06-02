@@ -65,6 +65,7 @@ public class PR {
         this.date = date;
     }
 
+
     public String getPRID() {
         return PRID;
     }
@@ -168,5 +169,19 @@ public class PR {
         
         return prList;
     }
+    
+    public static List<PR> viewPRsInFile(PR.PR_Status filterStatus) {
+        List<PR> allPRs = viewPRsInFile(); // Reuse existing logic
+        List<PR> filteredPRs = new ArrayList<>();
+
+        for (PR pr : allPRs) {
+            if (pr.getStatus() == filterStatus) {
+                filteredPRs.add(pr);
+            }
+        }
+
+        return filteredPRs;
+    }
+
     
 }

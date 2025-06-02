@@ -51,7 +51,6 @@ public class Sales_PO extends javax.swing.JPanel {
         POList_Label = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         PO_Table = new javax.swing.JTable();
-        AddButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -68,14 +67,6 @@ public class Sales_PO extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(PO_Table);
 
-        AddButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        AddButton.setText("Add New");
-        AddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,33 +79,19 @@ public class Sales_PO extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(POList_Label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AddButton)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(POList_Label))
+                .addComponent(POList_Label)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        // TODO add your handling code here:
-//        Purchase_CreatePO PMcreatePO = new Purchase_CreatePO(ChangePanel);
-//        
-//        ChangePanel.removeAll();
-//        ChangePanel.setLayout(new BorderLayout());
-//        ChangePanel.add(PMcreatePO, BorderLayout.CENTER);
-//        ChangePanel.revalidate();
-//        ChangePanel.repaint();
-    }//GEN-LAST:event_AddButtonActionPerformed
 
     private void loadPOListFromFile() {
         DefaultTableModel model = new DefaultTableModel();
@@ -233,7 +210,6 @@ public class Sales_PO extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddButton;
     private javax.swing.JLabel POList_Label;
     private javax.swing.JTable PO_Table;
     private javax.swing.JScrollPane jScrollPane1;
