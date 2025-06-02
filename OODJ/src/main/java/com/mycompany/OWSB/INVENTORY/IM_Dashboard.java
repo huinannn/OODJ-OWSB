@@ -4,7 +4,8 @@
  */
 
 package com.mycompany.OWSB.INVENTORY;
-import com.mycompany.OWSB.SALES.IM_Test;
+
+
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
@@ -328,7 +329,7 @@ public class IM_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewProfileActionPerformed
 
     private void ViewInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewInventoryActionPerformed
-        IM_Test inventoryPanel = new IM_Test(); 
+        IM_ViewInventory inventoryPanel = new IM_ViewInventory(); 
 
         IM_Panel.removeAll();
         IM_Panel.setLayout(new BorderLayout());
