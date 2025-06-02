@@ -22,6 +22,14 @@ public class Sales_Dashboard extends javax.swing.JFrame {
         setTitle("Sales Manager Dashboard");
         initComponents();
         setLocationRelativeTo(null); 
+        
+        Sales_PR pr = new Sales_PR(ChangePanel);
+        
+        ChangePanel.removeAll();
+        ChangePanel.setLayout(new BorderLayout());
+        ChangePanel.add(pr, BorderLayout.CENTER);
+        ChangePanel.revalidate();
+        ChangePanel.repaint();
     }
 
     /**
@@ -208,7 +216,6 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     private void ViewPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPRActionPerformed
         Sales_PR pr = new Sales_PR(ChangePanel);
         
-
         ChangePanel.removeAll();
         ChangePanel.setLayout(new BorderLayout());
         ChangePanel.add(pr, BorderLayout.CENTER);
