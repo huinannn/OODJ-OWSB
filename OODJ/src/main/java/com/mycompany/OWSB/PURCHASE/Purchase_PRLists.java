@@ -160,14 +160,9 @@ public class Purchase_PRLists extends javax.swing.JPanel {
         }
         
         // Use the PR class PR.viewPRsInFile() method
-        List<PR> prList = PR.viewPRsInFile();
+        List<PR> prList = PR.viewPRsInFile(PR.PR_Status.PENDING);
 
         for (PR pr : prList) {
-            // Skip non-pending PRs
-            if (!pr.getStatus().toString().equalsIgnoreCase("PENDING")) {
-                continue;
-            }
-
             String itemID = pr.getItemCode();
             String itemName = itemMap.getOrDefault(itemID, "Unknown");
             String itemFull = itemID + "-" + itemName;
