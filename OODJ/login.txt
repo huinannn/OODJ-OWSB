@@ -8,6 +8,6 @@ FM001,finance,123,0,unlock
 FM002,finance2,123,0,unlock
 IM001,inventory,123,0,unlock
 IM002,inventory2,123,0,unlock
-FM003,finance3,123,3,lock
+FM003,finance3,123,0,unlock
 PM003,purchase3,123,0,unlock
 SM004,sales4,123,0,unlock

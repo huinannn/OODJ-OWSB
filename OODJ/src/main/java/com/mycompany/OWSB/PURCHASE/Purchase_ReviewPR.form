@@ -42,7 +42,12 @@
                           <Component id="Quantity_TextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="Item_TextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="PRID_TextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="CreateButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="DisclaimButton" min="-2" pref="94" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="CreateButton" min="-2" pref="94" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -93,6 +98,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="CreateButton" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="BackButton" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="DisclaimButton" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="116" max="32767" attributes="0"/>
           </Group>
@@ -224,6 +230,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="DisclaimButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Georgia" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Disclaim"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DisclaimButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
