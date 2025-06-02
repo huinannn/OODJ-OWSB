@@ -253,6 +253,11 @@ public final class Sales_AddDailySales extends javax.swing.JPanel {
         
         DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, totalAmount, date_given);
         
+        if(!new_ds.isStockAvailable()){
+            JOptionPane.showMessageDialog(null, "Quantity sold exceeds available stock.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         DailySales.saveDSToFile(new_ds);
         
         //Deduct Stock in Inventory.txt

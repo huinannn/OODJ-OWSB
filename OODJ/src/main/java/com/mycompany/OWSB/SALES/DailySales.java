@@ -81,15 +81,29 @@ public final class DailySales {
         this.totalAmount = totalAmount;
     }
     
+    //Check Stock Quantity (to prevent go negative on stock)
+    public boolean isStockAvailable(){
+        Items item = Sales_EditItem.getItemByCode(this.itemCode);
+        if (item != null){
+            return this.quantitySold <= item.getStockCurrentQuantities();
+        } else {
+            System.out.println("Item with code " + this.itemCode + " not found.");
+            return false;
+        }
+    }
+    
     // Reduces stock
     public void reduceStock() {
         Items item = Sales_EditItem.getItemByCode(this.itemCode);
         if (item != null){
-            //Reduce Stock
             int currentQuantity = item.getStockCurrentQuantities();
-            item.setStockCurrentQuantities(currentQuantity - this.quantitySold);
-            
-            Sales_EditItem.editItemsInFile(this.itemCode, item);
+            //Reduce Stock
+            if (this.quantitySold <= currentQuantity) {
+                item.setStockCurrentQuantities(currentQuantity - this.quantitySold);
+                Sales_EditItem.editItemsInFile(this.itemCode, item);
+            } else {
+                JOptionPane.showMessageDialog(null, "Insufficient stock for item: " + this.itemCode, "Stock Error", JOptionPane.ERROR_MESSAGE);
+            }
             
         } else {
             System.out.println("Item with code " + this.itemCode + " not found.");

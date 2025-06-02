@@ -133,7 +133,7 @@ public final class Sales_AddItem extends javax.swing.JPanel {
                         String[] row = line.split(";");
                         if (row.length >= 8) {
                             Items.Category category = Items.Category.fromString(row[2]);
-                            Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(row[6]);
+                            Items.ReorderAlertStatus status = Items.ReorderAlertStatus.fromString(row[7]);
                             int quantity = Integer.parseInt(row[3]);
                             int reorder_level = Integer.parseInt(row[4]); 
                             double unit_price = Double.parseDouble(row[5]);

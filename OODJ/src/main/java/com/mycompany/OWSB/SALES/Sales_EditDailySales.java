@@ -43,7 +43,6 @@ public class Sales_EditDailySales extends javax.swing.JPanel {
             quantity.setText(String.valueOf(dailySales.getQuantitySold()));
             date.setText(String.valueOf(dailySales.getDate()));
             title.setText(dailySales.getSalesID());
-            dailySales.editStock();
         } else {
             JOptionPane.showMessageDialog(null, "Sales not found.");
         }
@@ -242,7 +241,14 @@ public class Sales_EditDailySales extends javax.swing.JPanel {
         double totalAmount = 0.0;
 
         DailySales new_ds = new DailySales(DSID, itemCode, quantity_given, totalAmount, date_given);
-
+        
+        if(!new_ds.isStockAvailable()){
+            JOptionPane.showMessageDialog(null, "Quantity sold exceeds available stock.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        dailySales.editStock();
+        
         DailySales.editDSInFile(DSID, new_ds);
         
         //Deduct Stock in Inventory.txt
