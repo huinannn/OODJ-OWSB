@@ -29,10 +29,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="203" max="-2" attributes="0"/>
-                      <Component id="Month_Label" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="Month_Label" min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="Month" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="259" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel5" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
@@ -53,7 +53,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="TotalPayment" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel7" alignment="1" pref="494" max="32767" attributes="0"/>
                                   <Component id="jLabel8" alignment="1" max="32767" attributes="0"/>
                                   <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
@@ -78,18 +78,18 @@
               </Group>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
-              <Component id="Finance_Report_Label" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="Year" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="138" max="-2" attributes="0"/>
               <Component id="BackButton" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               <Component id="SaveButton" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="164" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
+              <Component id="Finance_Report_Label" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="Year" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
