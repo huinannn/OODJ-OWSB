@@ -4,6 +4,9 @@
  */
 package com.mycompany.OWSB.ADMIN;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -143,10 +146,19 @@ public class Profile extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Username and Password cannot be empty!");
             return;
         }
+        
+        if (!newUsername.equals(Session.getUsername())) {
+            if (isUsernameExists(newUsername)) {
+                JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
 
         User user = UserCreation.createUser(Session.getEmployeeID(), newUsername, newPassword);
         if (user != null && user.updateCredentials(newUsername, newPassword)) {
             JOptionPane.showMessageDialog(this, "Profile updated successfully!");
+            Session.setUsername(newUsername);
+            Session.setPassword(newPassword);
         } else {
             JOptionPane.showMessageDialog(this, "Failed to update profile.");
         }
@@ -164,7 +176,20 @@ public class Profile extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_Password_TextFieldActionPerformed
 
-    
+    private boolean isUsernameExists(String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("login.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 2 && parts[1].equalsIgnoreCase(username)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage());
+        }
+        return false;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
