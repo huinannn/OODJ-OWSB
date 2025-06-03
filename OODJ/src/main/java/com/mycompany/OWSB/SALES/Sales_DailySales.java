@@ -159,6 +159,7 @@ public class Sales_DailySales extends javax.swing.JPanel {
         addNew = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         dsTable = new javax.swing.JTable();
+        generateReport = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -177,6 +178,14 @@ public class Sales_DailySales extends javax.swing.JPanel {
         dsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(dsTable);
 
+        generateReport.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        generateReport.setText("Generate Report");
+        generateReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,9 +193,11 @@ public class Sales_DailySales extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(generateReport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addNew)
-                .addGap(32, 32, 32))
+                .addGap(20, 20, 20))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -199,7 +210,8 @@ public class Sales_DailySales extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(addNew)
-                    .addComponent(title))
+                    .addComponent(title)
+                    .addComponent(generateReport))
                 .addContainerGap(534, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -219,10 +231,39 @@ public class Sales_DailySales extends javax.swing.JPanel {
         ChangePanel.repaint();
     }//GEN-LAST:event_addNewActionPerformed
 
+    private void generateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportActionPerformed
+        try{
+            String monthStr = JOptionPane.showInputDialog(this, "Enter month(1-12)");
+            if (monthStr == null) return;
+            
+            int month = Integer.parseInt(monthStr);
+            if (month < 1 || month > 12) {
+                JOptionPane.showMessageDialog(this, "Invalid month entered.");
+                return;
+            }
+
+            String yearStr = JOptionPane.showInputDialog(this, "Enter year (e.g., 2025):");
+            if (yearStr == null) return;
+            
+            int year = Integer.parseInt(yearStr);
+            if (year < 1900 || year > 3000) {
+                JOptionPane.showMessageDialog(this, "Invalid year entered.");
+                return;
+            }
+            
+            DailySales ds = new DailySales();
+            ds.generateMonthlyReport(month, year);
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid input format for month or year.");
+        }
+    }//GEN-LAST:event_generateReportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addNew;
     private javax.swing.JTable dsTable;
+    private javax.swing.JButton generateReport;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables

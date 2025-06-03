@@ -9,10 +9,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -365,5 +370,132 @@ public final class DailySales {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error deleting supplier: " + e.getMessage());
         }
+    }
+    
+    public void generateMonthlyReport(int month, int year){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter reportDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+
+        List<String> reportLines = new ArrayList<>();
+        
+        //Report Header
+        reportLines.add("---------------------------------------------------------------");
+        reportLines.add("                     MONTHLY DAILY SALES REPORT");
+        reportLines.add(String.format("                      Month: %s %d", getMonthName(month), year));
+        reportLines.add("---------------------------------------------------------------");
+        reportLines.add("");
+        
+        // Add column headers with spacing (adjust widths as needed)
+        String header = String.format(
+            "%-8s | %-15s | %-20s | %-13s | %-15s | %-12s",
+            "Sales ID", "Item ID", "Item Name", "Qty Sold", "Total Amount",
+            "Sales Date");
+        reportLines.add(header);
+        reportLines.add("-------------------------------------------------------------------------------------------------------------------------------");
+
+        double total = 0.0;
+        
+        Map<String, String> itemMap = new HashMap<>();
+        try{
+            String classPath = DailySales.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            File baseDir = new File(classPath).getParentFile();
+            File dbDir = new File(baseDir.getParentFile(), "database");
+            File inventoryFile = new File(dbDir, "Inventory.txt");
+            if (inventoryFile.exists()) {
+                try (
+                    FileReader fr = new FileReader(inventoryFile);
+                    BufferedReader br = new BufferedReader(fr);
+                ) {
+                    String line;
+                    boolean firstLine = true;
+                    while ((line = br.readLine()) != null) {
+                        if (firstLine) {
+                            firstLine = false;
+                            continue; // skip header
+                        }
+                        String[] parts = line.split(";");
+                        if (parts.length >= 2) {
+                            itemMap.put(parts[0], parts[1]); // itemCode -> itemName
+                        }
+                    }
+                }
+            }
+
+        
+            File file = new File(dbDir, "DailySales.txt");
+            
+            if(!file.exists()){
+                 JOptionPane.showMessageDialog(null, "DailySales.txt file does not exist.");
+                return;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            
+            try (
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+            ) {
+                String line;
+                boolean isFirstLine = true;
+                
+
+                while((line = br.readLine()) != null){
+                    if (isFirstLine){
+                        isFirstLine = false;
+                        continue;
+                    }
+
+                    if (!line.trim().isEmpty()){
+                        String[] row = line.split(";");
+                        if (row.length >= 4){
+                            String sales_ID = row[0];
+                            String item_Code = row[1];
+                            String itemName = itemMap.getOrDefault(item_Code, "Unknown");
+                            int quantity_Sold = Integer.parseInt(row[2]);
+                            double total_Amount = Double.parseDouble(row[3]);
+                            LocalDate _date = LocalDate.parse(row[4], formatter);
+                            
+                            if (_date.getMonthValue() == month && _date.getYear() == year){
+                                String data = String.format(
+                                    "%-8s | %-15s | %-20s | %-13s | %-15s | %-12s",
+                                    sales_ID, item_Code, itemName, quantity_Sold, total_Amount,
+                                    _date);
+                                reportLines.add(data);
+                                total += total_Amount;
+                            }
+ 
+                        } else {
+                            System.err.println("Invalid row: " + Arrays.toString(row));
+                        }
+                    }
+                }
+            } 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error reading Stock.txt: " + e.getMessage());
+            return;
+        }
+
+        reportLines.add("---------------------------------------------------------------");
+        reportLines.add(String.format("Total Amount: %.2f", total));
+        reportLines.add("---------------------------------------------------------------");
+        reportLines.add("");
+        reportLines.add("Report generated on: " + today.format(reportDateFormatter));
+
+        
+        String reportFileName = getMonthName(month) + year + "DSReport.txt";
+        
+        try (PrintWriter pw = new PrintWriter(new FileWriter(reportFileName))) {
+            for (String line : reportLines) {
+                pw.println(line);
+            }
+            JOptionPane.showMessageDialog(null, "Monthly report generated successfully: " + reportFileName);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error writing report file: " + e.getMessage());
+        }
+    }
+    
+    private String getMonthName(int month) {
+        return java.time.Month.of(month).name().substring(0,1) + java.time.Month.of(month).name().substring(1).toLowerCase();
     }
 }
