@@ -45,61 +45,90 @@ public class IM_Dashboard extends javax.swing.JFrame {
         IM_Panel.repaint();
     }
 
-    private void updateStockFromPO() throws IOException {
-        List<String[]> poList = readFile("PO_Lists.txt");
-        List<String[]> stockList = readOrCreateFile("Stock.txt");
-        List<String[]> inventoryList = readFile("../OODJ/database/Inventory.txt");
+private void updateStockFromPO() throws IOException {
+    List<String[]> poList = readFile("PO_Lists.txt");
+    List<String[]> stockList = readOrCreateFile("Stock.txt");
+    List<String[]> inventoryList = readFile("../OODJ/database/Inventory.txt");
 
-        Set<String> existingPOIDs = new HashSet<>();
-        Set<String> existingStockIDs = new HashSet<>();
+    // Map from POID to stock entry line index
+    Map<String, Integer> poidToStockIndex = new HashMap<>();
+    // Also keep track of StockIDs
+    Set<String> existingStockIDs = new HashSet<>();
 
-        for (int i = 1; i < stockList.size(); i++) {
-            existingPOIDs.add(stockList.get(i)[1]);
-            existingStockIDs.add(stockList.get(i)[0]);
+    // Skip header line (assumed at index 0)
+    for (int i = 1; i < stockList.size(); i++) {
+        String[] stockEntry = stockList.get(i);
+        poidToStockIndex.put(stockEntry[1], i);
+        existingStockIDs.add(stockEntry[0]);
+    }
+
+    // Map from itemID to quantity in Inventory
+    Map<String, Integer> inventoryQuantities = new HashMap<>();
+    for (int i = 1; i < inventoryList.size(); i++) {
+        String[] parts = inventoryList.get(i);
+        inventoryQuantities.put(parts[0], Integer.parseInt(parts[3]));
+    }
+
+    LocalDate today = LocalDate.now();
+    DateTimeFormatter[] dateFormats = {
+            DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    };
+
+    List<String[]> newStockEntries = new ArrayList<>();
+
+    for (String[] po : poList) {
+        if (po.length < 9) continue;
+
+        String poid = po[0];
+        String itemid = po[1];
+        String itemname = po[2];
+        int newQty = Integer.parseInt(po[3]);
+        double unitPrice = Double.parseDouble(po[4]);
+        String supplier = po[5];
+        String deliveryDateStr = po[7];
+        String status = po[8];
+
+        // Process only POs with delivery date <= today
+        LocalDate deliveryDate = null;
+        for (DateTimeFormatter format : dateFormats) {
+            try {
+                deliveryDate = LocalDate.parse(deliveryDateStr, format);
+                break;
+            } catch (Exception ignored) {}
         }
+        if (deliveryDate == null || deliveryDate.isAfter(today)) continue;
 
-        Map<String, Integer> inventoryQuantities = new HashMap<>();
-        for (int i = 1; i < inventoryList.size(); i++) {
-            String[] parts = inventoryList.get(i);
-            inventoryQuantities.put(parts[0], Integer.parseInt(parts[3]));
-        }
+        Integer existingStockIndex = poidToStockIndex.get(poid);
 
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter[] dateFormats = {
-                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        };
+        if (existingStockIndex != null) {
+            // POID found in stock
+            String[] existingStockEntry = stockList.get(existingStockIndex);
+            String stockApprovalStatus = existingStockEntry[10]; // StockApprovalStatus column
 
-        
-        List<String[]> newStockEntries = new ArrayList<>();
+            if ("Approved".equalsIgnoreCase(stockApprovalStatus)) {
+                // If Approved, skip update
+                continue;
+            } else if ("Pending".equalsIgnoreCase(stockApprovalStatus) || "Disclaimed".equalsIgnoreCase(stockApprovalStatus)) {
+                // Update quantities in existing stock entry
 
-        for (String[] po : poList) {
-            if (po.length < 9) continue;
+                int prevQty = inventoryQuantities.getOrDefault(itemid, 0);
+                int currQty = prevQty + newQty;
 
-            String poid = po[0];
-            String itemid = po[1];
-            String itemname = po[2];
-            int newQty = Integer.parseInt(po[3]);
-            double unitPrice = Double.parseDouble(po[4]);
-            String supplier = po[5];
-            String deliveryDateStr = po[7];
-            String status = po[8];
+                existingStockEntry[8] = String.valueOf(prevQty); // ItemPreviousQuantity
+                existingStockEntry[9] = String.valueOf(currQty); // ItemCurrentQuantity
 
-            // Process only approved POs
-            if (!status.equals("Approved")) continue;
+                // Optionally update TotalPrice, Supplier, and StockArrivalDate if needed
+                double totalPrice = newQty * unitPrice;
+                existingStockEntry[5] = String.format("%.2f", totalPrice);
+                existingStockEntry[6] = supplier;
+                existingStockEntry[7] = deliveryDate.format(dateFormats[0]);
 
-            // Skip if already processed
-            if (existingPOIDs.contains(poid)) continue;
-
-            // Parse delivery date
-            LocalDate deliveryDate = null;
-            for (DateTimeFormatter format : dateFormats) {
-                try {
-                    deliveryDate = LocalDate.parse(deliveryDateStr, format);
-                    break;
-                } catch (Exception ignored) {}
+                // Mark this updated stock entry in the stockList (already done as array is updated by reference)
             }
-            if (deliveryDate == null || deliveryDate.isAfter(today)) continue;
+        } else {
+            // POID not found in stock, only process Approved POs here to add new entries
+            if (!"Approved".equalsIgnoreCase(status)) continue;
 
             int prevQty = inventoryQuantities.getOrDefault(itemid, 0);
             int currQty = prevQty + newQty;
@@ -126,20 +155,33 @@ public class IM_Dashboard extends javax.swing.JFrame {
 
             newStockEntries.add(newEntry);
         }
+    }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("Stock.txt", true))) {
-            if (stockList.size() == 0) {
-                bw.write("NewStockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus\n");
-            }
-            for (String[] entry : newStockEntries) {
+    // Now save changes back to Stock.txt
+    // If file was empty, write header first
+    boolean isEmptyFile = stockList.isEmpty();
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("Stock.txt"))) {
+        if (isEmptyFile) {
+            bw.write("NewStockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus\n");
+        } else {
+            // Write existing stockList back (with updates)
+            for (String[] entry : stockList) {
                 bw.write(String.join(";", entry));
                 bw.newLine();
             }
         }
 
-        System.out.println("Stock update completed.");
+        // Append any new stock entries (POIDs not found in stock)
+        for (String[] entry : newStockEntries) {
+            bw.write(String.join(";", entry));
+            bw.newLine();
+        }
     }
-    private static List<String[]> readFile(String filename) throws IOException {
+
+    System.out.println("Stock update completed.");
+}
+
+private static List<String[]> readFile(String filename) throws IOException {
         List<String[]> data = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -373,38 +415,38 @@ public class IM_Dashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new IM_Dashboard().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(IM_Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new IM_Dashboard().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Arrived_Stock;

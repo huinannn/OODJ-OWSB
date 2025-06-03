@@ -85,7 +85,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="FMRole" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                  <Component id="ViewProfile" max="32767" attributes="0"/>
+                  <Component id="ViewProfile" pref="21" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="ViewInventory" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>

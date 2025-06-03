@@ -72,8 +72,8 @@ private void loadStockDataIntoTable() {
         @Override
         
         public boolean isCellEditable(int row, int column) {
-            Object paymentStatus = getValueAt(row, 11); // PaymentStatus column
-            if (paymentStatus != null && "Paid".equalsIgnoreCase(paymentStatus.toString())) {
+            Object paymentStatus = getValueAt(row, 9); // PaymentStatus column
+            if (paymentStatus != null && "Approved".equalsIgnoreCase(paymentStatus.toString())) {
                 // No cells editable if payment is Approved
                 return false;
             }
@@ -223,148 +223,128 @@ private void loadStockDataIntoTable() {
     String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
     List<String> updatedLines = new ArrayList<>();
-    // Add header line
     updatedLines.add("StockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus");
-    
-    // Load existing data into a map by StockID (index 0)
-    Map<String, String> existingStockMap = new HashMap<>();
+
+    Map<String, String[]> existingStockMap = new HashMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader("Stock.txt"))) {
-        String line = br.readLine(); // Skip header line
+        br.readLine(); // skip header
+        String line;
         while ((line = br.readLine()) != null) {
             String[] parts = line.split(";");
-            if (parts.length >= 13) { // Make sure line has at least 13 fields
-                String stockId = parts[0].trim();
-                existingStockMap.put(stockId, line);
-                
+            if (parts.length >= 13) {
+                existingStockMap.put(parts[0].trim(), parts);
             }
         }
     } catch (IOException e) {
-        // File not found or error reading, handle if needed
         JOptionPane.showMessageDialog(this, "Error reading Stock.txt: " + e.getMessage());
+        return;
     }
 
+    // Read Inventory
+    List<String[]> inventoryData = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new FileReader("../OODJ/database/Inventory.txt"))) {
+        br.readLine(); // skip header
+        String line;
+        while ((line = br.readLine()) != null) {
+            inventoryData.add(line.split(";"));
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error reading Inventory.txt: " + e.getMessage());
+        return;
+    }
+
+    boolean shouldReload = false;
 
     for (int i = 0; i < rowCount; i++) {
-        String stockID = safeToString(model.getValueAt(i, 0)).trim();
+        String stockID = safeToString(model.getValueAt(i, 0));
         if (stockID.isEmpty()) continue;
 
-        String existingLine = existingStockMap.get(stockID);
-        boolean isPaid = false;
+        String[] existing = existingStockMap.get(stockID);
+        if (existing == null || existing.length < 13) continue;
 
-        if (existingLine != null) {
-            String[] parts = existingLine.split(";");
-            if (parts.length >= 13 && "Paid".equalsIgnoreCase(parts[12].trim())) {
-                isPaid = true;
-            }
+        String oldApprovalStatus = existing[10].trim();
+        String guiApprovalStatus = safeToString(model.getValueAt(i, 9)); // status in combo box
+
+        // if already approved in Stock.txt, just reuse the line
+        if (oldApprovalStatus.equalsIgnoreCase("Approved")) {
+            updatedLines.add(String.join(";", existing));
+            continue;
         }
 
-        if (isPaid) {
-    updatedLines.add(existingLine);
-
-    if (existingLine != null) {
-        String[] parts = existingLine.split(";");
-        int colCount = model.getColumnCount();
-
-        int tableCol = 0; // Column index for the table
-        for (int iPart = 0; iPart < parts.length && tableCol < colCount; iPart++) {
-            if (iPart == 5) {
-                continue; // Skip column 5 (parts[5])
-            }
-
-            model.setValueAt(parts[iPart], i, tableCol);
-            tableCol++;
+        // handle new approval
+        Stock stock = (stockList != null && i < stockList.size()) ? stockList.get(i) : null;
+        if (stock == null) {
+            JOptionPane.showMessageDialog(this, "Mismatch between table and stock list.");
+            return;
         }
-    }
 
+        String poID = safeToString(model.getValueAt(i, 1));
+        String itemID = safeToString(model.getValueAt(i, 2));
+        String itemName = safeToString(model.getValueAt(i, 3));
+        String newStockQty = safeToString(model.getValueAt(i, 4));
+        String totalPrice = Double.toString(stock.getTotalPrice());
+        String supplier = safeToString(model.getValueAt(i, 5));
+        String arrivalDate = safeToString(model.getValueAt(i, 6));
+        String prevQty = safeToString(model.getValueAt(i, 7));
+        String currQty = safeToString(model.getValueAt(i, 8));
+        String approvalDate = "-";
+        String paymentStatus = "-";
 
+        if (guiApprovalStatus.equalsIgnoreCase("Approved")) {
+            approvalDate = today;
+            paymentStatus = "Unpaid";
+            shouldReload = true;
+
+            // update inventory quantity
+            for (String[] item : inventoryData) {
+                if (item[0].trim().equals(itemID)) {
+                    try {
+                        int cur = Integer.parseInt(item[3].trim());
+                        int add = Integer.parseInt(newStockQty.trim());
+                        item[3] = Integer.toString(cur + add);
+                    } catch (NumberFormatException ignored) {}
+                    break;
+                }
+            }
+        } else if (guiApprovalStatus.equalsIgnoreCase("Disclaimed")) {
+            paymentStatus = "Disclaimed";
         } else {
-            // Otherwise update based on current table data
-
-            // Defensive: check stockList size and alignment with table rows
-            Stock stock = null;
-            if (stockList != null && i < stockList.size()) {
-                stock = stockList.get(i);
-            } else {
-                JOptionPane.showMessageDialog(this, "Mismatch between table rows and stock list.");
-                return;
-            }
-
-            String poID = safeToString(model.getValueAt(i, 1));
-            String itemID = safeToString(model.getValueAt(i, 2));
-            String itemName = safeToString(model.getValueAt(i, 3));
-            String newStockQty = safeToString(model.getValueAt(i, 4));
-            String totalPrice = Double.toString(stock.getTotalPrice());
-            String supplier = safeToString(model.getValueAt(i, 5));
-            String arrivalDate = safeToString(model.getValueAt(i, 6));
-            String prevQty = safeToString(model.getValueAt(i, 7));
-            String currQty = safeToString(model.getValueAt(i, 8));
-            String approvalStatus = safeToString(model.getValueAt(i, 9));
-
-            String approvalDate = "-";
-            String paymentStatus = "-";
-
-            switch (approvalStatus.toLowerCase()) {
-                case "disclaimed":
-                    paymentStatus = "Disclaimed";
-                    break;
-                case "approved":
-                    approvalDate = today;
-                    paymentStatus = "Unpaid";
-                    int qty = Integer.parseInt(newStockQty);
-//                    addStock(itemID, qty);
-                    break;
-                case "pending":
-                    paymentStatus = "Unpaid";
-                    break;
-                default:
-                    paymentStatus = "Unpaid";
-            }
-
-            // Update table model to reflect new status safely
-            if (11 < model.getColumnCount()) {
-                model.setValueAt(approvalDate, i, 10); // StockApprovalDate column
-            }
-            if (12 < model.getColumnCount()) {
-                model.setValueAt(paymentStatus, i, 11); // PaymentStatus column
-            }
-
-            String line = String.join(";",
-                    stockID, poID, itemID, itemName, newStockQty,
-                    totalPrice, supplier, arrivalDate, prevQty, currQty,
-                    approvalStatus, approvalDate, paymentStatus
-            );
-
-            updatedLines.add(line);
-            
-            
+            paymentStatus = "Unpaid";
         }
+
+        if (model.getColumnCount() > 10) model.setValueAt(approvalDate, i, 10);
+        if (model.getColumnCount() > 11) model.setValueAt(paymentStatus, i, 11);
+
+        updatedLines.add(String.join(";", stockID, poID, itemID, itemName, newStockQty,
+                totalPrice, supplier, arrivalDate, prevQty, currQty,
+                guiApprovalStatus, approvalDate, paymentStatus));
     }
 
-    // Write all lines back to the file
+    // Save Stock.txt
     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("Stock.txt")))) {
-        for (String line : updatedLines) {
-            pw.println(line);
-        }
-        JOptionPane.showMessageDialog(this, "Stock approval statuses saved successfully.");
+        for (String line : updatedLines) pw.println(line);
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error saving Stock.txt: " + e.getMessage());
+        return;
     }
-    
-    
-    
-}
-    
-private void addStock(String stockID, String itemID, int quantity) {
-    Items item = Sales_EditItem.getItemByCode(itemID);
-    if (item != null && stockID != null){
-        //Add Stock
-        int currentQuantity = item.getStockCurrentQuantities();
-        item.setStockCurrentQuantities(currentQuantity + quantity);
 
-        Sales_EditItem.editItemsInFile(itemID, item);
+    // Sort and Save Inventory
+    inventoryData.sort(Comparator.comparing(a -> a[0])); // sort by ItemCode
 
-    } else {
-        System.out.println("Item with code " + itemID + " not found.");
+    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../OODJ/database/Inventory.txt")))) {
+        pw.println("ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus");
+        for (String[] item : inventoryData) {
+            pw.println(String.join(";", item));
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving Inventory.txt: " + e.getMessage());
+        return;
+    }
+
+    JOptionPane.showMessageDialog(this, "Stock approval statuses saved successfully.");
+
+    if (shouldReload) {
+        new IM_Dashboard().setVisible(true);
     }
 }
 
