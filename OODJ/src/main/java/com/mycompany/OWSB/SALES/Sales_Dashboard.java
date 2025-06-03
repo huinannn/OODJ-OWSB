@@ -45,7 +45,6 @@ public class Sales_Dashboard extends javax.swing.JFrame {
         ChangePanel = new javax.swing.JPanel();
         SideBar = new javax.swing.JPanel();
         ProfilePicture = new javax.swing.JLabel();
-        SMName = new javax.swing.JLabel();
         SMRole = new javax.swing.JLabel();
         ViewProfile = new javax.swing.JButton();
         ViewPR = new javax.swing.JButton();
@@ -73,11 +72,6 @@ public class Sales_Dashboard extends javax.swing.JFrame {
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
         ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Finance Manager Profile.png"))); // NOI18N
-
-        SMName.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
-        SMName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        SMName.setText("SM Name");
-        SMName.setToolTipText("");
 
         SMRole.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         SMRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -151,9 +145,7 @@ public class Sales_Dashboard extends javax.swing.JFrame {
                             .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(SMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                        .addComponent(SMRole, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)))
                 .addGap(32, 32, 32))
             .addGroup(SideBarLayout.createSequentialGroup()
@@ -166,22 +158,20 @@ public class Sales_Dashboard extends javax.swing.JFrame {
             .addGroup(SideBarLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(SMName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(SMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(SMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
-                .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(ViewPR, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(ViewPR, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(ViewPO, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(ViewPO, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(item_suppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(item_suppliers, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(daily_sales, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(daily_sales, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
         );
 
@@ -302,7 +292,6 @@ public class Sales_Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ChangePanel;
     private javax.swing.JButton LogOut;
     private javax.swing.JLabel ProfilePicture;
-    private javax.swing.JLabel SMName;
     private javax.swing.JLabel SMRole;
     private javax.swing.JPanel SideBar;
     private javax.swing.JButton ViewPO;
