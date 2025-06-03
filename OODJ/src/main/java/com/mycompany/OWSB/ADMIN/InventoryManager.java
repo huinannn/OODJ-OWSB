@@ -13,7 +13,7 @@ import com.mycompany.OWSB.INVENTORY.*;
  */
 public class InventoryManager extends User{
     public InventoryManager(String employeeID, String username, String password){
-        super(employeeID, username, password, "IM");
+        super(employeeID, username, password);
     }
     
     @Override
