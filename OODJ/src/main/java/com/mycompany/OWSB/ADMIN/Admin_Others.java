@@ -47,6 +47,7 @@ public class Admin_Others extends javax.swing.JPanel {
         jLabel1.setText("Other Functions");
 
         SM_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        SM_Button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Sales_Manager.png"))); // NOI18N
         SM_Button.setText("<html>Sales<br> Manager<html>");
         SM_Button.setToolTipText("");
         SM_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +66,7 @@ public class Admin_Others extends javax.swing.JPanel {
         });
 
         IM_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        IM_Button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Inventory_Manager.png"))); // NOI18N
         IM_Button.setText("<html>Inventory<br> Manager<html>");
         IM_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +75,7 @@ public class Admin_Others extends javax.swing.JPanel {
         });
 
         FM_Button.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        FM_Button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Finance_Manager.png"))); // NOI18N
         FM_Button.setText("<html>Finance<br> Manager<html>");
         FM_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
