@@ -23,7 +23,7 @@ public abstract class User {
     protected String password;
 
     
-    public User(String employeeID, String username, String password, String role){
+    public User(String employeeID, String username, String password){
         this.employeeID = employeeID;
         this.username = username;
         this.password = password;  

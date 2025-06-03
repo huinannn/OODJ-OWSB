@@ -10,7 +10,7 @@ package com.mycompany.OWSB.ADMIN;
  */
 public class Admin extends User{
     public Admin(String employeeID, String username, String password){
-        super(employeeID, username, password, "Admin");
+        super(employeeID, username, password);
     }
     
     @Override

@@ -14,7 +14,7 @@ import com.mycompany.OWSB.SALES.Sales_Dashboard;
  */
 class SalesManager extends User{
     public SalesManager(String employeeID, String username, String password){
-        super(employeeID, username, password, "SM");
+        super(employeeID, username, password);
     }
     
     @Override

@@ -13,7 +13,7 @@ import com.mycompany.OWSB.FINANCE.Finance_Dashboard;
  */
 public class FinanceManager extends User{
     public FinanceManager(String employeeID, String username, String password){
-        super(employeeID, username, password, "FM");
+        super(employeeID, username, password);
     }
     
     @Override

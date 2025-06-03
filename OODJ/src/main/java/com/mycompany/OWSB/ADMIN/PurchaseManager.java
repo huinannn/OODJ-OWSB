@@ -14,7 +14,7 @@ import com.mycompany.OWSB.PURCHASE.Purchase_Dashboard;
  */
 class PurchaseManager extends User{
     public PurchaseManager(String employeeID, String username, String password){
-        super(employeeID, username, password, "PM");
+        super(employeeID, username, password);
     }
     
     @Override
