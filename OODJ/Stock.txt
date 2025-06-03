@@ -1,7 +1,4 @@
 StockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus
-NS001;PO001;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;565;570;Approved;03-06-2025;Unpaid
-NS002;PO003;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;570;575;PENDING;-;Unpaid
-NS003;PO004;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;570;575;PENDING;-;Unpaid
-NS004;PO005;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;570;575;PENDING;-;Unpaid
-NS005;PO006;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;400;405;Approved;01-06-2025;Paid
-NS006;PO007;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;560;565;Approved;03-06-2025;Unpaid
+NS001;PO001;ITM002;Milo 2kg;35;12250.0;SUP004;03-06-2025;150;185;Approved;03-06-2025;Paid
+NS002;PO004;ITM004;Dutch Lady Milk 1L;60;36000.00;SUP008;20-05-2025;5;65;Disclaimed;-;Disclaimed
+NS003;PO005;ITM005;Ayamas Chicken Nuggets;70;49000.00;SUP011;12-05-2025;9;79;PENDING;-;Unpaid

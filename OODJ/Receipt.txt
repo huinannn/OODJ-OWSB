@@ -1,0 +1,21 @@
+-----------------------------------------------------
+                  PAYMENT RECEIPT
+-----------------------------------------------------
+Receipt No.        : RCPT001
+Date               : 2025-06-03
+
+POID               : PO001
+Item               : ITM002 - Milo 2kg
+Quantity           : 35
+Unit Price         : RM 15.00
+Total Price        : RM 525.00
+
+Supplier           : SUP004 - Nestlé Malaysia
+Payment Method     : Online Banking
+Reference No.      : R-001
+
+Prepared By        : FM001 - finance
+-----------------------------------------------------
+             Thank you for your payment!
+-----------------------------------------------------
+

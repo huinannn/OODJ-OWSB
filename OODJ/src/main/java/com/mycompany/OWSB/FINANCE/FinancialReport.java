@@ -151,7 +151,7 @@ public class FinancialReport {
         Map<String, String> itemNames = loadInventoryItemNames();
         String targetPrefix = yearInput + "-" + String.format("%02d", MonthEnum.valueOf(selectedMonth).ordinal() + 1);
 
-        try (BufferedReader br = new BufferedReader(new FileReader("receipt.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("Receipt.txt"))) {
             String line;
             String date = "";
             String itemCode = "";
@@ -210,33 +210,38 @@ public class FinancialReport {
         return salesMap;
     }
     
-    public Map<String, Double> getMonthlyPaymentsForYear(String selectedYear) {
+   public Map<String, Double> getMonthlyPaymentsForYear(String selectedYear) {
         Map<String, Double> paymentMap = new LinkedHashMap<>();
         for (FinancialReport.MonthEnum month : FinancialReport.MonthEnum.values()) {
             paymentMap.put(month.name(), 0.0);
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader("Receipt.txt"))) {
-            br.readLine();
             String line;
+            String date = "";
+            double totalPrice = 0.0;
+
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length >= 5) {
-                    String date = parts[4];
+                line = line.trim();
+
+                if (line.startsWith("Date")) {
+                    date = line.split(":")[1].trim();
+                } else if (line.startsWith("Total Price")) {
+                    totalPrice = Double.parseDouble(line.split(": RM ")[1].trim());
+
                     if (date.startsWith(selectedYear)) {
                         int monthIndex = Integer.parseInt(date.substring(5, 7)) - 1;
                         String monthName = FinancialReport.MonthEnum.values()[monthIndex].name();
-                        double total = Double.parseDouble(parts[3]);
-                        paymentMap.put(monthName, paymentMap.get(monthName) + total);
+                        paymentMap.put(monthName, paymentMap.get(monthName) + totalPrice);
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
 
         return paymentMap;
-    }
+   }
     
     public String toPrintableMonthlyString() {
         StringBuilder builder = new StringBuilder();

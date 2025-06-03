@@ -1,9 +1,11 @@
 ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus
-ITM001;Jasmine Rice 5kg;Dry Goods;570;10;18.00;Premium jasmine rice, fragrant and fluffy;STOCK READY
-ITM002;Milo 2kg;Beverages;150;10;15.00;Chocolate malt drink powder, energizing;LOW STOCK
+ITM001;Jasmine Rice 5kg;Dry Goods;150;10;18.00;Premium jasmine rice, fragrant and fluffy;STOCK READY
+ITM002;Milo 2kg;Beverages;185;10;15.00;Chocolate malt drink powder, energizing;LOW STOCK
 ITM003;Fresh Spinach 200g;Fresh Produce;100;10;3.50;Organic fresh spinach leaves, nutrient-rich;STOCK READY
 ITM004;Dutch Lady Milk 1L;Dairy;5;10;6.00;Fresh full cream milk, 1 liter pack;LOW STOCK
 ITM005;Ayamas Chicken Nuggets;Frozen Foods;9;10;9.00;Crispy and tasty chicken nuggets;LOW STOCK
 ITM008;Nescafe Classic 200g;Beverages;80;10;12.00;Classic instant coffee, rich aroma;LOW STOCK
 ITM009;Cabbage (Local) 1kg;Fresh Produce;9;10;2.00;Fresh locally grown cabbage, crisp and green;LOW STOCK
 ITM010;Anlene Gold 1kg;Dairy;30;10;45.00;Calcium enriched milk powder for adults;STOCK READY
+ITM011;Pepsi;Beverages;0;10;3.00;;LOW STOCK
+ITM012;Pantene Shampoo 500ML;Personal Care;0;10;15.00;;LOW STOCK

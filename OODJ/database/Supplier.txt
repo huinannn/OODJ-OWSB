@@ -24,3 +24,8 @@ SUP022;Anlene Nutrition Centre;Hafizah Roslan;03-44556677;hafizah@anlene.com.my;
 SUP023;MilkCare Plus Sdn Bhd;Tan Sze Wei;012-7744882;szewei@milkcare.my;Seremban;ITM004: Dutch Lady Milk 1L;7.00
 SUP024;HealthyBone Distributors;Zainab Muda;017-2233112;zainab@bonehealth.my;Kuala Terengganu;ITM010: Anlene Gold 1kg;30.20
 SUP025;VitaMilk Trading;Darren Goh;018-3366445;darren@vitamilk.my;Butterworth, Penang;ITM010: Anlene Gold 1kg;28.80
+SUP026;Bai Shi Ke Le;John Lim;017-3759265;john@gmail.com;Ipoh, Perak;ITM011: Pepsi;1.00
+SUP027;Ke Kou Ke Le;James Lee;019-5906935;james@gmail.com;Puchong, Selangor;ITM011: Pepsi;1.30
+SUP028;Watson;Emily Tan;011-29485562;emily@gmail.com;Melaka, Melaka Tengah;ITM012: Pantene Shampoo 500ML;8.00
+SUP029;Guardian;Jane Thong;012-48576921;jane@gmail.com;Rawang, Selangor;ITM012: Pantene Shampoo 500ML;8.90
+SUP030;Wellness;Wong Hui Yee;012-4857222;huiyee@gmail.com;Tanjong Malim, Perak;ITM012: Pantene Shampoo 500ML;7.50
