@@ -154,6 +154,12 @@ public class Admin_RegisterUsers extends javax.swing.JPanel {
             return;
         }
         
+        // Check if username already exists
+        if (isUsernameExists(username)) {
+            JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.");
+            return;
+        }
+        
         String Role_ID = "";
         if (role.startsWith("Sales Manager")) Role_ID = "SM";
         else if (role.startsWith("Purchase Manager")) Role_ID = "PM";
@@ -200,6 +206,24 @@ public class Admin_RegisterUsers extends javax.swing.JPanel {
             }
         }
         return Role_ID + String.format("%03d", Max_ID + 1); // Incerease the ID to 1 & Format to three digits number
+    }
+    
+    private boolean isUsernameExists(String username) {
+        File file = new File("login.txt");
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts.length >= 2 && parts[1].equalsIgnoreCase(username)) {
+                        return true;
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage());
+            }
+        }
+        return false;
     }
     
     
