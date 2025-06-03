@@ -402,7 +402,7 @@ private static List<String[]> readFile(String filename) throws IOException {
 
     private void Arrived_StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Arrived_StockActionPerformed
         // TODO add your handling code here:
-        IM_ManageStock inventoryPanel = new IM_ManageStock(IM_Panel); 
+        IM_ManageStock inventoryPanel = new IM_ManageStock(); 
 
         IM_Panel.removeAll();
         IM_Panel.setLayout(new BorderLayout());
