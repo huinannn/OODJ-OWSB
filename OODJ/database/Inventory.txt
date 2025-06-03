@@ -1,5 +1,5 @@
 ItemCode;ItemName;Category;StockCurrentQuantities;ReorderLevel;Description;ReorderAlertStatus
-ITM001;Jasmine Rice 5kg;Dry Goods;550;10;18.00;Premium jasmine rice, fragrant and fluffy;STOCK READY
+ITM001;Jasmine Rice 5kg;Dry Goods;565;10;18.00;Premium jasmine rice, fragrant and fluffy;STOCK READY
 ITM002;Milo 2kg;Beverages;150;10;15.00;Chocolate malt drink powder, energizing;LOW STOCK
 ITM003;Fresh Spinach 200g;Fresh Produce;100;10;3.50;Organic fresh spinach leaves, nutrient-rich;STOCK READY
 ITM004;Dutch Lady Milk 1L;Dairy;5;10;6.00;Fresh full cream milk, 1 liter pack;LOW STOCK

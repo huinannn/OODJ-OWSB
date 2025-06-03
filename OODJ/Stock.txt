@@ -1,7 +1,7 @@
 StockID;POID;ItemID;ItemName;NewStockQuantity;TotalPrice;Supplier;StockArrivalDate;ItemPreviousQuantity;ItemCurrentQuantity;StockApprovalStatus;StockApprovalDate;PaymentStatus
 NS001;PO001;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;540;545;Approved;03-06-2025;Unpaid
 NS002;PO003;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;540;545;Approved;03-06-2025;Unpaid
-NS003;PO004;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;550;555;PENDING;-;Unpaid
-NS004;PO005;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;550;555;PENDING;-;Unpaid
+NS003;PO004;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;550;555;Approved;03-06-2025;Unpaid
+NS004;PO005;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;555;560;Approved;03-06-2025;Unpaid
 NS005;PO006;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;400;405;Approved;01-06-2025;Paid
-NS006;PO007;ITM001;Jasmine Rice 5kg;5;622.50;SUP002;01-06-2025;550;555;PENDING;-;Unpaid
+NS006;PO007;ITM001;Jasmine Rice 5kg;5;622.5;SUP002;01-06-2025;560;565;Approved;03-06-2025;Unpaid

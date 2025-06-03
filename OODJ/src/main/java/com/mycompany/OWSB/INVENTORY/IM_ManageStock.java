@@ -6,6 +6,7 @@ package com.mycompany.OWSB.INVENTORY;
 
 import com.mycompany.OWSB.SALES.Items;
 import com.mycompany.OWSB.SALES.Sales_EditItem;
+import java.awt.BorderLayout;
 import javax.swing.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
@@ -43,11 +44,13 @@ import javax.swing.JTextArea;
  * @author ooijinghui
  */
 public class IM_ManageStock extends javax.swing.JPanel {
+     private javax.swing.JPanel IM_Panel;
     /**
      * Creates new form IM_ManageStock
      */
-    public IM_ManageStock() {
+    public IM_ManageStock(javax.swing.JPanel IM_Panel) {
         initComponents();
+        this.IM_Panel = IM_Panel;
         loadStockDataIntoTable();
         
         JComboBox<String> comboBox = new JComboBox<>();
@@ -343,8 +346,15 @@ private void loadStockDataIntoTable() {
 
     JOptionPane.showMessageDialog(this, "Stock approval statuses saved successfully.");
 
+    
     if (shouldReload) {
-        new IM_Dashboard().setVisible(true);
+        IM_ManageStock inventoryPanel = new IM_ManageStock(IM_Panel); 
+
+        IM_Panel.removeAll();
+        IM_Panel.setLayout(new BorderLayout());
+        IM_Panel.add(inventoryPanel, BorderLayout.CENTER);
+        IM_Panel.revalidate();
+        IM_Panel.repaint();
     }
 }
 
