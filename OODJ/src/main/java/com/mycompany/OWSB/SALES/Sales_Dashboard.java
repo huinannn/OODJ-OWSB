@@ -71,7 +71,7 @@ public class Sales_Dashboard extends javax.swing.JFrame {
 
         SideBar.setBackground(new java.awt.Color(42, 160, 97));
 
-        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Finance Manager Profile.png"))); // NOI18N
+        ProfilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Sales_Manager.png"))); // NOI18N
 
         SMRole.setFont(new java.awt.Font("Comic Sans MS", 1, 16)); // NOI18N
         SMRole.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -145,20 +145,21 @@ public class Sales_Dashboard extends javax.swing.JFrame {
                             .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SMRole, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
+                        .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
+                                .addComponent(SMRole, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
+                                .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)))))
                 .addGap(32, 32, 32))
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SideBarLayout.setVerticalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SideBarLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(32, 32, 32)
                 .addComponent(ProfilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SMRole, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addComponent(ViewProfile, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
