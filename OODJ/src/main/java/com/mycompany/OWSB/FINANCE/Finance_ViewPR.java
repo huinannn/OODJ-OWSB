@@ -178,7 +178,7 @@ public class Finance_ViewPR extends javax.swing.JPanel {
             }
         });
 
-        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
+        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

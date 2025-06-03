@@ -268,7 +268,7 @@ public class Finance_VerifyInventory extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(Inventory_Table);
 
-        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Search.jpg"))); // NOI18N
+        SearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.jpg"))); // NOI18N
 
         search.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         search.setText("Search");
