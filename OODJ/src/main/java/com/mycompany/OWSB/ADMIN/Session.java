@@ -31,6 +31,16 @@ public class Session {
         return password;
     }
 
+    public static void setUsername(String username) {
+        Session.username = username;
+    }
+
+    public static void setPassword(String password) {
+        Session.password = password;
+    }
+    
+    
+
     public static void clearSession() {
         employeeID = null;
         username = null;

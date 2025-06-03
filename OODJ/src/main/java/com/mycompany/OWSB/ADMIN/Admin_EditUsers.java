@@ -203,6 +203,24 @@ public class Admin_EditUsers extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Attempts must be an integer!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        // Check if username is being changed and if new username already exists
+        String currentUsername = "";
+        Load_UserData();
+        for (String record : User_Records) {
+            String[] parts = record.split(",");
+            if (parts[0].equals(employeeId)) {
+                currentUsername = parts[1];
+                break;
+            }
+        }
+        
+        if (!username.equals(currentUsername)) {
+            if (isUsernameExists(username)) {
+                JOptionPane.showMessageDialog(this, "Username already exists. Please choose a different username.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
 
         int attempts = Integer.parseInt(attemptsStr);
         Update_User(username, password, attempts, status);
@@ -271,6 +289,21 @@ public class Admin_EditUsers extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error updating file", "Error", JOptionPane.ERROR_MESSAGE);
         }
         Load_UserData();
+    }
+    
+    private boolean isUsernameExists(String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 2 && parts[1].equalsIgnoreCase(username)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading file", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
     }
     
 
